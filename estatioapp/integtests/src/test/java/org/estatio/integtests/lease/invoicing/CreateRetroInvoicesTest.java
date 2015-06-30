@@ -32,6 +32,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.asset.Properties;
 import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.InvoiceForLeases;
+import org.estatio.dom.invoice.Invoices;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItem;
 import org.estatio.dom.lease.LeaseItemType;
@@ -69,6 +70,9 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
     InvoiceForLeases invoiceForLeases;
 
     @Inject
+    Invoices invoices;
+
+    @Inject
     Properties properties;
 
     @Inject
@@ -88,6 +92,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
     public void setup() {
         creator = new CreateRetroInvoices();
         creator.leases = leases;
+        creator.invoices = invoices;
         creator.invoiceForLeases = invoiceForLeases;
         creator.properties = properties;
         creator.invoiceCalculationService = invoiceCalculationService;
