@@ -147,7 +147,7 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             assertThat(last.getBaseValue(), is(VT.bd(150000).setScale(2)));
             assertThat(first.getStartDate(), is(VT.ld(2013, 11, 7)));
             assertThat(last.getStartDate(), is(VT.ld(2015, 1, 1)));
-            assertThat(invoiceForLeases.findInvoices(lease).size(), is(0));
+            assertThat(invoiceForLeases.findByLease(lease).size(), is(0));
         }
 
         public void step2_calculate() throws Exception {
@@ -161,7 +161,7 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             approveInvoicesFor(lease);
             assertThat(totalApprovedOrInvoicedForItem(rItem), is(VT.bd("209918.48")));
             assertThat(totalApprovedOrInvoicedForItem(sItem), is(VT.bd("18103.26")));
-            assertThat(invoiceForLeases.findInvoices(lease).size(), is(1));
+            assertThat(invoiceForLeases.findByLease(lease).size(), is(1));
         }
 
         public void step3_approveInvoice() throws Exception {
@@ -198,7 +198,7 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             invoiceService.calculate(lease, InvoiceRunType.RETRO_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2015, 4, 1), VT.ld(2015, 4, 1), VT.ld(2015, 4, 1));
             // (156750 - 150000) / = 1687.5 added
             approveInvoicesFor(lease);
-            assertThat(invoiceForLeases.findInvoices(lease).size(), is(2));
+            assertThat(invoiceForLeases.findByLease(lease).size(), is(2));
             assertThat(totalApprovedOrInvoicedForItem(rItem), is(VT.bd("209918.48").add(VT.bd("1687.50"))));
         }
 
@@ -221,7 +221,7 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
         }
 
         private void approveInvoicesFor(final Lease lease) {
-            for (final InvoiceForLease invoiceForLease : invoiceForLeases.findInvoices(lease)) {
+            for (final InvoiceForLease invoiceForLease : invoiceForLeases.findByLease(lease)) {
                 invoiceForLease.approve();
             }
         }

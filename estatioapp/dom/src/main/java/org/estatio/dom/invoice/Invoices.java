@@ -21,11 +21,9 @@ package org.estatio.dom.invoice;
 import java.util.List;
 
 import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RestrictTo;
@@ -46,16 +44,6 @@ public class Invoices extends UdoDomainRepositoryAndFactory<Invoice> {
         super(Invoices.class, Invoice.class);
     }
 
-    // //////////////////////////////////////
-
-    @NotInServiceMenu
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(named = "Invoices")
-    public List<? extends Invoice> findInvoices(final Party party) {
-        return allMatches("findByBuyer",
-                "buyer", party);
-    }
-
     @Action(semantics = SemanticsOf.SAFE)
     @MemberOrder(sequence = "3")
     public List<? extends Invoice> findInvoicesByInvoiceNumber(
@@ -73,7 +61,14 @@ public class Invoices extends UdoDomainRepositoryAndFactory<Invoice> {
     }
 
     @Programmatic
-    public List<? extends Invoice> findInvoices(
+    public List<? extends Invoice> findByBuyer(final Party party) {
+        return allMatches("findByBuyer",
+                "buyer", party);
+    }
+
+
+    @Programmatic
+    public List<? extends Invoice> findByStatus(
             final InvoiceStatus status) {
         return allMatches("findByStatus",
                 "status", status);

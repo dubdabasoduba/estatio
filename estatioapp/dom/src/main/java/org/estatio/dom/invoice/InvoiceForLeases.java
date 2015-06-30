@@ -23,12 +23,10 @@ import java.util.List;
 import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NotContributed;
-import org.apache.isis.applib.annotation.NotInServiceMenu;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
@@ -61,10 +59,8 @@ public class InvoiceForLeases extends UdoDomainRepositoryAndFactory<InvoiceForLe
 
     // //////////////////////////////////////
 
-    @NotInServiceMenu
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(named = "Invoices")
-    public List<InvoiceForLease> findInvoices(final Lease lease) {
+    @Programmatic
+    public List<InvoiceForLease> findByLease(final Lease lease) {
         return allMatches("findByLease",
                 "lease", lease);
     }

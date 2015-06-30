@@ -299,13 +299,13 @@ public class InvoicesTest extends EstatioIntegrationTest {
 
             assertThat(invoices.allInvoices().size(), is(2));
 
-            List<InvoiceForLease> invoiceForLeaseList = invoiceForLeases.findInvoices(lease);
+            List<InvoiceForLease> invoiceForLeaseList = invoiceForLeases.findByLease(lease);
             assertThat(invoiceForLeaseList.size(), is(1));
         }
 
         @Test
         public void byParty() {
-            List<InvoiceForLease> invoiceForLeaseList = (List<InvoiceForLease>) invoices.findInvoices(buyer);
+            List<InvoiceForLease> invoiceForLeaseList = (List<InvoiceForLease>) invoices.findByBuyer(buyer);
             assertThat(invoiceForLeaseList.size(), is(2));
         }
 
@@ -317,7 +317,7 @@ public class InvoicesTest extends EstatioIntegrationTest {
 
         @Test
         public void byStatus() {
-            List<InvoiceForLease> invoiceForLeaseList = (List<InvoiceForLease>) invoices.findInvoices(InvoiceStatus.NEW);
+            List<InvoiceForLease> invoiceForLeaseList = (List<InvoiceForLease>) invoices.findByStatus(InvoiceStatus.NEW);
             assertThat(invoiceForLeaseList.size(), is(2));
         }
 

@@ -164,7 +164,7 @@ public class LeaseTermTest extends EstatioIntegrationTest {
                 assertThat(leaseTerm.valueType(), is(LeaseTermValueType.FIXED));
 
                 // and given
-                Assert.assertThat(invoices.findInvoices(lease), not(empty()));
+                Assert.assertThat(invoices.findByLease(lease), not(empty()));
 
                 // then
                 expectedExceptions.expect(DisabledException.class);
@@ -203,7 +203,7 @@ public class LeaseTermTest extends EstatioIntegrationTest {
                 assertThat(leaseTerm.valueType(), is(LeaseTermValueType.FIXED));
 
                 // and given
-                assertThat(invoices.findInvoices(lease), empty());
+                assertThat(invoices.findByLease(lease), empty());
 
                 // when
                 final LocalDate newStartDate = leaseTerm.getStartDate().minusMonths(1);
@@ -241,7 +241,7 @@ public class LeaseTermTest extends EstatioIntegrationTest {
                 assertThat(leaseTerm.valueType(), is(LeaseTermValueType.ANNUAL));
 
                 // and given
-                assertThat(invoices.findInvoices(lease), not(empty()));
+                assertThat(invoices.findByLease(lease), not(empty()));
 
                 // when
                 final LocalDate newStartDate = leaseTerm.getStartDate().minusMonths(1);

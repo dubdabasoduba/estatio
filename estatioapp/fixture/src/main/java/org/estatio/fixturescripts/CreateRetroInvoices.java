@@ -150,7 +150,7 @@ public class CreateRetroInvoices extends DiscoverableFixtureScript {
             final ExecutionContext executionContext) {
         invoiceCalculationService.calculateAndInvoice(parameters);
 
-        for (InvoiceForLease invoiceForLease : (List<InvoiceForLease>) invoices.findInvoices(InvoiceStatus.NEW)) {
+        for (InvoiceForLease invoiceForLease : (List<InvoiceForLease>) invoices.findByStatus(InvoiceStatus.NEW)) {
             invoiceForLease.setStatus(InvoiceStatus.HISTORIC);
             invoiceForLease.setRunId(null);
             executionContext.addResult(this, invoiceForLease.getInvoiceNumber(), invoiceForLease);

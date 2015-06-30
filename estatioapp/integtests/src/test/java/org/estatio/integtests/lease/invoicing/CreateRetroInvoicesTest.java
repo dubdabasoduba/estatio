@@ -124,7 +124,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
             creator.createLease(lease, VT.ld(2012, 1, 1), VT.ld(2014, 1, 1), FixtureScript.ExecutionContext.NOOP);
 
             // then
-            assertThat(invoiceForLeases.findInvoices(lease).size(), is(8));
+            assertThat(invoiceForLeases.findByLease(lease).size(), is(8));
 
             // and given
             lease.terminate(VT.ld(2013, 10, 1), true);
@@ -133,7 +133,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
             invoiceService.calculate(lease, InvoiceRunType.NORMAL_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2014, 2, 1), VT.ld(2012, 1, 1), VT.ld(2014, 1, 1));
 
             // then
-            List<InvoiceForLease> invoicesList = invoiceForLeases.findInvoices(lease);
+            List<InvoiceForLease> invoicesList = invoiceForLeases.findByLease(lease);
             assertThat(invoicesList.size(), is(9));
             InvoiceForLease invoiceForLease = invoicesList.get(8);
             assertThat(invoiceForLease.getDueDate(), is(VT.ld(2014, 2, 1)));
