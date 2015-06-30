@@ -21,7 +21,7 @@ package org.estatio.fixture.link;
 import javax.inject.Inject;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus;
 import org.estatio.fixture.EstatioFixtureScript;
 import org.estatio.fixture.security.tenancy.ApplicationTenancyForIt;
@@ -38,11 +38,11 @@ public class LinksRefData extends EstatioFixtureScript {
 
         ApplicationTenancy italyAppTenancy = applicationTenancies.findTenancyByPath(ApplicationTenancyForIt.PATH);
 
-        newLink(italyAppTenancy, Invoice.class,
+        newLink(italyAppTenancy, InvoiceForLease.class,
                 "Preliminary letter",
                 "${reportServerBaseUrl}/reportserver?/Estatio/"
                         + "Preliminary+Letter&id=${this.id}&rs:Command=Render", executionContext);
-        newLink(italyAppTenancy, Invoice.class,
+        newLink(italyAppTenancy, InvoiceForLease.class,
                 "Invoice",
                 "${reportServerBaseUrl}/reportserver?/Estatio/"
                 + "Invoice&id=${this.id}&rs:Command=Render", executionContext);

@@ -38,7 +38,7 @@ import org.apache.isis.applib.annotation.ViewModel;
 
 import org.estatio.dom.asset.Properties;
 import org.estatio.dom.asset.Property;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 
 /**
  * View model that surfaces information about each property along with summary
@@ -207,8 +207,8 @@ public class InvoiceSummaryForPropertyDueDate extends InvoiceSummaryAbstract {
     // //////////////////////////////////////
 
     @Render(Type.EAGERLY)
-    public List<Invoice> getInvoices() {
-        return invoicesService.findInvoices(getProperty(), getDueDate());
+    public List<InvoiceForLease> getInvoices() {
+        return invoiceForLeasesService.findInvoices(getProperty(), getDueDate());
     }
 
     // //////////////////////////////////////

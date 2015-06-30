@@ -16,6 +16,8 @@
  */
 package org.estatio.dom.apptenancy;
 
+import org.estatio.dom.invoice.InvoiceForLease;
+
 /**
  * For entities that are at the most local level under the property in the application tenancy hierarchy, for example
  * <tt>/it/CAR/ta</tt> for the Carasello Tenants Association, or <tt>it/CAR/_</tt> for all Carasello-specific data
@@ -23,7 +25,7 @@ package org.estatio.dom.apptenancy;
  * 
  * <p>
  *     Examples of entities include {@link org.estatio.dom.lease.LeaseItem}, {@link org.estatio.dom.lease.LeaseTerm},
- *     {@link org.estatio.dom.invoice.InvoiceItem} and {@link org.estatio.dom.invoice.Invoice}.
+ *     {@link org.estatio.dom.invoice.InvoiceItem} and {@link InvoiceForLease}.
  * </p>
  */
 public interface WithApplicationTenancyPropertyLocal {

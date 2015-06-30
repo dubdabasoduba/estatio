@@ -1,66 +1,43 @@
-/*
- *
- *  Copyright 2012-2014 Eurocommercial Properties NV
- *
- *
- *  Licensed under the Apache License, Version 2.0 (the
- *  "License"); you may not use this file except in compliance
- *  with the License.  You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing,
- *  software distributed under the License is distributed on an
- *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- *  KIND, either express or implied.  See the License for the
- *  specific language governing permissions and limitations
- *  under the License.
- */
 package org.estatio.dom.invoice;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.jdo.annotations.DiscriminatorStrategy;
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.IdentityType;
 import javax.jdo.annotations.Index;
 import javax.jdo.annotations.Indices;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.VersionStrategy;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.joda.time.LocalDate;
+
 import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
 import org.apache.isis.applib.annotation.CollectionLayout;
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.InvokeOn;
 import org.apache.isis.applib.annotation.Optionality;
-import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.Property;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.RenderType;
-import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
+
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
 import org.estatio.dom.EstatioDomainObject;
 import org.estatio.dom.JdoColumnLength;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPathPersisted;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPropertyLocal;
-import org.estatio.dom.asset.FixedAsset;
 import org.estatio.dom.bankmandate.BankMandate;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.currency.Currency;
-import org.estatio.dom.financial.bankaccount.BankAccount;
-import org.estatio.dom.lease.Lease;
-import org.estatio.dom.lease.invoicing.InvoiceItemForLease;
-import org.estatio.dom.numerator.Numerator;
 import org.estatio.dom.party.Party;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -71,41 +48,10 @@ import org.estatio.dom.party.Party;
 @javax.jdo.annotations.Version(
         strategy = VersionStrategy.VERSION_NUMBER,
         column = "version")
+@javax.jdo.annotations.Discriminator(
+        strategy = DiscriminatorStrategy.CLASS_NAME,
+        column = "discriminator")
 @javax.jdo.annotations.Queries({
-        @javax.jdo.annotations.Query(
-                name = "findMatchingInvoices", language = "JDOQL",
-                value = "SELECT " +
-                        "FROM org.estatio.dom.invoice.Invoice " +
-                        "WHERE " +
-                        "lease == :lease && " +
-                        "seller == :seller && " +
-                        "buyer == :buyer && " +
-                        "paymentMethod == :paymentMethod && " +
-                        "status == :status && " +
-                        "dueDate == :dueDate"),
-        @javax.jdo.annotations.Query(
-                name = "findByFixedAssetAndStatus", language = "JDOQL",
-                value = "SELECT " +
-                        "FROM org.estatio.dom.invoice.Invoice " +
-                        "WHERE " +
-                        "fixedAsset == :fixedAsset && " +
-                        "status == :status " +
-                        "ORDER BY invoiceNumber"),
-        @javax.jdo.annotations.Query(
-                name = "findByFixedAssetAndDueDateAndStatus", language = "JDOQL",
-                value = "SELECT FROM org.estatio.dom.invoice.Invoice " +
-                        "WHERE " +
-                        "fixedAsset == :fixedAsset && " +
-                        "status == :status && " +
-                        "dueDate == :dueDate " +
-                        "ORDER BY invoiceNumber"),
-        @javax.jdo.annotations.Query(
-                name = "findByFixedAssetAndDueDate", language = "JDOQL",
-                value = "SELECT FROM org.estatio.dom.invoice.Invoice " +
-                        "WHERE " +
-                        "fixedAsset == :fixedAsset && " +
-                        "dueDate == :dueDate " +
-                        "ORDER BY invoiceNumber"),
         @javax.jdo.annotations.Query(
                 name = "findByStatus", language = "JDOQL",
                 value = "SELECT " +
@@ -118,11 +64,6 @@ import org.estatio.dom.party.Party;
                         "FROM org.estatio.dom.invoice.Invoice " +
                         "WHERE buyer == :buyer " +
                         "ORDER BY invoiceNumber"),
-        @javax.jdo.annotations.Query(
-                name = "findByLease", language = "JDOQL",
-                value = "SELECT " +
-                        "FROM org.estatio.dom.invoice.Invoice " +
-                        "WHERE lease == :lease "),
         @javax.jdo.annotations.Query(
                 name = "findByRunId", language = "JDOQL",
                 value = "SELECT " +
@@ -138,26 +79,23 @@ import org.estatio.dom.party.Party;
 @Indices({
         @Index(name = "Invoice_runId_IDX",
                 members = { "runId" }),
-        @Index(name = "Invoice_fixedAsset_status_IDX",
-                members = { "fixedAsset", "status" }),
-        @Index(name = "Invoice_fixedAsset_dueDate_IDX",
-                members = { "fixedAsset", "dueDate" }),
-        @Index(name = "Invoice_fixedAsset_dueDate_status_IDX",
-                members = { "fixedAsset", "dueDate", "status" }),
-        @Index(name = "Invoice_Lease_Seller_Buyer_PaymentMethod_DueDate_Status_IDX",
-                members = { "lease", "seller", "buyer", "paymentMethod", "dueDate", "status" }),
         @Index(name = "Invoice_invoiceNumber_IDX",
                 members = { "invoiceNumber" })
 })
-@DomainObject(editing = Editing.DISABLED)
-@DomainObjectLayout(bookmarking = BookmarkPolicy.AS_ROOT)
-public class Invoice
+public abstract class Invoice
         extends EstatioDomainObject<Invoice>
         implements WithApplicationTenancyPropertyLocal, WithApplicationTenancyPathPersisted {
 
-    public Invoice() {
-        super("invoiceNumber, collectionNumber, buyer, dueDate, lease, uuid");
+
+    public Invoice(final String s) {
+        super(s);
     }
+
+    public Invoice() {
+        super("invoiceNumber, collectionNumber, buyer, dueDate, uuid");
+    }
+
+    // //////////////////////////////////////
 
     private String uuid;
 
@@ -196,9 +134,6 @@ public class Invoice
         return applicationTenancies.findTenancyByPath(getApplicationTenancyPath());
     }
 
-
-    // //////////////////////////////////////
-
     public String title() {
         if (getInvoiceNumber() != null) {
             return String.format("Invoice %s", getInvoiceNumber());
@@ -211,15 +146,33 @@ public class Invoice
 
     // //////////////////////////////////////
 
-    @Property(hidden = Where.OBJECT_FORMS)
-    public String getNumber() {
-        return ObjectUtils.firstNonNull(
-                getInvoiceNumber(),
-                getCollectionNumber(),
-                title());
+    protected String collectionNumber;
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = JdoColumnLength.Invoice.NUMBER)
+    @Property(hidden = Where.ALL_TABLES, editing = Editing.DISABLED)
+    public String getCollectionNumber() {
+        return collectionNumber;
+    }
+
+    public void setCollectionNumber(final String collectionNumber) {
+        this.collectionNumber = collectionNumber;
     }
 
     // //////////////////////////////////////
+
+    protected String invoiceNumber;
+
+    @javax.jdo.annotations.Column(allowsNull = "true", length = JdoColumnLength.Invoice.NUMBER)
+    @Property(hidden = Where.ALL_TABLES, editing = Editing.DISABLED)
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public void setInvoiceNumber(final String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
+    // /////////////////////////////////////
 
     private Party buyer;
 
@@ -234,7 +187,7 @@ public class Invoice
         this.buyer = buyer;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     private Party seller;
 
@@ -248,35 +201,15 @@ public class Invoice
         this.seller = seller;
     }
 
-    // //////////////////////////////////////
-
-    private String collectionNumber;
-
-    @javax.jdo.annotations.Column(allowsNull = "true", length = JdoColumnLength.Invoice.NUMBER)
-    @Property(hidden = Where.ALL_TABLES, editing = Editing.DISABLED)
-    public String getCollectionNumber() {
-        return collectionNumber;
+    @Property(hidden = Where.OBJECT_FORMS)
+    public String getNumber() {
+        return ObjectUtils.firstNonNull(
+                getInvoiceNumber(),
+                getCollectionNumber(),
+                title());
     }
 
-    public void setCollectionNumber(final String collectionNumber) {
-        this.collectionNumber = collectionNumber;
-    }
-
-    // //////////////////////////////////////
-
-    private String invoiceNumber;
-
-    @javax.jdo.annotations.Column(allowsNull = "true", length = JdoColumnLength.Invoice.NUMBER)
-    @Property(hidden = Where.ALL_TABLES, editing = Editing.DISABLED)
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
-    public void setInvoiceNumber(final String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     private String runId;
 
@@ -289,21 +222,7 @@ public class Invoice
         this.runId = runId;
     }
 
-    // //////////////////////////////////////
-
-    private Lease lease;
-
-    @javax.jdo.annotations.Column(name = "leaseId", allowsNull = "true")
-    @Property(editing = Editing.DISABLED, optionality = Optionality.OPTIONAL)
-    public Lease getLease() {
-        return lease;
-    }
-
-    public void setLease(final Lease lease) {
-        this.lease = lease;
-    }
-
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     @javax.jdo.annotations.Persistent
     private LocalDate invoiceDate;
@@ -318,7 +237,7 @@ public class Invoice
         this.invoiceDate = invoiceDate;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     @javax.jdo.annotations.Persistent
     private LocalDate dueDate;
@@ -351,9 +270,9 @@ public class Invoice
         return null;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
-    private InvoiceStatus status;
+    protected InvoiceStatus status;
 
     @javax.jdo.annotations.Column(allowsNull = "false", length = JdoColumnLength.STATUS_ENUM)
     @Property(editing = Editing.DISABLED)
@@ -365,7 +284,7 @@ public class Invoice
         this.status = status;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     private Currency currency;
 
@@ -380,7 +299,7 @@ public class Invoice
         this.currency = currency;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     private PaymentMethod paymentMethod;
 
@@ -410,7 +329,7 @@ public class Invoice
         return getStatus().invoiceIsChangable() ? null : "Invoice cannot be changed";
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     @javax.jdo.annotations.Persistent(mappedBy = "invoice")
     private SortedSet<InvoiceItem> items = new TreeSet<InvoiceItem>();
@@ -425,7 +344,7 @@ public class Invoice
         this.items = items;
     }
 
-    // //////////////////////////////////////
+    // /////////////////////////////////////
 
     @Persistent
     private BigInteger lastItemSequence;
@@ -480,6 +399,27 @@ public class Invoice
 
     // //////////////////////////////////////
 
+    public Invoice invoice(
+            final @ParameterLayout(named = "Invoice date") LocalDate invoiceDate,
+            final @ParameterLayout(named = "Are you sure?") Boolean confirm) {
+        return doInvoice(invoiceDate);
+    }
+
+
+    @Programmatic
+    public abstract Invoice doInvoice(final LocalDate invoiceDate);
+
+    // //////////////////////////////////////
+
+    public abstract InvoiceItem newItem(
+            final Charge charge,
+            final BigDecimal quantity,
+            final BigDecimal netAmount,
+            final LocalDate startDate,
+            final LocalDate endDate);
+
+    // //////////////////////////////////////
+
     @Action(invokeOn = InvokeOn.OBJECT_AND_COLLECTION)
     public Invoice approve() {
         doApprove();
@@ -505,202 +445,6 @@ public class Invoice
 
     // //////////////////////////////////////
 
-    @Action(invokeOn = InvokeOn.OBJECT_AND_COLLECTION)
-    public Invoice collect(
-            final @ParameterLayout(named = "Are you sure?") Boolean confirm
-            ) {
-        return doCollect();
-    }
-
-    public boolean hideCollect() {
-        // only applies to direct debits
-        return !getPaymentMethod().isDirectDebit();
-    }
-
-    public String disableCollect(Boolean confirm) {
-        if (getCollectionNumber() != null) {
-            return "Collection number already assigned";
-        }
-        final Numerator numerator = collectionNumerators.findCollectionNumberNumerator();
-        if (numerator == null) {
-            return "No 'collection number' numerator found for invoice's property";
-        }
-        if (getStatus() != InvoiceStatus.APPROVED) {
-            return "Must be in status of 'approved'";
-        }
-        if (getLease() == null) {
-            return "No lease related to invoice";
-        }
-        if (getLease().getPaidBy() == null) {
-            return String.format("No mandate assigned to invoice's lease");
-        }
-        final BankAccount bankAccount = (BankAccount) getLease().getPaidBy().getBankAccount();
-        if (!bankAccount.isValidIban()) {
-            return "The Iban code is invalid";
-        }
-        return null;
-    }
-
-    // perhaps we should also store the specific bank mandate on the invoice
-    // that we want to deduct the money from
-    // is this a concept of account then?
-
-    @Programmatic
-    public Invoice doCollect() {
-        if (hideCollect()) {
-            return this;
-        }
-        if (disableCollect(true) != null) {
-            return this;
-        }
-        final Numerator numerator = collectionNumerators.findCollectionNumberNumerator();
-        setCollectionNumber(numerator.nextIncrementStr());
-        return this;
-    }
-
-    @Programmatic
-    public void createPaymentTerms() {
-
-    }
-
-    // //////////////////////////////////////
-
-    public Invoice invoice(
-            final @ParameterLayout(named = "Invoice date") LocalDate invoiceDate,
-            final @ParameterLayout(named = "Are you sure?") Boolean confirm) {
-        return doInvoice(invoiceDate);
-    }
-
-    @Programmatic
-    public Invoice doInvoice(
-            final @ParameterLayout(named = "Invoice date") LocalDate invoiceDate) {
-        // bulk action, so need these guards
-        if (disableInvoice(invoiceDate, true) != null) {
-            return this;
-        }
-        if (!validInvoiceDate(invoiceDate)) {
-            warnUser(String.format(
-                    "Invoice date %d is invalid for %s becuase it's before the invoice date of the last invoice",
-                    invoiceDate.toString(),
-                    getContainer().titleOf(this)));
-            return this;
-        }
-        final Numerator numerator = collectionNumerators.findInvoiceNumberNumerator(getFixedAsset());
-        setInvoiceNumber(numerator.nextIncrementStr());
-        setInvoiceDate(invoiceDate);
-        this.setStatus(InvoiceStatus.INVOICED);
-        informUser("Assigned " + this.getInvoiceNumber() + " to invoice " + getContainer().titleOf(this));
-        return this;
-    }
-
-    public String disableInvoice(final LocalDate invoiceDate, Boolean confirm) {
-        if (getInvoiceNumber() != null) {
-            return "Invoice number already assigned";
-        }
-        final Numerator numerator = collectionNumerators.findInvoiceNumberNumerator(getFixedAsset());
-        if (numerator == null) {
-            return "No 'invoice number' numerator found for invoice's property";
-        }
-        if (getStatus() != InvoiceStatus.APPROVED) {
-            return "Must be in status of 'Invoiced'";
-        }
-        return null;
-    }
-
-    // //////////////////////////////////////
-
-    @Programmatic
-    boolean validInvoiceDate(LocalDate invoiceDate) {
-        if (getDueDate() != null && getDueDate().compareTo(invoiceDate) < 0) {
-            return false;
-        }
-        final Numerator numerator = collectionNumerators.findInvoiceNumberNumerator(getFixedAsset());
-        if (numerator != null) {
-            final String invoiceNumber = numerator.lastIncrementStr();
-            if (invoiceNumber != null) {
-                List<Invoice> result = invoices.findInvoicesByInvoiceNumber(invoiceNumber);
-                if (result.size() > 0) {
-                    return result.get(0).getInvoiceDate().compareTo(invoiceDate) <= 0;
-                }
-            }
-        }
-        return true;
-    }
-
-    // //////////////////////////////////////
-
-    public InvoiceItem newItem(
-            final Charge charge,
-            final @ParameterLayout(named = "Quantity") BigDecimal quantity,
-            final @ParameterLayout(named = "Net amount") BigDecimal netAmount,
-            final @ParameterLayout(named = "Start date") @Parameter(optionality = Optionality.OPTIONAL) LocalDate startDate,
-            final @ParameterLayout(named = "End date") @Parameter(optionality = Optionality.OPTIONAL) LocalDate endDate) {
-        InvoiceItem invoiceItem = invoiceItems.newInvoiceItem(this, getDueDate());
-        invoiceItem.setQuantity(quantity);
-        invoiceItem.setCharge(charge);
-        invoiceItem.setDescription(charge.getDescription());
-        invoiceItem.setTax(charge.getTax());
-        invoiceItem.setNetAmount(netAmount);
-        invoiceItem.setStartDate(startDate);
-        invoiceItem.setEndDate(endDate);
-        invoiceItem.verify();
-        // TODO: we need to create a new subclass InvoiceForLease but that
-        // requires a database change so this is quick fix
-        InvoiceItemForLease invoiceItemForLease = (InvoiceItemForLease) invoiceItem;
-        invoiceItemForLease.setLease(getLease());
-        if (getLease() != null && getLease().getOccupancies() != null && getLease().getOccupancies().first() != null) {
-            invoiceItemForLease.setFixedAsset(getLease().getOccupancies().first().getUnit());
-        }
-        return invoiceItemForLease;
-    }
-
-    public BigDecimal default1NewItem() {
-        return BigDecimal.ONE;
-    }
-
-    public String validateNewItem(
-            final Charge charge,
-            final BigDecimal quantity,
-            final BigDecimal netAmount,
-            final LocalDate startDate,
-            final LocalDate endDate) {
-        if (startDate != null && endDate == null) {
-            return "Also enter an end date when using a start date";
-        }
-        if (ObjectUtils.compare(startDate, endDate) > 0) {
-            return "Start date must be before end date";
-        }
-        return null;
-    }
-
-    // //////////////////////////////////////
-
-    private FixedAsset fixedAsset;
-
-    /**
-     * Derived from the {@link #getLease() lease}, but safe to persist since
-     * business rule states that we never generate invoices for invoice items
-     * that relate to different properties.
-     * 
-     * <p>
-     * Another reason for persisting this is that it allows eager validation
-     * when attaching additional {@link InvoiceItem}s to an invoice, to check
-     * that they relate to the same fixed asset.
-     */
-    @javax.jdo.annotations.Column(name = "fixedAssetId", allowsNull = "false")
-    // for the moment, might be generalized (to the user) in the future
-    @Property(editing = Editing.DISABLED, hidden = Where.PARENTED_TABLES)
-    @PropertyLayout(named = "Property")
-    public FixedAsset getFixedAsset() {
-        return fixedAsset;
-    }
-
-    public void setFixedAsset(final FixedAsset fixedAsset) {
-        this.fixedAsset = fixedAsset;
-    }
-
-    // //////////////////////////////////////
-
     @javax.jdo.annotations.Column(name = "paidByBankMandateId")
     private BankMandate paidBy;
 
@@ -709,7 +453,7 @@ public class Invoice
      * business rule states that all invoice items that are paid by
      * {@link BankMandate} (as opposed to simply by bank transfer) will be for
      * the same bank mandate.
-     * 
+     *
      * <p>
      * Another reason for persisting this is that it allows eager validation
      * when attaching additional {@link InvoiceItem}s to an invoice, to check
@@ -724,22 +468,6 @@ public class Invoice
     public void setPaidBy(final BankMandate paidBy) {
         this.paidBy = paidBy;
     }
-
-    // //////////////////////////////////////
-
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT, invokeOn = InvokeOn.OBJECT_AND_COLLECTION)
-    public Invoice submitToCoda() {
-        doCollect();
-        return this;
-    }
-
-    public String disableSubmitToCoda() {
-        return getStatus() == InvoiceStatus.INVOICED || getStatus() == InvoiceStatus.APPROVED
-                ? null
-                : "Must be approved or invoiced";
-    }
-
-    // //////////////////////////////////////
 
     @Action(invokeOn = InvokeOn.OBJECT_AND_COLLECTION)
     public void remove() {
@@ -760,16 +488,4 @@ public class Invoice
         }
         getContainer().remove(this);
     }
-
-    // //////////////////////////////////////
-
-    @javax.inject.Inject
-    CollectionNumerators collectionNumerators;
-
-    @javax.inject.Inject
-    Invoices invoices;
-
-    @javax.inject.Inject
-    InvoiceItems invoiceItems;
-
 }

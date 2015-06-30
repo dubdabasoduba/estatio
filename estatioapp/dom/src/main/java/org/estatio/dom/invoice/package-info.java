@@ -1,11 +1,11 @@
 /**
- * Defines {@link org.estatio.dom.invoice.Invoice} and {@link Invoice#getItems() aggregated}
+ * Defines {@link org.estatio.dom.invoice.InvoiceForLease} and {@link Invoice#getItems() aggregated}
  * {@link org.estatio.dom.invoice.InvoiceItem}s, where each {@link org.estatio.dom.invoice.InvoiceItem} represents
  * a {@link org.estatio.dom.invoice.InvoiceItem#getCharge() charge} to the 
- * {@link org.estatio.dom.invoice.Invoice#getBuyer() party} for a particular reason.
+ * {@link org.estatio.dom.invoice.InvoiceForLease#getBuyer() party} for a particular reason.
  * 
  * <p>
- * Every invoice {@link org.estatio.dom.invoice.Invoice#getStatus() has} a
+ * Every invoice {@link org.estatio.dom.invoice.InvoiceForLease#getStatus() has} a
  * {@link org.estatio.dom.invoice.InvoiceStatus status}; this defines a fixed set of statii (
  * <i>NEW</i>, <i>APPROVED</i>, <i>COLLECTED</i> and <i>INVOICED</i>.  After an invoice has been
  * approved, it is collected, whereby the direct debit request is submitted to the accounting system (which takes care

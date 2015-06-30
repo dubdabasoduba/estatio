@@ -62,7 +62,7 @@ import org.estatio.dom.tax.Tax;
 import org.estatio.dom.valuetypes.LocalDateInterval;
 
 /**
- * Represents a line-item of an {@link #getInvoice() owning} {@link Invoice}.
+ * Represents a line-item of an {@link #getInvoice() owning} {@link InvoiceForLease}.
  * 
  * <p>
  * This class is, in fact, abstract. The <tt>InvoiceItemForLease</tt> subclass
@@ -131,7 +131,7 @@ public abstract class InvoiceItem
 
     private Invoice invoice;
 
-    @javax.jdo.annotations.Column(name = "invoiceId", allowsNull = "flase")
+    @javax.jdo.annotations.Column(name = "invoiceId", allowsNull = "false")
     @Property(hidden = Where.REFERENCES_PARENT)
     @CollectionLayout(render = RenderType.EAGERLY)
     @Title(sequence = "1", append = ":")

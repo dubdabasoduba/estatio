@@ -20,7 +20,7 @@ package org.estatio.dom.invoice;
 
 import java.math.BigDecimal;
 import java.util.List;
-import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.joda.time.LocalDate;
@@ -30,6 +30,9 @@ import org.junit.Test;
 
 import org.apache.isis.core.unittestsupport.comparable.ComparableContractTest_compareTo;
 import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2;
+
+import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
 import org.estatio.dom.AbstractBeanPropertiesTest;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.tax.Tax;
@@ -47,7 +50,7 @@ public class InvoiceItemTest {
             newPojoTester()
                     .withFixture(pojos(Charge.class))
                     .withFixture(pojos(Tax.class))
-                    .withFixture(pojos(Invoice.class))
+                    .withFixture(pojos(Invoice.class, InvoiceForTesting.class))
                     .withFixture(pojos(ApplicationTenancy.class))
                     .exercise(new InvoiceItemForTesting());
         }
@@ -55,16 +58,16 @@ public class InvoiceItemTest {
 
     public static class CompareTo extends ComparableContractTest_compareTo<InvoiceItem> {
 
-        private Invoice inv1;
-        private Invoice inv2;
+        private InvoiceForLease inv1;
+        private InvoiceForLease inv2;
 
         private Charge chg1;
         private Charge chg2;
 
         @Before
         public void setUpParentInvoices() throws Exception {
-            inv1 = new Invoice();
-            inv2 = new Invoice();
+            inv1 = new InvoiceForLease();
+            inv2 = new InvoiceForLease();
 
             inv1.setInvoiceNumber("000001");
             inv2.setInvoiceNumber("000002");
@@ -107,12 +110,12 @@ public class InvoiceItemTest {
         }
 
         private InvoiceItem newInvoiceItem(
-                Invoice invoice,
+                InvoiceForLease invoiceForLease,
                 LocalDate startDate,
                 Charge charge,
                 String description) {
             final InvoiceItem ii = new InvoiceItemForTesting();
-            ii.setInvoice(invoice);
+            ii.setInvoice(invoiceForLease);
             ii.setStartDate(startDate);
             ii.setCharge(charge);
             ii.setDescription(description);

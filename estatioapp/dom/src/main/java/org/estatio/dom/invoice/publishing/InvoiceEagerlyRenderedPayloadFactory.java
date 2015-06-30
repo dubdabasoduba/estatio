@@ -25,7 +25,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PublishedAction.PayloadFactory;
 import org.apache.isis.applib.services.publish.EventPayload;
 
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 
 public class InvoiceEagerlyRenderedPayloadFactory implements PayloadFactory {
 
@@ -35,7 +35,7 @@ public class InvoiceEagerlyRenderedPayloadFactory implements PayloadFactory {
             final Identifier actionIdentifier, 
             final Object target, final List<Object> arguments, 
             final Object result) {
-        return new InvoiceEagerlyRenderedPayload(actionIdentifier, (Invoice)target, arguments, result);
+        return new InvoiceEagerlyRenderedPayload(actionIdentifier, (InvoiceForLease)target, arguments, result);
     }
 
 }

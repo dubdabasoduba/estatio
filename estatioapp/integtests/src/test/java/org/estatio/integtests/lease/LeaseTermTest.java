@@ -21,16 +21,21 @@ package org.estatio.integtests.lease;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.SortedSet;
+
 import javax.inject.Inject;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.apache.isis.applib.services.wrapper.DisabledException;
-import org.estatio.dom.invoice.Invoices;
+
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItem;
 import org.estatio.dom.lease.LeaseItemType;
@@ -106,7 +111,7 @@ public class LeaseTermTest extends EstatioIntegrationTest {
             }
 
             @Inject
-            private Invoices invoices;
+            private InvoiceForLeases invoices;
 
             private Lease lease;
             private LeaseItem leaseTopModelRentItem;

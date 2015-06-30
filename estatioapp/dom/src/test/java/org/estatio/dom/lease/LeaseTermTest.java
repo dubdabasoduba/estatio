@@ -18,12 +18,6 @@
  */
 package org.estatio.dom.lease;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
@@ -51,12 +45,18 @@ import org.estatio.dom.AbstractBeanPropertiesTest;
 import org.estatio.dom.PojoTester;
 import org.estatio.dom.WithIntervalMutable;
 import org.estatio.dom.WithIntervalMutableContractTestAbstract_changeDates;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.InvoiceStatus;
 import org.estatio.dom.lease.invoicing.InvoiceItemForLease;
 import org.estatio.dom.valuetypes.AbstractInterval.IntervalEnding;
 import org.estatio.dom.valuetypes.LocalDateInterval;
 import org.estatio.services.clock.ClockService;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 
 public class LeaseTermTest {
 
@@ -177,20 +177,20 @@ public class LeaseTermTest {
         public void invoicedValueFor_ok() throws Exception {
             LocalDateInterval interval = new LocalDateInterval(new LocalDate(2012, 1, 1), new LocalDate(2012, 4, 1), IntervalEnding.EXCLUDING_END_DATE);
             LeaseTermForTesting term = new LeaseTermForTesting();
-            Invoice invoice = new Invoice();
-            invoice.setStatus(InvoiceStatus.APPROVED);
+            InvoiceForLease invoiceForLease = new InvoiceForLease();
+            invoiceForLease.setStatus(InvoiceStatus.APPROVED);
             InvoiceItemForLease item1 = new InvoiceItemForLease();
 
-            invoice.getItems().add(item1);
-            item1.setInvoice(invoice);
+            invoiceForLease.getItems().add(item1);
+            item1.setInvoice(invoiceForLease);
 
             item1.setLeaseTerm(term);
             item1.setStartDate(interval.startDate());
             item1.setNetAmount(BigDecimal.valueOf(1234.45));
 
             InvoiceItemForLease item2 = new InvoiceItemForLease();
-            invoice.getItems().add(item2);
-            item2.setInvoice(invoice);
+            invoiceForLease.getItems().add(item2);
+            item2.setInvoice(invoiceForLease);
 
             item2.setNetAmount(BigDecimal.valueOf(1234.45));
             item2.setLeaseTerm(term);

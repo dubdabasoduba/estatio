@@ -35,7 +35,7 @@ import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.ViewModel;
 import org.apache.isis.applib.annotation.Where;
 
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 
 /**
  * View model that surfaces information about each runId along with summary
@@ -160,8 +160,8 @@ public class InvoiceSummaryForInvoiceRun extends InvoiceSummaryAbstract {
     // //////////////////////////////////////
 
     @CollectionLayout(render = RenderType.EAGERLY)
-    public List<Invoice> getInvoices() {
-        List<Invoice> findInvoicesByRunId = invoicesService.findInvoicesByRunId(runId);
+    public List<InvoiceForLease> getInvoices() {
+        List<InvoiceForLease> findInvoicesByRunId = (List<InvoiceForLease>) invoicesService.findInvoicesByRunId(runId);
         return findInvoicesByRunId;
     }
 

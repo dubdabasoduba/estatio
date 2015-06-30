@@ -194,7 +194,7 @@ msgid "Address line 3"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators
+#: org.estatio.dom.invoiceForLease.CollectionNumerators
 #: org.estatio.dom.numerator.Numerators
 msgid "Administration"
 msgstr ""
@@ -218,7 +218,7 @@ msgid "All Actions"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allApprovedInvoices()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allApprovedInvoices()
 msgid "All Approved Invoices"
 msgstr ""
 
@@ -303,27 +303,27 @@ msgid "All Indices"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItems#allInvoiceItems()
+#: org.estatio.dom.invoiceForLease.InvoiceItems#allInvoiceItems()
 msgid "All Invoice Items"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForInvoiceRun#allInvoiceRuns()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForInvoiceRun#allInvoiceRuns()
 msgid "All Invoice Runs"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#allInvoices()
+#: org.estatio.dom.invoiceForLease.Invoices#allInvoiceForLeases()
 msgid "All Invoices"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDate#allInvoicesByPropertyDueDate()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDate#allInvoicesByPropertyDueDate()
 msgid "All Invoices By Property Due Date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allInvoicesByPropertyDueDateStatus()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allInvoicesByPropertyDueDateStatus()
 msgid "All Invoices By Property Due Date Status"
 msgstr ""
 
@@ -353,7 +353,7 @@ msgid "All Leases"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allNewInvoices()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDateStatus#allNewInvoices()
 msgid "All New Invoices"
 msgstr ""
 
@@ -475,7 +475,7 @@ msgid "Apply"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#approve()
+#: org.estatio.dom.invoiceForLease.Invoice#approve()
 #: org.estatio.dom.lease.LeaseTerm#approve()
 #: org.estatio.dom.lease.LeaseTermForFixed#approve()
 #: org.estatio.dom.lease.LeaseTermForIndexable#approve()
@@ -486,10 +486,10 @@ msgid "Approve"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#approveAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#approveAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#approveAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#approveAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#approveAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#approveAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#approveAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#approveAll()
 msgid "Approve All"
 msgstr ""
 
@@ -502,16 +502,16 @@ msgstr ""
 #: org.estatio.dom.asset.Property#dispose(org.joda.time.LocalDate,boolean)
 #: org.estatio.dom.asset.registration.FixedAssetRegistration#remove(java.lang.Boolean)
 #: org.estatio.dom.asset.registration.LandRegister#remove(java.lang.Boolean)
-#: org.estatio.dom.invoice.Invoice#collect(java.lang.Boolean)
-#: org.estatio.dom.invoice.Invoice#invoice(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#collectAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#collectAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#collectAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#collectAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.Invoice#collect(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.Invoice#invoiceForLease(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#collectAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#collectAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#collectAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#collectAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
 #: org.estatio.dom.lease.Lease#assign(java.lang.String,java.lang.String,org.estatio.dom.party.Party,org.joda.time.LocalDate,java.lang.Boolean)
 #: org.estatio.dom.lease.Lease#remove(java.lang.Boolean)
 #: org.estatio.dom.lease.Lease#renew(java.lang.String,java.lang.String,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.Boolean)
@@ -755,7 +755,7 @@ msgid "Change Dates"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItem#changeDescription()
+#: org.estatio.dom.invoiceForLease.InvoiceItem#changeDescription()
 #: org.estatio.dom.lease.invoicing.InvoiceItemForLease#changeDescription()
 #: org.estatio.dom.party.relationship.PartyRelationship#changeDescription()
 #: org.estatio.dom.party.relationship.PartyRelationshipView#changeDescription()
@@ -763,12 +763,12 @@ msgid "Change Description"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#changeDueDate()
+#: org.estatio.dom.invoiceForLease.Invoice#changeDueDate()
 msgid "Change Due Date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItem#changeEffectiveDates()
+#: org.estatio.dom.invoiceForLease.InvoiceItem#changeEffectiveDates()
 #: org.estatio.dom.lease.invoicing.InvoiceItemForLease#changeEffectiveDates()
 msgid "Change Effective Dates"
 msgstr ""
@@ -811,7 +811,7 @@ msgid "Change Payment Date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#changePaymentMethod()
+#: org.estatio.dom.invoiceForLease.Invoice#changePaymentMethod()
 #: org.estatio.dom.lease.LeaseItem#changePaymentMethod()
 msgid "Change Payment Method"
 msgstr ""
@@ -920,15 +920,15 @@ msgid "Codice comuneCatastale"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#collect()
+#: org.estatio.dom.invoiceForLease.Invoice#collect()
 msgid "Collect"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#collectAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#collectAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#collectAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#collectAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#collectAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#collectAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#collectAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#collectAll()
 msgid "Collect All"
 msgstr ""
 
@@ -963,14 +963,14 @@ msgid "Comune catastale"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#removeAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#zapAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#removeAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#zapAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#removeAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#zapAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#removeAll(java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#zapAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#removeAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#zapAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#removeAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#zapAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#removeAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#zapAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#removeAll(java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#zapAll(java.lang.Boolean)
 msgid "Confirm"
 msgstr ""
 
@@ -1016,12 +1016,12 @@ msgid "Copy Break Options"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#createCollectionNumberNumerator()
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createCollectionNumberNumerator()
 msgid "Create Collection Number Numerator"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#createInvoiceNumberNumerator()
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createInvoiceNumberNumerator()
 msgid "Create Invoice Number Numerator"
 msgstr ""
 
@@ -1103,7 +1103,7 @@ msgstr ""
 #: org.estatio.dom.guarantee.Guarantee#terminate(org.joda.time.LocalDate,java.lang.String)
 #: org.estatio.dom.guarantee.Guarantees#newGuarantee(org.estatio.dom.lease.Lease,java.lang.String,java.lang.String,org.estatio.dom.guarantee.GuaranteeType,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.String,java.math.BigDecimal,java.math.BigDecimal)
 #: org.estatio.dom.guarantee.Guarantees#newTransaction(org.estatio.dom.guarantee.Guarantee,org.joda.time.LocalDate,java.lang.String,java.math.BigDecimal)
-#: org.estatio.dom.invoice.InvoiceItem#changeDescription(java.lang.String)
+#: org.estatio.dom.invoiceForLease.InvoiceItem#changeDescription(java.lang.String)
 #: org.estatio.dom.lease.LeaseTermForTax#changeRegistration(org.joda.time.LocalDate,java.lang.String,java.lang.String,java.lang.String,java.lang.String)
 #: org.estatio.dom.lease.breaks.BreakOption#change(org.estatio.dom.lease.breaks.BreakType,org.estatio.dom.lease.breaks.BreakExerciseType,java.lang.String)
 #: org.estatio.dom.lease.breaks.BreakOptions#newBreakOption(org.estatio.dom.lease.Lease,org.joda.time.LocalDate,java.lang.String,org.estatio.dom.lease.breaks.BreakType,org.estatio.dom.lease.breaks.BreakExerciseType,java.lang.String)
@@ -1196,13 +1196,13 @@ msgid "Download Pot File"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#findInvoices(org.estatio.dom.asset.FixedAsset,org.joda.time.LocalDate,org.estatio.dom.invoice.InvoiceStatus)
+#: org.estatio.dom.invoiceForLease.Invoices#findInvoices(org.estatio.dom.asset.FixedAsset,org.joda.time.LocalDate,org.estatio.dom.invoiceForLease.InvoiceStatus)
 msgid "Due Date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#changeDueDate(org.joda.time.LocalDate)
-#: org.estatio.dom.invoice.Invoices#newInvoiceForLease(org.estatio.dom.lease.Lease,org.joda.time.LocalDate,org.estatio.dom.invoice.PaymentMethod,org.estatio.dom.currency.Currency)
+#: org.estatio.dom.invoiceForLease.Invoice#changeDueDate(org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.Invoices#newInvoiceForLease(org.estatio.dom.lease.Lease,org.joda.time.LocalDate,org.estatio.dom.invoiceForLease.PaymentMethod,org.estatio.dom.currency.Currency)
 msgid "Due date"
 msgstr ""
 
@@ -1227,13 +1227,13 @@ msgid "Effective date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItem#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.InvoiceItem#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.invoicing.InvoiceItemForLease#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
 msgid "Effective end date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItem#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.InvoiceItem#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.invoicing.InvoiceItemForLease#changeEffectiveDates(org.joda.time.LocalDate,org.joda.time.LocalDate)
 msgid "Effective start date"
 msgstr ""
@@ -1337,7 +1337,7 @@ msgstr ""
 #: org.estatio.dom.bankmandate.BankMandate#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.guarantee.Guarantee#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.guarantee.Guarantees#newGuarantee(org.estatio.dom.lease.Lease,java.lang.String,java.lang.String,org.estatio.dom.guarantee.GuaranteeType,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.String,java.math.BigDecimal,java.math.BigDecimal)
-#: org.estatio.dom.invoice.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.Lease#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.Lease#renew(java.lang.String,java.lang.String,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.Boolean)
 #: org.estatio.dom.lease.LeaseItem#newTerm(org.joda.time.LocalDate,org.joda.time.LocalDate)
@@ -1599,7 +1599,7 @@ msgid "Find By Type And Reference Or Name"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#findCollectionNumberNumerator()
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#findCollectionNumberNumerator()
 msgid "Find Collection Number Numerator"
 msgstr ""
 
@@ -1624,20 +1624,20 @@ msgid "Find Guarantees"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#findInvoiceNumberNumerator()
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#findInvoiceNumberNumerator()
 msgid "Find Invoice Number Numerator"
 msgstr ""
 
 
 #: org.estatio.dom.asset.Property#findInvoices()
 #: org.estatio.dom.asset.Unit#findInvoices()
-#: org.estatio.dom.invoice.InvoiceStatus#findInvoices()
-#: org.estatio.dom.invoice.Invoices#findInvoices()
+#: org.estatio.dom.invoiceForLease.InvoiceStatus#findInvoices()
+#: org.estatio.dom.invoiceForLease.Invoices#findInvoices()
 msgid "Find Invoices"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#findInvoicesByInvoiceNumber()
+#: org.estatio.dom.invoiceForLease.Invoices#findInvoicesByInvoiceNumber()
 msgid "Find Invoices By Invoice Number"
 msgstr ""
 
@@ -1812,8 +1812,8 @@ msgid "Foglio"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#createCollectionNumberNumerator(java.lang.String,java.math.BigInteger)
-#: org.estatio.dom.invoice.CollectionNumerators#createInvoiceNumberNumerator(org.estatio.dom.asset.Property,java.lang.String,java.math.BigInteger)
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createCollectionNumberNumerator(java.lang.String,java.math.BigInteger)
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createInvoiceNumberNumerator(org.estatio.dom.asset.Property,java.lang.String,java.math.BigInteger)
 #: org.estatio.dom.numerator.Numerator#changeParameters(java.lang.String,java.math.BigInteger)
 msgid "Format"
 msgstr ""
@@ -1984,28 +1984,28 @@ msgid "Invalidate"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#invoice()
+#: org.estatio.dom.invoiceForLease.Invoice#invoiceForLease()
 msgid "Invoice"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#invoiceAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#invoiceAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll()
 msgid "Invoice All"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#invoiceAll(org.joda.time.LocalDate,java.lang.Boolean)
 msgid "Invoice Date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#invoice(org.joda.time.LocalDate,java.lang.Boolean)
+#: org.estatio.dom.invoiceForLease.Invoice#invoiceForLease(org.joda.time.LocalDate,java.lang.Boolean)
 msgid "Invoice date"
 msgstr ""
 
@@ -2017,17 +2017,17 @@ msgid "Invoice due date"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#findInvoicesByInvoiceNumber(java.lang.String)
+#: org.estatio.dom.invoiceForLease.Invoices#findInvoicesByInvoiceNumber(java.lang.String)
 msgid "Invoice number"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.InvoiceItems
-#: org.estatio.dom.invoice.Invoices
-#: org.estatio.dom.invoice.Invoices#findInvoices()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForInvoiceRun
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDate
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummariesForPropertyDueDateStatus
+#: org.estatio.dom.invoiceForLease.InvoiceItems
+#: org.estatio.dom.invoiceForLease.Invoices
+#: org.estatio.dom.invoiceForLease.Invoices#findInvoices()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForInvoiceRun
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDate
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummariesForPropertyDueDateStatus
 #: org.estatio.dom.lease.Lease#findInvoices()
 #: org.estatio.dom.lease.invoicing.InvoiceService
 #: org.estatio.dom.party.Organisation#findInvoices()
@@ -2156,7 +2156,7 @@ msgstr ""
 
 
 #: org.estatio.dom.asset.Property#lastInvoiceNumber()
-#: org.estatio.dom.invoice.InvoiceNumeratorContributions#lastInvoiceNumber()
+#: org.estatio.dom.invoiceForLease.InvoiceNumeratorContributions#lastInvoiceNumber()
 msgid "Last Invoice Number"
 msgstr ""
 
@@ -2178,13 +2178,13 @@ msgid "Last name"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.CollectionNumerators#createCollectionNumberNumerator(java.lang.String,java.math.BigInteger)
-#: org.estatio.dom.invoice.CollectionNumerators#createInvoiceNumberNumerator(org.estatio.dom.asset.Property,java.lang.String,java.math.BigInteger)
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createCollectionNumberNumerator(java.lang.String,java.math.BigInteger)
+#: org.estatio.dom.invoiceForLease.CollectionNumerators#createInvoiceNumberNumerator(org.estatio.dom.asset.Property,java.lang.String,java.math.BigInteger)
 msgid "Last value"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#newInvoiceForLease(org.estatio.dom.lease.Lease,org.joda.time.LocalDate,org.estatio.dom.invoice.PaymentMethod,org.estatio.dom.currency.Currency)
+#: org.estatio.dom.invoiceForLease.Invoices#newInvoiceForLease(org.estatio.dom.lease.Lease,org.joda.time.LocalDate,org.estatio.dom.invoiceForLease.PaymentMethod,org.estatio.dom.currency.Currency)
 msgid "Lease"
 msgstr ""
 
@@ -2422,7 +2422,7 @@ msgid "Negated"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
 msgid "Net amount"
 msgstr ""
 
@@ -2544,12 +2544,12 @@ msgid "New Int"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoices#newInvoiceForLease()
+#: org.estatio.dom.invoiceForLease.Invoices#newInvoiceForLease()
 msgid "New Invoice For Lease"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#newItem()
+#: org.estatio.dom.invoiceForLease.Invoice#newItem()
 #: org.estatio.dom.lease.Lease#newItem()
 msgid "New Item"
 msgstr ""
@@ -3132,7 +3132,7 @@ msgstr ""
 
 
 #: org.estatio.dom.asset.financial.FixedAssetFinancialAccount#fixedAsset
-#: org.estatio.dom.invoice.Invoice#fixedAsset
+#: org.estatio.dom.invoiceForLease.Invoice#fixedAsset
 #: org.estatio.dom.lease.invoicing.InvoiceService#calculateInvoicesForProperty(org.estatio.dom.asset.Property,org.estatio.dom.lease.invoicing.InvoiceRunType,org.estatio.dom.lease.invoicing.InvoiceCalculationSelection,org.joda.time.LocalDate,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.isisaddons.module.security.dom.role.ApplicationRole#addProperty(org.isisaddons.module.security.dom.permission.ApplicationPermissionRule,org.isisaddons.module.security.dom.permission.ApplicationPermissionMode,java.lang.String,java.lang.String,java.lang.String)
 msgid "Property"
@@ -3163,7 +3163,7 @@ msgid "Put"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
 msgid "Quantity"
 msgstr ""
 
@@ -3173,10 +3173,10 @@ msgid "Re-enter password"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#changePaymentMethod(org.estatio.dom.invoice.PaymentMethod,java.lang.String)
+#: org.estatio.dom.invoiceForLease.Invoice#changePaymentMethod(org.estatio.dom.invoiceForLease.PaymentMethod,java.lang.String)
 #: org.estatio.dom.lease.Lease#suspendAll(java.lang.String)
 #: org.estatio.dom.lease.LeaseItem#cancelOverrideTax(java.lang.String)
-#: org.estatio.dom.lease.LeaseItem#changePaymentMethod(org.estatio.dom.invoice.PaymentMethod,java.lang.String)
+#: org.estatio.dom.lease.LeaseItem#changePaymentMethod(org.estatio.dom.invoiceForLease.PaymentMethod,java.lang.String)
 #: org.estatio.dom.lease.LeaseItem#overrideTax(org.estatio.dom.tax.Tax,java.lang.String)
 #: org.estatio.dom.lease.LeaseItem#resume(java.lang.String)
 #: org.estatio.dom.lease.LeaseItem#suspend(java.lang.String)
@@ -3280,8 +3280,8 @@ msgstr ""
 #: org.estatio.dom.communicationchannel.PhoneOrFaxNumber#remove()
 #: org.estatio.dom.communicationchannel.PostalAddress#remove()
 #: org.estatio.dom.index.IndexValue#remove()
-#: org.estatio.dom.invoice.Invoice#remove()
-#: org.estatio.dom.invoice.InvoiceItem#remove()
+#: org.estatio.dom.invoiceForLease.Invoice#remove()
+#: org.estatio.dom.invoiceForLease.InvoiceItem#remove()
 #: org.estatio.dom.lease.Lease#remove()
 #: org.estatio.dom.lease.LeaseItem#remove()
 #: org.estatio.dom.lease.LeaseTerm#remove()
@@ -3306,10 +3306,10 @@ msgid "Remove"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#removeAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#removeAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#removeAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#removeAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#removeAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#removeAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#removeAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#removeAll()
 msgid "Remove All"
 msgstr ""
 
@@ -3412,11 +3412,11 @@ msgstr ""
 #: org.estatio.dom.index.Index#openLink()
 #: org.estatio.dom.index.IndexBase#openLink()
 #: org.estatio.dom.index.IndexValue#openLink()
-#: org.estatio.dom.invoice.Invoice#openLink()
-#: org.estatio.dom.invoice.InvoiceItem#openLink()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#openLink()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#openLink()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#openLink()
+#: org.estatio.dom.invoiceForLease.Invoice#openLink()
+#: org.estatio.dom.invoiceForLease.InvoiceItem#openLink()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#openLink()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#openLink()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#openLink()
 #: org.estatio.dom.lease.Lease#openLink()
 #: org.estatio.dom.lease.LeaseItem#openLink()
 #: org.estatio.dom.lease.LeaseTerm#openLink()
@@ -3682,12 +3682,12 @@ msgstr ""
 #: org.estatio.dom.bankmandate.BankMandate#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.guarantee.Guarantee#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.guarantee.Guarantees#newGuarantee(org.estatio.dom.lease.Lease,java.lang.String,java.lang.String,org.estatio.dom.guarantee.GuaranteeType,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.String,java.math.BigDecimal,java.math.BigDecimal)
-#: org.estatio.dom.invoice.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
-#: org.estatio.dom.lease.Lease#newItem(org.estatio.dom.lease.LeaseItemType,org.estatio.dom.charge.Charge,org.estatio.dom.lease.InvoicingFrequency,org.estatio.dom.invoice.PaymentMethod,org.joda.time.LocalDate)
+#: org.estatio.dom.invoiceForLease.Invoice#newItem(org.estatio.dom.charge.Charge,java.math.BigDecimal,java.math.BigDecimal,org.joda.time.LocalDate,org.joda.time.LocalDate)
+#: org.estatio.dom.lease.Lease#newItem(org.estatio.dom.lease.LeaseItemType,org.estatio.dom.charge.Charge,org.estatio.dom.lease.InvoicingFrequency,org.estatio.dom.invoiceForLease.PaymentMethod,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.Lease#newOccupancy(org.estatio.dom.asset.Unit,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.Lease#newRole(org.estatio.dom.agreement.AgreementRoleType,org.estatio.dom.party.Party,org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.Lease#renew(java.lang.String,java.lang.String,org.joda.time.LocalDate,org.joda.time.LocalDate,java.lang.Boolean)
-#: org.estatio.dom.lease.LeaseItem#copy(org.joda.time.LocalDate,org.estatio.dom.lease.InvoicingFrequency,org.estatio.dom.invoice.PaymentMethod,org.estatio.dom.charge.Charge)
+#: org.estatio.dom.lease.LeaseItem#copy(org.joda.time.LocalDate,org.estatio.dom.lease.InvoicingFrequency,org.estatio.dom.invoiceForLease.PaymentMethod,org.estatio.dom.charge.Charge)
 #: org.estatio.dom.lease.LeaseItem#newTerm(org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.LeaseTerm#createNext(org.joda.time.LocalDate,org.joda.time.LocalDate)
 #: org.estatio.dom.lease.LeaseTermForFixed#createNext(org.joda.time.LocalDate,org.joda.time.LocalDate)
@@ -3726,7 +3726,7 @@ msgid "Subalterno"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.Invoice#submitToCoda()
+#: org.estatio.dom.invoiceForLease.Invoice#submitToCoda()
 msgid "Submit To Coda"
 msgstr ""
 
@@ -4096,7 +4096,7 @@ msgid "Unique reference code for this asset"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#reference
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#reference
 msgid "Unique reference code for this property"
 msgstr ""
 
@@ -4372,7 +4372,7 @@ msgstr ""
 
 
 #: org.estatio.app.index.maint.IndexValueMaintLineItem#verify()
-#: org.estatio.dom.invoice.InvoiceItem#verify()
+#: org.estatio.dom.invoiceForLease.InvoiceItem#verify()
 #: org.estatio.dom.lease.Lease#verify()
 #: org.estatio.dom.lease.LeaseItem#verify()
 #: org.estatio.dom.lease.LeaseTerm#verify()
@@ -4602,10 +4602,10 @@ msgid "Within"
 msgstr ""
 
 
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryAbstract#zapAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForInvoiceRun#zapAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDate#zapAll()
-#: org.estatio.dom.invoice.viewmodel.InvoiceSummaryForPropertyDueDateStatus#zapAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryAbstract#zapAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForInvoiceRun#zapAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDate#zapAll()
+#: org.estatio.dom.invoiceForLease.viewmodel.InvoiceSummaryForPropertyDueDateStatus#zapAll()
 msgid "Zap All"
 msgstr ""
 

@@ -37,7 +37,7 @@ import org.apache.isis.applib.annotation.ViewModel;
 
 import org.estatio.dom.asset.Properties;
 import org.estatio.dom.asset.Property;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.InvoiceStatus;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -209,8 +209,8 @@ public class InvoiceSummaryForPropertyDueDateStatus extends InvoiceSummaryAbstra
     // //////////////////////////////////////
 
     @Render(Type.EAGERLY)
-    public List<Invoice> getInvoices() {
-        return invoicesService.findInvoices(getProperty(), getDueDate(), getStatus());
+    public List<InvoiceForLease> getInvoices() {
+        return invoiceForLeasesService.findInvoices(getProperty(), getDueDate(), getStatus());
     }
 
     // //////////////////////////////////////

@@ -26,7 +26,7 @@ import org.estatio.dom.asset.FixedAsset;
 import org.estatio.dom.asset.FixedAssetForTesting;
 import org.estatio.dom.bankmandate.BankMandate;
 import org.estatio.dom.currency.Currency;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.InvoiceStatus;
 import org.estatio.dom.party.Party;
 import org.estatio.dom.party.PartyForTesting;
@@ -45,7 +45,7 @@ public class InvoiceTest {
                     .withFixture(pojos(FixedAsset.class, FixedAssetForTesting.class))
                     .withFixture(pojos(BankMandate.class))
                     .withFixture(pojos(ApplicationTenancy.class))
-                    .exercise(new Invoice());
+                    .exercise(new InvoiceForLease());
         }
 
 

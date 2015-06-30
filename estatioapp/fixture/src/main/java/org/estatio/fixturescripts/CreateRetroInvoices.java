@@ -20,13 +20,22 @@ package org.estatio.fixturescripts;
 
 import java.util.List;
 import java.util.SortedSet;
+
 import javax.inject.Inject;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
 import org.apache.commons.lang3.ObjectUtils;
+import org.joda.time.LocalDate;
+
+import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.fixturescripts.DiscoverableFixtureScript;
+
 import org.estatio.dom.asset.Properties;
 import org.estatio.dom.asset.Property;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.invoice.InvoiceStatus;
 import org.estatio.dom.invoice.Invoices;
 import org.estatio.dom.invoice.InvoicingInterval;
@@ -37,9 +46,6 @@ import org.estatio.dom.lease.invoicing.InvoiceCalculationParameters;
 import org.estatio.dom.lease.invoicing.InvoiceCalculationSelection;
 import org.estatio.dom.lease.invoicing.InvoiceCalculationService;
 import org.estatio.dom.lease.invoicing.InvoiceRunType;
-import org.joda.time.LocalDate;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.fixturescripts.DiscoverableFixtureScript;
 
 import static org.estatio.integtests.VT.ld;
 
@@ -144,10 +150,10 @@ public class CreateRetroInvoices extends DiscoverableFixtureScript {
             final ExecutionContext executionContext) {
         invoiceCalculationService.calculateAndInvoice(parameters);
 
-        for (Invoice invoice : invoices.findInvoices(InvoiceStatus.NEW)) {
-            invoice.setStatus(InvoiceStatus.HISTORIC);
-            invoice.setRunId(null);
-            executionContext.addResult(this, invoice.getInvoiceNumber(), invoice);
+        for (InvoiceForLease invoiceForLease : (List<InvoiceForLease>) invoices.findInvoices(InvoiceStatus.NEW)) {
+            invoiceForLease.setStatus(InvoiceStatus.HISTORIC);
+            invoiceForLease.setRunId(null);
+            executionContext.addResult(this, invoiceForLease.getInvoiceNumber(), invoiceForLease);
         }
         return executionContext;
     }
@@ -177,6 +183,9 @@ public class CreateRetroInvoices extends DiscoverableFixtureScript {
 
     @Inject
     public Invoices invoices;
+
+    @Inject
+    public InvoiceForLeases invoiceForLeases;
 
     @Inject
     public Leases leases;

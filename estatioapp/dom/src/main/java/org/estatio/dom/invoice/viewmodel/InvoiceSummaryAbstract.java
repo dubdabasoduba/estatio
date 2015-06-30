@@ -29,14 +29,15 @@ import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
 
 import org.estatio.app.EstatioViewModel;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.invoice.Invoices;
 
 public abstract class InvoiceSummaryAbstract extends EstatioViewModel {
 
     public Object approveAll() {
-        for (Invoice invoice : getInvoices()) {
-            invoice.doApprove();
+        for (InvoiceForLease invoiceForLease : getInvoices()) {
+            invoiceForLease.doApprove();
         }
         return this;
     }
@@ -44,8 +45,8 @@ public abstract class InvoiceSummaryAbstract extends EstatioViewModel {
     public Object collectAll(
             final @Named("Are you sure?") Boolean confirm
             ) {
-        for (Invoice invoice : getInvoices()) {
-            invoice.doCollect();
+        for (InvoiceForLease invoiceForLease : getInvoices()) {
+            invoiceForLease.doCollect();
         }
         return this;
     }
@@ -54,8 +55,8 @@ public abstract class InvoiceSummaryAbstract extends EstatioViewModel {
             final @Named("Invoice Date") LocalDate invoiceDate,
             final @Named("Are you sure?") Boolean confirm
             ) {
-        for (Invoice invoice : getInvoices()) {
-            invoice.doInvoice(invoiceDate);
+        for (InvoiceForLease invoiceForLease : getInvoices()) {
+            invoiceForLease.doInvoice(invoiceDate);
         }
         return this;
     }
@@ -65,26 +66,29 @@ public abstract class InvoiceSummaryAbstract extends EstatioViewModel {
     }
 
     public Object removeAll(final @Named("Confirm") Boolean confirm) {
-        for (Invoice invoice : getInvoices()) {
-            invoice.remove();
+        for (InvoiceForLease invoiceForLease : getInvoices()) {
+            invoiceForLease.remove();
         }
         return this;
     }
 
     @Prototype
     public Object zapAll(final @Named("Confirm") Boolean confirm) {
-        for (Invoice invoice : getInvoices()) {
-            invoice.doRemove();
+        for (InvoiceForLease invoiceForLease : getInvoices()) {
+            invoiceForLease.doRemove();
         }
         return this;
     }
 
     @Render(Type.EAGERLY)
-    public abstract List<Invoice> getInvoices();
+    public abstract List<InvoiceForLease> getInvoices();
 
     // //////////////////////////////////////
 
     @Inject
     protected Invoices invoicesService;
+
+    @Inject
+    protected InvoiceForLeases invoiceForLeasesService;
 
 }

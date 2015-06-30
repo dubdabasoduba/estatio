@@ -18,16 +18,19 @@
  */
 package org.estatio.fixture.invoice;
 
-import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.joda.time.LocalDate;
+
 import org.apache.isis.core.commons.ensure.Ensure;
-import org.estatio.dom.invoice.Invoice;
+
+import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItemType;
 import org.estatio.fixture.currency.CurrenciesRefData;
-import org.estatio.fixture.lease._LeaseForOxfMiracl005Gb;
 import org.estatio.fixture.lease.LeaseItemAndLeaseTermForDiscountForOxfMiracl005Gb;
+import org.estatio.fixture.lease._LeaseForOxfMiracl005Gb;
 import org.estatio.fixture.party.OrganisationForAcmeNl;
 import org.estatio.fixture.party.OrganisationForHelloWorldNl;
 import org.estatio.fixture.party.OrganisationForMiracleGb;
@@ -72,7 +75,7 @@ public class InvoiceForLeaseItemTypeOfDiscountOneQuarterForOxfMiracle005 extends
         final Lease lease = leases.findLeaseByReference(LEASE_REF);
         final LocalDate invoiceStartDate = startDateFor(lease);
 
-        final Invoice invoice = createInvoice(
+        final InvoiceForLease invoiceForLease = createInvoice(
                 applicationTenancy,
                 lease,
                 PARTY_REF_SELLER,
@@ -83,7 +86,7 @@ public class InvoiceForLeaseItemTypeOfDiscountOneQuarterForOxfMiracle005 extends
                 executionContext);
 
         createInvoiceItemsForTermsOfFirstLeaseItemOfType(
-                invoice, LeaseItemType.DISCOUNT,
+                invoiceForLease, LeaseItemType.DISCOUNT,
                 invoiceStartDate, ldix(invoiceStartDate, invoiceStartDate.plusMonths(3)),
                 executionContext);
 

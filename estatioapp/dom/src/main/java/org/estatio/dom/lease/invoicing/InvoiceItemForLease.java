@@ -37,7 +37,7 @@ import org.apache.isis.applib.annotation.Where;
 import org.estatio.dom.agreement.AgreementRoleTypes;
 import org.estatio.dom.agreement.AgreementTypes;
 import org.estatio.dom.asset.FixedAsset;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.InvoiceItem;
 import org.estatio.dom.invoice.InvoiceSource;
 import org.estatio.dom.lease.Lease;
@@ -47,7 +47,7 @@ import org.estatio.dom.valuetypes.LocalDateInterval;
 /**
  * A lease-specific subclass of {@link InvoiceItem}, referring
  * {@link #getLeaseTerm() back} to the {@link LeaseTerm} that acts as the
- * <tt>InvoiceSource</tt> of this item's owning {@link Invoice}.
+ * <tt>InvoiceSource</tt> of this item's owning {@link InvoiceForLease}.
  */
 @javax.jdo.annotations.PersistenceCapable
 @javax.jdo.annotations.Inheritance(

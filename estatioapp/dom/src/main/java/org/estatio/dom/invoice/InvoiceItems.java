@@ -50,10 +50,10 @@ public class InvoiceItems extends UdoDomainRepositoryAndFactory<InvoiceItem> {
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @Programmatic
     public InvoiceItem newInvoiceItem(
-            final Invoice invoice,
+            final InvoiceForLease invoiceForLease,
             final @ParameterLayout(named = "Due date") LocalDate dueDate) {
         InvoiceItem invoiceItem = newTransientInstance(InvoiceItemForLease.class);
-        invoiceItem.setInvoice(invoice);
+        invoiceItem.setInvoice(invoiceForLease);
         invoiceItem.setDueDate(dueDate);
         invoiceItem.setUuid(java.util.UUID.randomUUID().toString());
         persistIfNotAlready(invoiceItem);

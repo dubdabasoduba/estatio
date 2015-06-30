@@ -25,16 +25,16 @@ import org.apache.isis.applib.annotation.Render;
 import org.apache.isis.applib.annotation.Render.Type;
 import org.apache.isis.applib.services.publish.EventPayloadForActionInvocation;
 
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 
 /**
- * Describes the payload for publishing an {@link Invoice} using Isis'. 
+ * Describes the payload for publishing an {@link InvoiceForLease} using Isis'.
  */
-public class InvoiceEagerlyRenderedPayload extends EventPayloadForActionInvocation<Invoice> {
+public class InvoiceEagerlyRenderedPayload extends EventPayloadForActionInvocation<InvoiceForLease> {
 
     public InvoiceEagerlyRenderedPayload(
             final Identifier actionIdentifier, 
-            final Invoice target, 
+            final InvoiceForLease target,
             final List<? extends Object> arguments, 
             final Object result) {
         super(actionIdentifier, target, arguments, result);
@@ -42,7 +42,7 @@ public class InvoiceEagerlyRenderedPayload extends EventPayloadForActionInvocati
 
     @Override
     @Render(Type.EAGERLY)
-    public Invoice getTarget() {
+    public InvoiceForLease getTarget() {
         return super.getTarget();
     }
     

@@ -19,14 +19,18 @@
 package org.estatio.fixture.invoice;
 
 import java.util.SortedSet;
+
 import javax.inject.Inject;
+
+import org.joda.time.LocalDate;
+
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
-import org.joda.time.LocalDate;
+
 import org.estatio.dom.currency.Currencies;
 import org.estatio.dom.currency.Currency;
-import org.estatio.dom.invoice.Invoice;
-import org.estatio.dom.invoice.Invoices;
+import org.estatio.dom.invoice.InvoiceForLease;
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItem;
@@ -41,7 +45,7 @@ import org.estatio.dom.valuetypes.LocalDateInterval;
 import org.estatio.fixture.EstatioFixtureScript;
 
 /**
- * Creates {@link org.estatio.dom.invoice.Invoice} and associated {@link org.estatio.dom.invoice.InvoiceItem}s.
+ * Creates {@link InvoiceForLease} and associated {@link org.estatio.dom.invoice.InvoiceItem}s.
  */
 public abstract class InvoiceAbstract extends EstatioFixtureScript {
 
@@ -49,7 +53,7 @@ public abstract class InvoiceAbstract extends EstatioFixtureScript {
         super(friendlyName, localName);
     }
 
-    protected Invoice createInvoice(
+    protected InvoiceForLease createInvoice(
             final ApplicationTenancy applicationTenancy,
             Lease lease,
             String sellerStr,
@@ -64,24 +68,24 @@ public abstract class InvoiceAbstract extends EstatioFixtureScript {
 
         final String interactionId = null;
 
-        final Invoice invoice = invoices.newInvoice(applicationTenancy, seller, buyer, paymentMethod, currency, startDate, lease, interactionId);
-        invoice.setInvoiceDate(startDate);
+        final InvoiceForLease invoiceForLease = invoices.newInvoice(applicationTenancy, seller, buyer, paymentMethod, currency, startDate, lease, interactionId);
+        invoiceForLease.setInvoiceDate(startDate);
 
-        return executionContext.addResult(this, invoice);
+        return executionContext.addResult(this, invoiceForLease);
     }
 
     protected void createInvoiceItemsForTermsOfFirstLeaseItemOfType(
-            final Invoice invoice, final LeaseItemType leaseItemType,
+            final InvoiceForLease invoiceForLease, final LeaseItemType leaseItemType,
             final LocalDate startDate, final LocalDateInterval interval,
             final ExecutionContext executionContext) {
 
-        final Lease lease = invoice.getLease();
+        final Lease lease = invoiceForLease.getLease();
         final LeaseItem firstLeaseItem = lease.findFirstItemOfType(leaseItemType);
         final SortedSet<LeaseTerm> terms = firstLeaseItem.getTerms();
         for (final LeaseTerm term : terms) {
             InvoiceItemForLease item = invoiceItemsForLease.newInvoiceItem(term, interval, startDate, null);
-            item.setInvoice(invoice);
-            item.setSequence(invoice.nextItemSequence());
+            item.setInvoice(invoiceForLease);
+            item.setSequence(invoiceForLease.nextItemSequence());
 
             executionContext.addResult(this, item);
         }
@@ -97,7 +101,7 @@ public abstract class InvoiceAbstract extends EstatioFixtureScript {
     private Currencies currencies;
 
     @Inject
-    private Invoices invoices;
+    private InvoiceForLeases invoices;
 
     @Inject
     private InvoiceItemsForLease invoiceItemsForLease;

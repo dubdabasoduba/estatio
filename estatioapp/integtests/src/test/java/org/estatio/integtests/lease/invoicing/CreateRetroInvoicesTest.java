@@ -18,9 +18,6 @@
  */
 package org.estatio.integtests.lease.invoicing;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.util.List;
 import java.util.SortedSet;
 
@@ -33,8 +30,8 @@ import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import org.estatio.dom.asset.Properties;
-import org.estatio.dom.invoice.Invoice;
-import org.estatio.dom.invoice.Invoices;
+import org.estatio.dom.invoice.InvoiceForLease;
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItem;
 import org.estatio.dom.lease.LeaseItemType;
@@ -45,11 +42,14 @@ import org.estatio.dom.lease.invoicing.InvoiceCalculationService;
 import org.estatio.dom.lease.invoicing.InvoiceRunType;
 import org.estatio.dom.lease.invoicing.InvoiceService;
 import org.estatio.fixture.EstatioBaseLineFixture;
-import org.estatio.fixture.lease._LeaseForOxfTopModel001Gb;
 import org.estatio.fixture.lease.LeaseItemAndTermsForOxfTopModel001;
+import org.estatio.fixture.lease._LeaseForOxfTopModel001Gb;
 import org.estatio.fixturescripts.CreateRetroInvoices;
 import org.estatio.integtests.EstatioIntegrationTest;
 import org.estatio.integtests.VT;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
 
@@ -66,7 +66,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    Invoices invoices;
+    InvoiceForLeases invoiceForLeases;
 
     @Inject
     Properties properties;
@@ -88,7 +88,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
     public void setup() {
         creator = new CreateRetroInvoices();
         creator.leases = leases;
-        creator.invoices = invoices;
+        creator.invoiceForLeases = invoiceForLeases;
         creator.properties = properties;
         creator.invoiceCalculationService = invoiceCalculationService;
 
@@ -119,7 +119,7 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
             creator.createLease(lease, VT.ld(2012, 1, 1), VT.ld(2014, 1, 1), FixtureScript.ExecutionContext.NOOP);
 
             // then
-            assertThat(invoices.findInvoices(lease).size(), is(8));
+            assertThat(invoiceForLeases.findInvoices(lease).size(), is(8));
 
             // and given
             lease.terminate(VT.ld(2013, 10, 1), true);
@@ -128,11 +128,11 @@ public class CreateRetroInvoicesTest extends EstatioIntegrationTest {
             invoiceService.calculate(lease, InvoiceRunType.NORMAL_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2014, 2, 1), VT.ld(2012, 1, 1), VT.ld(2014, 1, 1));
 
             // then
-            List<Invoice> invoicesList = invoices.findInvoices(lease);
+            List<InvoiceForLease> invoicesList = invoiceForLeases.findInvoices(lease);
             assertThat(invoicesList.size(), is(9));
-            Invoice invoice = invoicesList.get(8);
-            assertThat(invoice.getDueDate(), is(VT.ld(2014, 2, 1)));
-            assertThat(invoice.getGrossAmount(), is(VT.bd("-8170.01")));
+            InvoiceForLease invoiceForLease = invoicesList.get(8);
+            assertThat(invoiceForLease.getDueDate(), is(VT.ld(2014, 2, 1)));
+            assertThat(invoiceForLease.getGrossAmount(), is(VT.bd("-8170.01")));
 
             // and also
             LeaseItem leaseItem = lease.findFirstItemOfType(LeaseItemType.TURNOVER_RENT);

@@ -21,7 +21,7 @@ package org.estatio.fixture.invoice;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.joda.time.LocalDate;
 import org.apache.isis.core.commons.ensure.Ensure;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItemType;
@@ -71,7 +71,7 @@ public class InvoiceForLeaseItemTypeOfRentOneQuarterForOxfPoison003 extends Invo
 
         final LocalDate startDate = startDateFor(lease);
 
-        final Invoice invoice = createInvoice(
+        final InvoiceForLease invoiceForLease = createInvoice(
                 applicationTenancy,
                 lease, PARTY_REF_SELLER,
                 PARTY_REF_BUYER, PaymentMethod.DIRECT_DEBIT,
@@ -79,7 +79,7 @@ public class InvoiceForLeaseItemTypeOfRentOneQuarterForOxfPoison003 extends Invo
                 startDate, executionContext);
 
         createInvoiceItemsForTermsOfFirstLeaseItemOfType(
-                invoice, LeaseItemType.RENT,
+                invoiceForLease, LeaseItemType.RENT,
                 startDate, ldix(startDate, startDate.plusMonths(3)),
                 executionContext);
     }

@@ -19,23 +19,28 @@
 package org.estatio.integtests.invoice;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import org.hamcrest.core.Is;
-import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
-import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.apache.isis.applib.fixturescripts.FixtureScript;
+
+import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
+import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
 import org.estatio.dom.asset.FixedAsset;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.charge.Charges;
 import org.estatio.dom.currency.Currencies;
 import org.estatio.dom.currency.Currency;
-import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceForLease;
+import org.estatio.dom.invoice.InvoiceForLeases;
 import org.estatio.dom.invoice.InvoiceStatus;
-import org.estatio.dom.invoice.Invoices;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.Leases;
@@ -47,7 +52,13 @@ import org.estatio.fixture.asset.PropertyForKalNl;
 import org.estatio.fixture.asset._PropertyForOxfGb;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForKalPoison001;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForOxfPoison003;
-import org.estatio.fixture.lease.*;
+import org.estatio.fixture.lease.LeaseBreakOptionsForOxfMediax002Gb;
+import org.estatio.fixture.lease.LeaseBreakOptionsForOxfPoison003Gb;
+import org.estatio.fixture.lease.LeaseBreakOptionsForOxfTopModel001;
+import org.estatio.fixture.lease.LeaseItemAndTermsForOxfMiracl005Gb;
+import org.estatio.fixture.lease.LeaseItemAndTermsForOxfPoison003Gb;
+import org.estatio.fixture.lease._LeaseForOxfPoison003Gb;
+import org.estatio.fixture.lease._LeaseForOxfPret004Gb;
 import org.estatio.fixture.party.OrganisationForHelloWorldNl;
 import org.estatio.fixture.party.OrganisationForPoisonNl;
 import org.estatio.fixture.party.PersonForLinusTorvaldsNl;
@@ -61,7 +72,7 @@ import static org.junit.Assert.assertThat;
 public class InvoiceTest extends EstatioIntegrationTest {
 
     @Inject
-    Invoices invoices;
+    InvoiceForLeases invoices;
     @Inject
     Parties parties;
     @Inject
@@ -112,17 +123,17 @@ public class InvoiceTest extends EstatioIntegrationTest {
         @Test
         public void happyCase() throws Exception {
             // given
-            Invoice invoice = invoices.newInvoice(applicationTenancy, seller, buyer, PaymentMethod.BANK_TRANSFER, currency, VT.ld(2013, 1, 1), lease, null);
+            InvoiceForLease invoiceForLease = invoices.newInvoice(applicationTenancy, seller, buyer, PaymentMethod.BANK_TRANSFER, currency, VT.ld(2013, 1, 1), lease, null);
 
             // when
-            invoice.newItem(charge, VT.bd(1), VT.bd("10000.123"), null, null);
+            invoiceForLease.newItem(charge, VT.bd(1), VT.bd("10000.123"), null, null);
 
             // then
-            Invoice foundInvoice = invoices.findOrCreateMatchingInvoice(applicationTenancy, seller, buyer, PaymentMethod.BANK_TRANSFER, lease, InvoiceStatus.NEW, VT.ld(2013, 1, 1), null);
-            assertThat(foundInvoice.getNetAmount(), is(VT.bd("10000.123")));
+            InvoiceForLease foundInvoiceForLease = invoices.findOrCreateMatchingInvoice(applicationTenancy, seller, buyer, PaymentMethod.BANK_TRANSFER, lease, InvoiceStatus.NEW, VT.ld(2013, 1, 1), null);
+            assertThat(foundInvoiceForLease.getNetAmount(), is(VT.bd("10000.123")));
 
             // and also
-            final InvoiceItemForLease invoiceItem = (InvoiceItemForLease) foundInvoice.getItems().first();
+            final InvoiceItemForLease invoiceItem = (InvoiceItemForLease) foundInvoiceForLease.getItems().first();
             assertThat(invoiceItem.getNetAmount(), is(VT.bd("10000.123")));
             assertThat(invoiceItem.getLease(), is(lease));
             assertThat(invoiceItem.getFixedAsset(), is((FixedAsset) lease.getOccupancies().first().getUnit()));
@@ -176,17 +187,17 @@ public class InvoiceTest extends EstatioIntegrationTest {
         @Test
         public void happyCase() throws Exception {
             // given
-            List<Invoice> matchingInvoices = findMatchingInvoices(seller, buyer, lease);
-            Assert.assertThat(matchingInvoices.size(), Is.is(1));
-            Invoice invoice = matchingInvoices.get(0);
+            List<InvoiceForLease> matchingInvoiceForLeases = findMatchingInvoices(seller, buyer, lease);
+            Assert.assertThat(matchingInvoiceForLeases.size(), Is.is(1));
+            InvoiceForLease invoiceForLease = matchingInvoiceForLeases.get(0);
             // when
-            invoice.remove();
+            invoiceForLease.remove();
             // then
-            matchingInvoices = findMatchingInvoices(seller, buyer, lease);
-            Assert.assertThat(matchingInvoices.size(), Is.is(0));
+            matchingInvoiceForLeases = findMatchingInvoices(seller, buyer, lease);
+            Assert.assertThat(matchingInvoiceForLeases.size(), Is.is(0));
         }
 
-        private List<Invoice> findMatchingInvoices(final Party seller, final Party buyer, final Lease lease) {
+        private List<InvoiceForLease> findMatchingInvoices(final Party seller, final Party buyer, final Lease lease) {
             return invoices.findMatchingInvoices(
                     seller, buyer, PaymentMethod.DIRECT_DEBIT,
                     lease, InvoiceStatus.NEW,
