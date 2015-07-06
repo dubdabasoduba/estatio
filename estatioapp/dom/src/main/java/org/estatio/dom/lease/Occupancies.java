@@ -36,10 +36,6 @@ import org.apache.isis.applib.annotation.NotContributed;
 import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
-
-import com.google.common.eventbus.Subscribe;
-import org.apache.isis.applib.annotation.*;
-
 import org.apache.isis.applib.services.clock.ClockService;
 import org.apache.isis.applib.services.scratchpad.Scratchpad;
 
@@ -47,11 +43,6 @@ import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.asset.Unit;
 import org.estatio.dom.lease.tags.Brand;
 import org.estatio.dom.valuetypes.LocalDateInterval;
-import org.joda.time.LocalDate;
-
-import javax.inject.Inject;
-import java.util.List;
-import java.util.UUID;
 
 @DomainService(menuOrder = "40", repositoryFor = Occupancy.class)
 @Hidden
@@ -162,11 +153,11 @@ public class Occupancies extends UdoDomainRepositoryAndFactory<Occupancy> {
     @Programmatic
     public void on(final Lease.ChangeDatesEvent ev) {
         switch (ev.getEventPhase()) {
-            case EXECUTED:
-                verifyFor(ev.getSource());
-                break;
-            default:
-                break;
+        case EXECUTED:
+            verifyFor(ev.getSource());
+            break;
+        default:
+            break;
         }
     }
 
@@ -174,11 +165,11 @@ public class Occupancies extends UdoDomainRepositoryAndFactory<Occupancy> {
     @Programmatic
     public void on(final Lease.TerminateEvent ev) {
         switch (ev.getEventPhase()) {
-            case EXECUTED:
-                terminateFor(ev.getSource(), ev.getTerminationDate());
-                break;
-            default:
-                break;
+        case EXECUTED:
+            terminateFor(ev.getSource(), ev.getTerminationDate());
+            break;
+        default:
+            break;
         }
     }
 
@@ -192,24 +183,24 @@ public class Occupancies extends UdoDomainRepositoryAndFactory<Occupancy> {
 
         List<Occupancy> occupancies;
         switch (ev.getEventPhase()) {
-            case VALIDATE:
-                occupancies = findByBrand(sourceBrand, true);
+        case VALIDATE:
+            occupancies = findByBrand(sourceBrand, true);
 
-                if (replacementBrand == null && occupancies.size() > 0) {
-                    ev.invalidate("Brand is being used in an occupancy. Remove occupancy or provide a replacement");
-                } else {
-                    scratchpad.put(onBrandRemoveScratchpadKey = UUID.randomUUID(), occupancies);
-                }
+            if (replacementBrand == null && occupancies.size() > 0) {
+                ev.invalidate("Brand is being used in an occupancy. Remove occupancy or provide a replacement");
+            } else {
+                scratchpad.put(onBrandRemoveScratchpadKey = UUID.randomUUID(), occupancies);
+            }
 
-                break;
-            case EXECUTING:
-                occupancies = (List<Occupancy>) scratchpad.get(onBrandRemoveScratchpadKey);
-                for (Occupancy occupancy : occupancies) {
-                    occupancy.setBrand(replacementBrand);
-                }
-                break;
-            default:
-                break;
+            break;
+        case EXECUTING:
+            occupancies = (List<Occupancy>) scratchpad.get(onBrandRemoveScratchpadKey);
+            for (Occupancy occupancy : occupancies) {
+                occupancy.setBrand(replacementBrand);
+            }
+            break;
+        default:
+            break;
         }
     }
 
