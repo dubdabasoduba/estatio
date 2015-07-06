@@ -18,56 +18,15 @@
  */
 package org.estatio.dom.lease;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.SortedSet;
-import java.util.TreeSet;
-
-import javax.inject.Inject;
-import javax.jdo.annotations.IdentityType;
-import javax.jdo.annotations.InheritanceStrategy;
-
 import com.google.common.collect.Lists;
-
 import org.apache.commons.lang3.ObjectUtils;
-import org.joda.time.LocalDate;
-import org.joda.time.Period;
-import org.joda.time.PeriodType;
-
 import org.apache.isis.applib.Identifier;
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.CollectionLayout;
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.Editing;
-import org.apache.isis.applib.annotation.Hidden;
-import org.apache.isis.applib.annotation.InvokeOn;
-import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optionality;
-import org.apache.isis.applib.annotation.Parameter;
-import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.PropertyLayout;
-import org.apache.isis.applib.annotation.RenderType;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.annotation.Where;
+import org.apache.isis.applib.annotation.*;
 import org.apache.isis.applib.services.eventbus.ActionDomainEvent;
-
-import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
-
 import org.estatio.dom.EstatioUserRoles;
 import org.estatio.dom.JdoColumnLength;
 import org.estatio.dom.RegexValidation;
-import org.estatio.dom.agreement.Agreement;
-import org.estatio.dom.agreement.AgreementRole;
-import org.estatio.dom.agreement.AgreementRoleCommunicationChannel;
-import org.estatio.dom.agreement.AgreementRoleCommunicationChannelTypes;
-import org.estatio.dom.agreement.AgreementRoleType;
-import org.estatio.dom.agreement.AgreementType;
+import org.estatio.dom.agreement.*;
 import org.estatio.dom.apptenancy.EstatioApplicationTenancies;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPathPersisted;
 import org.estatio.dom.apptenancy.WithApplicationTenancyProperty;
@@ -89,6 +48,16 @@ import org.estatio.dom.party.Party;
 import org.estatio.dom.utils.JodaPeriodUtils;
 import org.estatio.dom.valuetypes.LocalDateInterval;
 import org.estatio.services.clock.ClockService;
+import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+import org.joda.time.LocalDate;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
+import javax.inject.Inject;
+import javax.jdo.annotations.IdentityType;
+import javax.jdo.annotations.InheritanceStrategy;
+import java.math.BigInteger;
+import java.util.*;
 
 @javax.jdo.annotations.PersistenceCapable(identityType = IdentityType.DATASTORE)
 @javax.jdo.annotations.Inheritance(
@@ -254,7 +223,7 @@ public class Lease
     /**
      * The {@link Property} of the (first of the) {@link #getOccupancies()
      * LeaseUnit}s.
-     * 
+     * <p>
      * <p>
      * It is not possible for the {@link Occupancy}s to belong to different
      * {@link Property properties}, and so it is sufficient to obtain the
@@ -349,19 +318,11 @@ public class Lease
     @Action(domainEvent = ChangeDatesEvent.class)
     public Lease changeTenancyDates(
             final @ParameterLayout(named = "Start Date") LocalDate startDate,
-            final @ParameterLayout(named = "End Date") @Parameter(optionality = Optionality.OPTIONAL) LocalDate endDate
-            ) {
+            final @ParameterLayout(named = "End Date") @Parameter(optionality = Optionality.OPTIONAL) LocalDate endDate) {
         setTenancyStartDate(startDate);
         setTenancyEndDate(endDate);
-        verifyAllOccupancies();
 
         return this;
-    }
-
-    private void verifyAllOccupancies() {
-        for (Occupancy occupancy : occupancies) {
-            occupancy.verify();
-        }
     }
 
     public LocalDate default0ChangeTenancyDates() {
@@ -406,7 +367,7 @@ public class Lease
     /**
      * The action to relate a lease to a unit. A lease can occupy unlimited
      * units.
-     * 
+     *
      * @param unit
      * @param startDate
      * @return
@@ -456,7 +417,7 @@ public class Lease
             final Charge charge,
             final InvoicingFrequency invoicingFrequency,
             final PaymentMethod paymentMethod,
-            final @ParameterLayout(named="Start date") LocalDate startDate,
+            final @ParameterLayout(named = "Start date") LocalDate startDate,
             final ApplicationTenancy applicationTenancy) {
         LeaseItem leaseItem = leaseItems.newLeaseItem(this, type, charge, invoicingFrequency, paymentMethod, startDate, applicationTenancy);
         return leaseItem;
@@ -479,11 +440,11 @@ public class Lease
     }
 
     public String validateNewItem(final LeaseItemType type,
-                                   final Charge charge,
-                                   final InvoicingFrequency invoicingFrequency,
-                                   final PaymentMethod paymentMethod,
-                                   final @Named("Start date") LocalDate startDate,
-                                   final ApplicationTenancy applicationTenancy) {
+                                  final Charge charge,
+                                  final InvoicingFrequency invoicingFrequency,
+                                  final PaymentMethod paymentMethod,
+                                  final @Named("Start date") LocalDate startDate,
+                                  final ApplicationTenancy applicationTenancy) {
         return leaseItems.validateNewLeaseItem(this, type, charge, invoicingFrequency, paymentMethod, startDate, applicationTenancy);
     }
 
@@ -588,7 +549,7 @@ public class Lease
         }
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     private List<BankMandate> existingBankMandatesForTenant() {
         final AgreementRole tenantRole = getSecondaryAgreementRole();
         if (tenantRole == null || !tenantRole.isCurrent()) {
@@ -722,7 +683,9 @@ public class Lease
     public Lease terminate(
             final @ParameterLayout(named = "Termination Date") LocalDate terminationDate,
             final @ParameterLayout(named = "Are you sure?") Boolean confirm) {
-        doTerminate(terminationDate);
+        // TODO: remove occupancies after the termination date
+        // TODO: break options
+        setTenancyEndDate(terminationDate);
         return this;
     }
 
@@ -745,18 +708,6 @@ public class Lease
 
     public boolean hideTerminate() {
         return !getStatus().equals(LeaseStatus.ACTIVE);
-    }
-
-    @Programmatic
-    public void doTerminate(final LocalDate terminationDate) {
-        for (Occupancy occupancy : getOccupancies()) {
-            if (occupancy.getInterval().contains(terminationDate)) {
-                occupancy.terminate(terminationDate);
-            }
-            // TODO: remove occupancies after the termination date
-        }
-        // TODO: break options
-        setTenancyEndDate(terminationDate);
     }
 
     // //////////////////////////////////////
@@ -796,9 +747,9 @@ public class Lease
             @ParameterLayout(named = "Tenant") final Party tenant,
             @ParameterLayout(named = "Tenancy start date") final LocalDate tenancyStartDate,
             @ParameterLayout(named = "Are you sure?") final Boolean confirm
-            ) {
+    ) {
         Lease newLease = copyToNewLease(reference, name, tenant, getStartDate(), getEndDate(), tenancyStartDate, getEndDate());
-        this.doTerminate(new LocalDateInterval(tenancyStartDate, null).endDateFromStartDate());
+        this.terminate(new LocalDateInterval(tenancyStartDate, null).endDateFromStartDate(), true);
         return newLease;
     }
 
@@ -812,7 +763,7 @@ public class Lease
             final Party tenant,
             final LocalDate startDate,
             final Boolean confirm
-            ) {
+    ) {
         return leases.findLeaseByReferenceElseNull(reference) == null ? null : "Lease reference already exists,";
     }
 
@@ -896,7 +847,7 @@ public class Lease
             @ParameterLayout(named = "Start date") final LocalDate startDate,
             @ParameterLayout(named = "End date") final LocalDate endDate,
             @ParameterLayout(named = "Are you sure?") final Boolean confirm
-            ) {
+    ) {
         return copyToNewLease(reference, name, getSecondaryParty(), startDate, endDate, startDate, endDate);
 
     }
@@ -919,7 +870,7 @@ public class Lease
             final LocalDate startDate,
             final LocalDate endDate,
             final Boolean confirm
-            ) {
+    ) {
         if (endDate.isBefore(startDate)) {
             return "End date can not be before start date.";
         }
@@ -962,6 +913,10 @@ public class Lease
                 final Object... arguments) {
             super(source, identifier, arguments);
         }
+
+        public LocalDate getTerminationDate() {
+            return (LocalDate) (this.getArguments().isEmpty() ? null : getArguments().get(0));
+        }
     }
 
     public static class SuspendAllEvent extends ActionDomainEvent<Lease> {
@@ -995,6 +950,14 @@ public class Lease
                 final Object... arguments) {
             super(source, identifier, arguments);
         }
+
+        public LocalDate getNewTenancyStartDate() {
+            return (LocalDate) (this.getArguments().isEmpty() ? null : getArguments().get(0));
+        }
+
+        public LocalDate getNewTenancyEndDate() {
+            return (LocalDate) (this.getArguments().isEmpty() ? null : getArguments().get(1));
+        }
     }
 
     // //////////////////////////////////////
@@ -1025,7 +988,7 @@ public class Lease
 
     @Inject
     EstatioApplicationTenancies estatioApplicationTenancies;
-	
+
     @Inject
     BreakOptions breakOptionsService;
 

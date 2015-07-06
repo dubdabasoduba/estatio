@@ -18,9 +18,6 @@
  */
 package org.estatio.integtests.lease.items;
 
-import javax.inject.Inject;
-import org.junit.Before;
-import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.Leases;
@@ -29,8 +26,14 @@ import org.estatio.dom.lease.tags.Brand;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.lease._LeaseForOxfTopModel001Gb;
 import org.estatio.integtests.EstatioIntegrationTest;
+import org.joda.time.LocalDate;
+import org.junit.Before;
+import org.junit.Test;
+
+import javax.inject.Inject;
 
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
 public class OccupancyTest extends EstatioIntegrationTest {
@@ -71,4 +74,5 @@ public class OccupancyTest extends EstatioIntegrationTest {
         }
 
     }
+
 }
