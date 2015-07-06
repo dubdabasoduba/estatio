@@ -18,41 +18,30 @@
  */
 package org.estatio.integtests.lease;
 
-import java.util.SortedSet;
-import javax.inject.Inject;
+import org.apache.isis.applib.fixturescripts.FixtureScript;
+import org.apache.isis.applib.services.wrapper.InvalidException;
+import org.apache.isis.applib.services.wrapper.WrapperFactory;
 import org.assertj.core.api.Assertions;
+import org.estatio.dom.charge.Charge;
+import org.estatio.dom.charge.Charges;
+import org.estatio.dom.invoice.PaymentMethod;
+import org.estatio.dom.lease.*;
+import org.estatio.fixture.EstatioBaseLineFixture;
+import org.estatio.fixture.charge.ChargeRefData;
+import org.estatio.fixture.lease.*;
+import org.estatio.integtests.EstatioIntegrationTest;
+import org.estatio.integtests.VT;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.apache.isis.applib.services.wrapper.InvalidException;
-import org.apache.isis.applib.services.wrapper.WrapperFactory;
-import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
-import org.estatio.dom.invoice.PaymentMethod;
-import org.estatio.dom.lease.InvoicingFrequency;
-import org.estatio.dom.lease.Lease;
-import org.estatio.dom.lease.LeaseItem;
-import org.estatio.dom.lease.LeaseItemType;
-import org.estatio.dom.lease.LeaseTerm;
-import org.estatio.dom.lease.Leases;
-import org.estatio.fixture.EstatioBaseLineFixture;
-import org.estatio.fixture.charge.ChargeRefData;
-import org.estatio.fixture.lease.LeaseItemAndTermsForOxfMediax002Gb;
-import org.estatio.fixture.lease.LeaseItemAndTermsForOxfPoison003Gb;
-import org.estatio.fixture.lease.LeaseItemAndTermsForOxfTopModel001;
-import org.estatio.fixture.lease._LeaseForOxfMediaX002Gb;
-import org.estatio.fixture.lease._LeaseForOxfPoison003Gb;
-import org.estatio.fixture.lease._LeaseForOxfTopModel001Gb;
-import org.estatio.integtests.EstatioIntegrationTest;
-import org.estatio.integtests.VT;
+
+import javax.inject.Inject;
+import java.util.SortedSet;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class LeaseTest extends EstatioIntegrationTest {
 
@@ -402,4 +391,33 @@ public class LeaseTest extends EstatioIntegrationTest {
 
     }
 
+    public static class ChangeDates extends LeaseTest {
+
+        @Before
+        public void setupData() {
+            runFixtureScript(new FixtureScript() {
+                @Override
+                protected void execute(ExecutionContext executionContext) {
+                    executionContext.executeChild(this, new EstatioBaseLineFixture());
+
+                    executionContext.executeChild(this, new _LeaseForOxfTopModel001Gb());
+                }
+            });
+        }
+
+        private Lease leaseTopModel;
+
+        @Inject
+        private Leases leases;
+
+        @Before
+        public void setup() {
+            leaseTopModel = leases.findLeaseByReference(_LeaseForOxfTopModel001Gb.REF);
+        }
+
+        @Test
+        public void onDateChange() throws Exception {
+
+        }
+    }
 }

@@ -49,7 +49,9 @@ import org.estatio.fixture.lease._LeaseForOxfTopModel001Gb;
 import org.estatio.integtests.EstatioIntegrationTest;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
@@ -200,4 +202,79 @@ public class OccupanciesTest extends EstatioIntegrationTest {
 
     }
 
+    public static class OnChangeDateEvent extends OccupanciesTest {
+
+        @Before
+        public void setupData() {
+            runFixtureScript(new FixtureScript() {
+                @Override
+                protected void execute(ExecutionContext executionContext) {
+                    executionContext.executeChild(this, new EstatioBaseLineFixture());
+
+                    executionContext.executeChild(this, new _LeaseForOxfTopModel001Gb());
+                }
+            });
+        }
+
+        private Lease leaseTopModel;
+        private Occupancy occupancy;
+
+        @Before
+        public void setup() {
+            leaseTopModel = leases.findLeaseByReference(_LeaseForOxfTopModel001Gb.REF);
+            occupancy = leaseTopModel.getOccupancies().first();
+        }
+
+        @Test
+        public void onDateChange() throws Exception {
+            // Given that occupancy dates are equal to lease dates
+            assertEquals(occupancy.getStartDate(), leaseTopModel.getTenancyStartDate());
+
+            // When lease tenancy start date changes
+            LocalDate newTenancyStartDate = new LocalDate(2015, 12, 31);
+            wrap(leaseTopModel).changeTenancyDates(newTenancyStartDate, leaseTopModel.getTenancyEndDate());
+
+            // Then assert that occupancy date has changed too
+            assertThat(occupancy.getStartDate(), is(newTenancyStartDate));
+            assertEquals(occupancy.getStartDate(), leaseTopModel.getTenancyStartDate());
+        }
+    }
+
+    public static class OnTerminateEvent extends OccupanciesTest {
+
+        @Before
+        public void setupData() {
+            runFixtureScript(new FixtureScript() {
+                @Override
+                protected void execute(ExecutionContext executionContext) {
+                    executionContext.executeChild(this, new EstatioBaseLineFixture());
+
+                    executionContext.executeChild(this, new _LeaseForOxfTopModel001Gb());
+                }
+            });
+        }
+
+        private Lease leaseTopModel;
+        private Occupancy occupancy;
+
+        @Before
+        public void setup() {
+            leaseTopModel = leases.findLeaseByReference(_LeaseForOxfTopModel001Gb.REF);
+            occupancy = leaseTopModel.getOccupancies().first();
+        }
+
+        @Test
+        public void onTerminate() throws Exception {
+            // Given that occupancy has no end date
+            assertNull(occupancy.getEndDate());
+
+            // When lease is terminated
+            LocalDate terminationDate = new LocalDate(2015, 12, 31);
+            wrap(leaseTopModel).terminate(terminationDate, true);
+
+            // Then assert that occupancy end date is set too
+            assertThat(occupancy.getEndDate(), is(terminationDate));
+            assertEquals(occupancy.getEndDate(), leaseTopModel.getTenancyEndDate());
+        }
+    }
 }
