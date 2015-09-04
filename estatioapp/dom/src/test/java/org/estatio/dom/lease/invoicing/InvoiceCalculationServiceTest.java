@@ -412,60 +412,7 @@ public class InvoiceCalculationServiceTest {
                 });
 
             }
-
-            @Test
-            public void adjustedInvoicingItem() {
-//                //given
-//                List<CalculationResult> results = new ArrayList<>();
-//                InvoicingInterval interval = new InvoicingInterval(new LocalDateInterval(new LocalDate(2015,1,1), new LocalDate(2015,03,31)), new LocalDate(2015,03,31));
-//                LocalDateInterval effectiveInterval = LocalDateInterval.excluding(null, null);
-//                BigDecimal value = BigDecimal.ONE;
-//                BigDecimal valueOnDueDate = BigDecimal.ONE;
-//                BigDecimal mockValue = BigDecimal.ONE;
-//
-//                results.add(new CalculationResult(interval, effectiveInterval, value, valueOnDueDate, mockValue));
-//
-//                Lease lease = new Lease() {
-//                    @Override public Property getProperty() {
-//                        return new Property();
-//                    }
-//                };
-//
-//                Charge charge = new Charge();
-//
-//                LeaseItem item = new LeaseItem();
-//                item.setType(LeaseItemType.RENT);
-//                item.setLease(lease);
-//                item.setCharge(charge);
-//
-//
-//                final LeaseTerm leaseTerm = new LeaseTerm() {
-//                    @Override public BigDecimal valueForDate(final LocalDate dueDate) {
-//                        return new BigDecimal("123.45");
-//                    }
-//                };
-//                leaseTerm.setLeaseItem(item);
-//
-//                InvoiceCalculationParameters icp = new InvoiceCalculationParameters(
-//                        leaseTerm,
-//                        InvoiceRunType.NORMAL_RUN,
-//                        new LocalDate(2015,1,1),
-//                        new LocalDate(2015,1,1),
-//                        new LocalDate(2015,1,1));
-//
-//                //when
-//
-//                ic.createInvoiceItems(
-//                        leaseTerm,
-//                        icp,
-//                        results);
-//                //then
-//
-//                assertEquals(invoiceItemForLease.getEffectiveStartDate(), new LocalDate(2015,01,01));
-//                assertEquals(invoiceItemForLease.getEffectiveEndDate(), new LocalDate(2015,03,31));
-//
-            }
-
+            
         }
 
 
