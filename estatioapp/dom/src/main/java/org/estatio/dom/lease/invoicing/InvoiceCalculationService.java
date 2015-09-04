@@ -35,6 +35,8 @@ import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.estatio.dom.UdoDomainService;
 import org.estatio.dom.charge.Charge;
+import org.estatio.dom.invoice.InvoiceItem;
+import org.estatio.dom.invoice.InvoiceItemHelper;
 import org.estatio.dom.invoice.Invoices;
 import org.estatio.dom.invoice.InvoicingInterval;
 import org.estatio.dom.lease.*;
@@ -290,10 +292,15 @@ public class InvoiceCalculationService extends UdoDomainService<InvoiceCalculati
                     invoiceItem.setStartDate(result.invoicingInterval().startDate());
                     invoiceItem.setEndDate(result.invoicingInterval().endDate());
 
-                    LocalDateInterval intervalToUse =
-                            adjustment
-                                    ? result.invoicingInterval().asLocalDateInterval()
-                                    : result.effectiveInterval();
+
+                    LocalDateInterval intervalToUse;
+                    if (adjustment) {
+                        List<InvoiceItemForLease> items = invoiceItemsForLease.findByLeaseTermAndInterval(leaseTerm, result.invoicingInterval().asLocalDateInterval());
+                        intervalToUse = new InvoiceItemHelper(items).getMaxInterval();
+                    } else {
+                        intervalToUse = result.effectiveInterval();
+                    }
+
                     invoiceItem.setEffectiveStartDate(intervalToUse.startDate());
                     invoiceItem.setEffectiveEndDate(intervalToUse.endDate());
 
@@ -314,7 +321,7 @@ public class InvoiceCalculationService extends UdoDomainService<InvoiceCalculati
     private Invoices invoices;
 
     @Inject
-    private InvoiceItemsForLease invoiceItemsForLease;
+    InvoiceItemsForLease invoiceItemsForLease;
 
     @Inject
     private Leases leases;

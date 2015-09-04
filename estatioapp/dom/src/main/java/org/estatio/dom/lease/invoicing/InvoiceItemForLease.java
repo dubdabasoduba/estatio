@@ -166,7 +166,7 @@ public class InvoiceItemForLease extends InvoiceItem {
     @Override
     @Programmatic
     public LocalDateInterval getEffectiveInterval() {
-        return getInterval().overlap(getLeaseTerm().getEffectiveInterval());
+        return new LocalDateInterval(getEffectiveStartDate(),getEffectiveEndDate());
     }
 
     // //////////////////////////////////////

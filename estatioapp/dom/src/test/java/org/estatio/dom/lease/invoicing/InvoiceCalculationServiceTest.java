@@ -21,25 +21,33 @@ package org.estatio.dom.lease.invoicing;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+
 import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2;
 import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2.Mode;
+
 import org.estatio.dom.agreement.AgreementRoleType;
 import org.estatio.dom.agreement.AgreementRoleTypes;
 import org.estatio.dom.agreement.AgreementRoles;
 import org.estatio.dom.agreement.AgreementTypes;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.invoice.Invoices;
-import org.estatio.dom.lease.*;
+import org.estatio.dom.lease.InvoicingFrequency;
+import org.estatio.dom.lease.Lease;
+import org.estatio.dom.lease.LeaseItem;
+import org.estatio.dom.lease.LeaseTerm;
+import org.estatio.dom.lease.LeaseTermForTesting;
 import org.estatio.dom.lease.invoicing.InvoiceCalculationService.CalculationResult;
 import org.estatio.dom.tax.Tax;
 import org.estatio.dom.tax.TaxRate;
 import org.estatio.dom.tax.TaxRates;
+import org.estatio.dom.valuetypes.LocalDateInterval;
 import org.estatio.domsettings.EstatioSettingsService;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -368,6 +376,98 @@ public class InvoiceCalculationServiceTest {
             }
 
         }
+
+        public static class CreateInvoiceItemsTest extends InvoiceCalculationServiceTest {
+
+            @Rule
+            public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(Mode.INTERFACES_AND_CLASSES);
+
+            InvoiceCalculationService ic;
+
+            @Mock
+            EstatioSettingsService mockSettings;
+
+            @Mock
+            InvoiceItemsForLease mockInvoiceItemsForLease;
+
+            InvoiceItemForLease invoiceItemForLease;
+
+
+            @Before
+            public void setup() {
+
+                ic = new InvoiceCalculationService();
+                ic.estatioSettingsService = mockSettings;
+                ic.invoiceItemsForLease = mockInvoiceItemsForLease;
+
+                invoiceItemForLease = new InvoiceItemForLease();
+
+                context.checking(new Expectations() {
+                    {
+                        allowing(mockInvoiceItemsForLease).invoicedValue(with(any(LeaseTerm.class)), with(any(LocalDateInterval.class)));
+                        will(returnValue(new BigDecimal(0.01)));
+                        allowing(mockInvoiceItemsForLease).createUnapprovedInvoiceItem(with(any(LeaseTerm.class)), with(any(LocalDateInterval.class)), with(any(LocalDate.class)), with(aNull(String.class)));
+                        will(returnValue(invoiceItemForLease));
+                    }
+                });
+
+            }
+
+            @Test
+            public void adjustedInvoicingItem() {
+//                //given
+//                List<CalculationResult> results = new ArrayList<>();
+//                InvoicingInterval interval = new InvoicingInterval(new LocalDateInterval(new LocalDate(2015,1,1), new LocalDate(2015,03,31)), new LocalDate(2015,03,31));
+//                LocalDateInterval effectiveInterval = LocalDateInterval.excluding(null, null);
+//                BigDecimal value = BigDecimal.ONE;
+//                BigDecimal valueOnDueDate = BigDecimal.ONE;
+//                BigDecimal mockValue = BigDecimal.ONE;
+//
+//                results.add(new CalculationResult(interval, effectiveInterval, value, valueOnDueDate, mockValue));
+//
+//                Lease lease = new Lease() {
+//                    @Override public Property getProperty() {
+//                        return new Property();
+//                    }
+//                };
+//
+//                Charge charge = new Charge();
+//
+//                LeaseItem item = new LeaseItem();
+//                item.setType(LeaseItemType.RENT);
+//                item.setLease(lease);
+//                item.setCharge(charge);
+//
+//
+//                final LeaseTerm leaseTerm = new LeaseTerm() {
+//                    @Override public BigDecimal valueForDate(final LocalDate dueDate) {
+//                        return new BigDecimal("123.45");
+//                    }
+//                };
+//                leaseTerm.setLeaseItem(item);
+//
+//                InvoiceCalculationParameters icp = new InvoiceCalculationParameters(
+//                        leaseTerm,
+//                        InvoiceRunType.NORMAL_RUN,
+//                        new LocalDate(2015,1,1),
+//                        new LocalDate(2015,1,1),
+//                        new LocalDate(2015,1,1));
+//
+//                //when
+//
+//                ic.createInvoiceItems(
+//                        leaseTerm,
+//                        icp,
+//                        results);
+//                //then
+//
+//                assertEquals(invoiceItemForLease.getEffectiveStartDate(), new LocalDate(2015,01,01));
+//                assertEquals(invoiceItemForLease.getEffectiveEndDate(), new LocalDate(2015,03,31));
+//
+            }
+
+        }
+
 
     }
 

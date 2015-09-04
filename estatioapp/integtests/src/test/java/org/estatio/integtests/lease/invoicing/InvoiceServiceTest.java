@@ -20,17 +20,23 @@ package org.estatio.integtests.lease.invoicing;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
+
 import javax.inject.Inject;
+
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.apache.isis.applib.fixturescripts.FixtureScript;
+
 import org.estatio.dom.index.Index;
 import org.estatio.dom.index.IndexValues;
 import org.estatio.dom.index.Indices;
 import org.estatio.dom.invoice.CollectionNumerators;
 import org.estatio.dom.invoice.Invoice;
+import org.estatio.dom.invoice.InvoiceItem;
 import org.estatio.dom.invoice.InvoiceStatus;
 import org.estatio.dom.invoice.Invoices;
 import org.estatio.dom.lease.Lease;
@@ -43,10 +49,10 @@ import org.estatio.dom.lease.invoicing.InvoiceItemForLease;
 import org.estatio.dom.lease.invoicing.InvoiceItemsForLease;
 import org.estatio.dom.lease.invoicing.InvoiceRunType;
 import org.estatio.dom.lease.invoicing.InvoiceService;
+import org.estatio.dom.valuetypes.LocalDateInterval;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.asset.PropertyForKalNl;
 import org.estatio.fixture.asset._PropertyForOxfGb;
-import org.estatio.fixture.index.IndexRefData;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForKalPoison001;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForOxfPoison003;
 import org.estatio.fixture.lease.LeaseBreakOptionsForOxfMediax002Gb;
@@ -57,10 +63,6 @@ import org.estatio.fixture.lease._LeaseForOxfPret004Gb;
 import org.estatio.fixture.party.PersonForJohnDoeNl;
 import org.estatio.integtests.EstatioIntegrationTest;
 import org.estatio.integtests.VT;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
@@ -129,6 +131,9 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             step5_normalInvoice();
             step6_retroInvoice();
             step7_terminate();
+            step8_retroInvoiceRevisited();
+            step9_terminateRevisited();
+            step10_retroInvoiceRevisited();
         }
 
         public void step1_verify() throws Exception {
@@ -190,6 +195,9 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             invoiceService.calculate(lease, InvoiceRunType.NORMAL_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2015, 4, 1), VT.ld(2015, 4, 1), VT.ld(2015, 4, 1));
             approveInvoicesFor(lease);
             assertThat(totalApprovedOrInvoicedForItem(rItem), is(VT.bd("209918.48")));
+            assertThat(invoices.findInvoices(lease).size(), is(1));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().first().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().first().getInvoice().getNumber(), is("OXF-000001"));
         }
 
         public void step6_retroInvoice() throws Exception {
@@ -198,10 +206,146 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
             approveInvoicesFor(lease);
             assertThat(invoices.findInvoices(lease).size(), is(2));
             assertThat(totalApprovedOrInvoicedForItem(rItem), is(VT.bd("209918.48").add(VT.bd("1687.50"))));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().size(), is(12));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().first().getInvoice().getNumber(), is("OXF-000001"));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().first().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().first().getNetAmount(), is(VT.bd("37500.00")));
+
+            //// Total picture /////
+            //// NET AMOUNT ////
+            Iterator<InvoiceItem> iterator = invoices.findInvoices(lease).get(0).getItems().iterator();
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("22418.48")));
+
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("1853.26")));
+
+            //Reset iterator
+            //// DESCRIPTION ////
+            iterator = invoices.findInvoices(lease).get(0).getItems().iterator();
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+
+            //Reset iterator
+            //// EFFECTIVE INTERVAL ////
+            iterator = invoices.findInvoices(lease).get(0).getItems().iterator();
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 10, 1), VT.ld(2014, 12, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 9, 30))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 4, 1), VT.ld(2014, 6, 30))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 1, 1), VT.ld(2014, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2013, 11, 7), VT.ld(2013, 12, 31))));
+
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 10, 1), VT.ld(2014, 12, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 9, 30))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 4, 1), VT.ld(2014, 6, 30))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 1, 1), VT.ld(2014, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2013, 11, 7), VT.ld(2013, 12, 31))));
+            //// END Total picture /////
+
+            assertThat(invoices.findInvoices(lease).get(0).getItems().last().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2013, 11, 7), VT.ld(2013, 12, 31))));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().last().getNetAmount(), is(VT.bd("1853.26")));
+            assertThat(invoices.findInvoices(lease).get(0).getItems().last().getDescription(), is("ITA_SERVICE_CHARGE"));
+
+            assertThat(invoices.findInvoices(lease).get(1).getItems().size(), is(1));
+            assertThat(invoices.findInvoices(lease).get(1).getItems().first().getInvoice().getNumber(), is("Temp *00000003"));
+
+            assertThat(invoices.findInvoices(lease).get(1).getItems().first().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(invoices.findInvoices(lease).get(1).getItems().first().getNetAmount(), is(VT.bd("1687.50")));
+            assertThat(invoices.findInvoices(lease).get(1).getItems().first().getDescription(), is("ITA_RENT"));
         }
 
         public void step7_terminate() throws Exception {
             lease.terminate(VT.ld(2014, 6, 30), true);
+        }
+
+        public void step8_retroInvoiceRevisited() throws Exception {
+            invoiceService.calculate(lease, InvoiceRunType.RETRO_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2015, 4, 1), VT.ld(2015, 4, 1), VT.ld(2015, 4, 1));
+            approveInvoicesFor(lease);
+            assertThat(invoices.findInvoices(lease).size(), is(3));
+            assertThat(invoices.findInvoices(lease).get(2).getItems().first().getInvoice().getNumber(), is("Temp *00000004"));
+            assertThat(invoices.findInvoices(lease).get(2).getItems().size(), is(6));
+            assertThat(invoices.findInvoices(lease).get(2).getItems().first().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            //minus 37500.00 + 1687.50 = minus 39187,50
+            assertThat(invoices.findInvoices(lease).get(2).getItems().first().getNetAmount(), is(VT.bd("-39187.50")));
+
+            //// Total picture /////
+            //// NET AMOUNT ////
+            Iterator<InvoiceItem> iterator = invoices.findInvoices(lease).get(2).getItems().iterator();
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-39187.50")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-37500.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-37500.00")));
+
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-3250.00")));
+            assertThat(iterator.next().getNetAmount(), is(VT.bd("-3250.00")));
+
+            //Reset iterator
+            //// DESCRIPTION ////
+            iterator = invoices.findInvoices(lease).get(2).getItems().iterator();
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+            assertThat(iterator.next().getDescription(), is("ITA_RENT"));
+
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+            assertThat(iterator.next().getDescription(), is("ITA_SERVICE_CHARGE"));
+
+            //Reset iterator
+            //// EFFECTIVE INTERVAL ////
+            iterator = invoices.findInvoices(lease).get(2).getItems().iterator();
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 10, 1), VT.ld(2014, 12, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 9, 30))));
+
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2015, 1, 1), VT.ld(2015, 3, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 10, 1), VT.ld(2014, 12, 31))));
+            assertThat(iterator.next().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 9, 30))));
+            //// END Total picture /////
+
+
+            assertThat(invoices.findInvoices(lease).get(2).getItems().last().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 9, 30))));
+            assertThat(invoices.findInvoices(lease).get(2).getItems().last().getNetAmount(), is(VT.bd("-3250.00")));
+        }
+
+        public void step9_terminateRevisited() throws Exception {
+            lease.terminate(VT.ld(2014, 7, 31), true);
+        }
+
+        public void step10_retroInvoiceRevisited() throws Exception {
+            invoiceService.calculate(lease, InvoiceRunType.RETRO_RUN, InvoiceCalculationSelection.RENT_AND_SERVICE_CHARGE, VT.ld(2015, 4, 1), VT.ld(2015, 4, 1), VT.ld(2015, 4, 1));
+            approveInvoicesFor(lease);
+            assertThat(invoices.findInvoices(lease).size(), is(4));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().first().getInvoice().getNumber(), is("Temp *00000005"));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().size(), is(2));
+
+            assertThat(invoices.findInvoices(lease).get(3).getItems().first().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 7, 31))));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().first().getNetAmount(), is(VT.bd("12635.87")));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().first().getDescription(), is("ITA_RENT"));
+
+            assertThat(invoices.findInvoices(lease).get(3).getItems().last().getEffectiveInterval(), is(new LocalDateInterval(VT.ld(2014, 7, 1), VT.ld(2014, 7, 31))));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().last().getNetAmount(), is(VT.bd("1095.11")));
+            assertThat(invoices.findInvoices(lease).get(3).getItems().last().getDescription(), is("ITA_SERVICE_CHARGE"));
         }
 
         // //////////////////////////////////////
