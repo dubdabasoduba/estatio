@@ -27,7 +27,7 @@ import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
 import org.estatio.dom.geography.States;
@@ -43,11 +43,11 @@ public class StatesTest extends EstatioIntegrationTest {
 
     @Before
     public void setUp() throws Exception {
-        countries = service(Countries.class);
+        countryRepository = service(CountryRepository.class);
         states = service(States.class);
     }
 
-    Countries countries;
+    CountryRepository countryRepository;
 
     States states;
 
@@ -56,7 +56,7 @@ public class StatesTest extends EstatioIntegrationTest {
         @Test
         public void whenCountryWithStates() throws Exception {
             // given
-            final Country country = countries.findCountry("NLD");
+            final Country country = countryRepository.findCountry("NLD");
             // when
             final List<State> statesInCountry = states.findStatesByCountry(country);
             // then
@@ -72,7 +72,7 @@ public class StatesTest extends EstatioIntegrationTest {
         @Test
         public void findState() throws Exception {
             // given
-            final Country country = countries.findCountry("NLD");
+            final Country country = countryRepository.findCountry("NLD");
 
             // when
             final State state = states.findState("NL-DRN");

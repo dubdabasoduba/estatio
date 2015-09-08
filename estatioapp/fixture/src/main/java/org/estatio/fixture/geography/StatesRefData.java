@@ -19,7 +19,7 @@
 package org.estatio.fixture.geography;
 
 import javax.inject.Inject;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
 import org.estatio.dom.geography.States;
@@ -42,11 +42,11 @@ public class StatesRefData extends EstatioFixtureScript {
     @Override
     protected void execute(ExecutionContext executionContext) {
 
-        Country countryGBR = countries.findCountry(GBR);
-        Country countryNED = countries.findCountry(NLD);
-        Country countryITA = countries.findCountry(ITA);
-        Country countryFRA = countries.findCountry(FRA);
-        Country countrySWE = countries.findCountry(SWE);
+        Country countryGBR = countryRepository.findCountry(GBR);
+        Country countryNED = countryRepository.findCountry(NLD);
+        Country countryITA = countryRepository.findCountry(ITA);
+        Country countryFRA = countryRepository.findCountry(FRA);
+        Country countrySWE = countryRepository.findCountry(SWE);
         
         createState(countryNED, "-DRN", "Drenthe", executionContext);
         createState(countryNED, "-FLE", "Flevoland", executionContext);
@@ -104,6 +104,6 @@ public class StatesRefData extends EstatioFixtureScript {
     private States states;
 
     @Inject
-    private Countries countries;
+    private CountryRepository countryRepository;
 
 }

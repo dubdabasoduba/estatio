@@ -19,7 +19,7 @@
 package org.estatio.fixture.geography;
 
 import javax.inject.Inject;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.States;
 import org.estatio.fixture.EstatioFixtureScript;
@@ -49,7 +49,7 @@ public class CountriesRefData extends EstatioFixtureScript {
     }
 
     private Country createCountry(final String reference, String alpha2Code, String name, ExecutionContext executionContext) {
-        final Country country = countries.createCountry(reference, alpha2Code, name);
+        final Country country = countryRepository.createCountry(reference, alpha2Code, name);
         return executionContext.addResult(this, country.getAlpha2Code(), country);
     }
 
@@ -59,6 +59,6 @@ public class CountriesRefData extends EstatioFixtureScript {
     private States states;
 
     @Inject
-    private Countries countries;
+    private CountryRepository countryRepository;
 
 }

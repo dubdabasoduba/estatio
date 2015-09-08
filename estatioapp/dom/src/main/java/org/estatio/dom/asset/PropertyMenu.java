@@ -28,12 +28,9 @@ import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.Named;
-import org.apache.isis.applib.annotation.Optional;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.RegEx;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
@@ -60,13 +57,13 @@ public class PropertyMenu extends UdoDomainRepositoryAndFactory<Property> {
     @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     @MemberOrder(sequence = "1")
     public Property newProperty(
-            final @Named("Reference") @RegEx(validation = RegexValidation.Property.REFERENCE, caseSensitive = true) String propertyReference,
+            final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.Property.REFERENCE) String propertyReference,
             final @ParameterLayout(named = "Name") String name,
             final PropertyType propertyType,
             final @ParameterLayout(named = "City") @Parameter(optionality = Optionality.OPTIONAL) String city,
             final @Parameter(optionality = Optionality.OPTIONAL) Country country,
-            final @Named("Acquire date") @Optional LocalDate acquireDate,
-            final @Named("Country-level Application Tenancy") ApplicationTenancy countryApplicationTenancy) {
+            final @ParameterLayout(named = "Acquire date") @Parameter(optionality = Optionality.OPTIONAL) LocalDate acquireDate,
+            final @ParameterLayout(named = "Country-level Application Tenancy") ApplicationTenancy countryApplicationTenancy) {
         return propertyRepository.newProperty(
                 propertyReference, name,
                 propertyType,
@@ -86,7 +83,6 @@ public class PropertyMenu extends UdoDomainRepositoryAndFactory<Property> {
         return Dflt.of(choices6NewProperty());
     }
 
-
     // //////////////////////////////////////
 
     @Action(semantics = SemanticsOf.SAFE)
@@ -104,7 +100,6 @@ public class PropertyMenu extends UdoDomainRepositoryAndFactory<Property> {
         return propertyRepository.allProperties();
     }
 
-
     // //////////////////////////////////////
 
     @Inject
@@ -112,6 +107,5 @@ public class PropertyMenu extends UdoDomainRepositoryAndFactory<Property> {
 
     @Inject
     PropertyRepository propertyRepository;
-
 
 }

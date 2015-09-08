@@ -160,7 +160,6 @@ public class Lease
         setStatus(LeaseStatus.ACTIVE);
     }
 
-
     // //////////////////////////////////////
 
     private String applicationTenancyPath;
@@ -472,15 +471,15 @@ public class Lease
         return leaseItems.default6NewLeaseItem(this);
     }
 
-    public String validateNewItem(final LeaseItemType type,
-                                  final Charge charge,
-                                  final InvoicingFrequency invoicingFrequency,
-                                  final PaymentMethod paymentMethod,
-                                  final @Named("Start date") LocalDate startDate,
-                                  final ApplicationTenancy applicationTenancy) {
+    public String validateNewItem(
+            final LeaseItemType type,
+            final Charge charge,
+            final InvoicingFrequency invoicingFrequency,
+            final PaymentMethod paymentMethod,
+            final @Named("Start date") LocalDate startDate,
+            final ApplicationTenancy applicationTenancy) {
         return leaseItems.validateNewLeaseItem(this, type, charge, invoicingFrequency, paymentMethod, startDate, applicationTenancy);
     }
-
 
     @Action(hidden = Where.EVERYWHERE)
     public LeaseItem findItem(
@@ -582,7 +581,7 @@ public class Lease
         }
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     private List<BankMandate> existingBankMandatesForTenant() {
         final AgreementRole tenantRole = getSecondaryAgreementRole();
         if (tenantRole == null || !tenantRole.isCurrent()) {
@@ -802,8 +801,7 @@ public class Lease
 
     // //////////////////////////////////////
 
-    @Programmatic
-    Lease copyToNewLease(
+    @Programmatic Lease copyToNewLease(
             final String reference,
             final String name,
             final Party tenant,

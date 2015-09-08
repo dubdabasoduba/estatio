@@ -24,45 +24,23 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.Parameter;
-import org.apache.isis.applib.annotation.ParameterLayout;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
-import org.estatio.dom.RegexValidation;
 
-@DomainService(repositoryFor = Country.class)
-@DomainServiceLayout(
-        named = "Other",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "80.5")
-public class Countries extends UdoDomainRepositoryAndFactory<Country> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Country.class)
+public class CountryRepository extends UdoDomainRepositoryAndFactory<Country> {
 
-    public Countries() {
-        super(Countries.class, Country.class);
+    public CountryRepository() {
+        super(CountryRepository.class, Country.class);
     }
 
-    // //////////////////////////////////////
-
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "1")
-    public List<Country> newCountry(
-            final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.REFERENCE) String reference,
-            final @ParameterLayout(named = "Alpha-2 Code") String alpha2Code,
-            final @ParameterLayout(named = "Name") String name) {
-        createCountry(reference, alpha2Code, name);
-        return allCountries();
-    }
-
-    // //////////////////////////////////////
-
-    @Action(semantics = SemanticsOf.SAFE)
-    @MemberOrder(sequence = "2")
     public List<Country> allCountries() {
         return allInstances();
     }

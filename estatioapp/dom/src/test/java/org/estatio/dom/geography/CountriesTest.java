@@ -33,12 +33,12 @@ public class CountriesTest {
 
     FinderInteraction finderInteraction;
 
-    Countries countries;
+    CountryRepository countryRepository;
 
     @Before
     public void setup() {
         
-        countries = new Countries() {
+        countryRepository = new CountryRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -63,7 +63,7 @@ public class CountriesTest {
         @Test
         public void happyCase() {
 
-            countries.findCountry("*REF?1*");
+            countryRepository.findCountry("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(Country.class));
@@ -78,7 +78,7 @@ public class CountriesTest {
         @Test
         public void happyCase() {
 
-            countries.allCountries();
+            countryRepository.allCountries();
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_INSTANCES));
         }

@@ -23,7 +23,7 @@ import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.estatio.dom.communicationchannel.CommunicationChannelContributions;
 import org.estatio.dom.communicationchannel.CommunicationChannelType;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
 import org.estatio.dom.geography.States;
@@ -79,7 +79,7 @@ public abstract class OrganisationAbstract extends EstatioFixtureScript {
             ExecutionContext executionContext) {
 
         if (address1 != null) {
-            final Country country = countries.findCountry(countryReference);
+            final Country country = countryRepository.findCountry(countryReference);
             final State state = states.findState(stateReference);
             communicationChannelContributedActions.newPostal(
                     party,
@@ -125,7 +125,7 @@ public abstract class OrganisationAbstract extends EstatioFixtureScript {
     // //////////////////////////////////////
 
     @Inject
-    protected Countries countries;
+    protected CountryRepository countryRepository;
 
     @Inject
     protected States states;

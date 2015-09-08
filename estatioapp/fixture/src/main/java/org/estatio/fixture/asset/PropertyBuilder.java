@@ -28,7 +28,7 @@ import org.estatio.dom.asset.Property;
 import org.estatio.dom.asset.PropertyType;
 import org.estatio.dom.asset.UnitMenu;
 import org.estatio.dom.asset.UnitType;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.States;
 import org.estatio.dom.party.Parties;
@@ -188,7 +188,7 @@ public class PropertyBuilder extends EstatioFixtureScript {
     protected States states;
 
     @Inject
-    protected Countries countries;
+    protected CountryRepository countryRepository;
 
     @Inject
     protected PropertyMenu propertyMenu;

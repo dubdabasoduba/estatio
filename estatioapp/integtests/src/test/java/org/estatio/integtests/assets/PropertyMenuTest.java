@@ -36,7 +36,7 @@ import org.estatio.dom.asset.PropertyMenu;
 import org.estatio.dom.asset.Property;
 import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.asset.PropertyType;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.asset.PropertyForKalNl;
@@ -128,7 +128,7 @@ public class PropertyMenuTest extends EstatioIntegrationTest {
     public static class NewProperty extends PropertyMenuTest {
 
         @Inject
-        private Countries countries;
+        private CountryRepository countryRepository;
 
         @Inject
         private ApplicationTenancies applicationTenancies;
@@ -139,7 +139,7 @@ public class PropertyMenuTest extends EstatioIntegrationTest {
             // given
             final ApplicationTenancy countryAppTenancy = applicationTenancies.findTenancyByPath("/" + CountriesRefData.GBR);
 
-            final Country gbrCountry = countries.findCountry(CountriesRefData.GBR);
+            final Country gbrCountry = countryRepository.findCountry(CountriesRefData.GBR);
 
             Assertions.assertThat(countryAppTenancy).isNotNull();
             Assertions.assertThat(applicationTenancies.findTenancyByPath("/" + CountriesRefData.GBR + "/ARN")).isNull();

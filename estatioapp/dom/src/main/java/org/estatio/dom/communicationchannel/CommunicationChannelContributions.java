@@ -34,7 +34,7 @@ import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainService;
-import org.estatio.dom.geography.Countries;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
 import org.estatio.dom.geography.States;
@@ -93,7 +93,7 @@ public abstract class CommunicationChannelContributions extends UdoDomainService
     }
 
     public Country default2NewPostal() {
-        return countries.allCountries().get(0);
+        return countryRepository.allCountries().get(0);
     }
 
     public List<State> choices3NewPostal(
@@ -204,10 +204,10 @@ public abstract class CommunicationChannelContributions extends UdoDomainService
         this.states = states;
     }
 
-    private Countries countries;
+    private CountryRepository countryRepository;
 
-    public void injectCountries(final Countries countries) {
-        this.countries = countries;
+    public void injectCountries(final CountryRepository countryRepository) {
+        this.countryRepository = countryRepository;
     }
 
 }
