@@ -67,7 +67,7 @@ import org.estatio.dom.apptenancy.ApplicationTenancyRepository;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPathPersisted;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPropertyLocal;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.invoicing.InvoiceCalculationService.CalculationResult;
 import org.estatio.dom.tax.Tax;
@@ -391,7 +391,7 @@ public class LeaseItem
     }
 
     public List<Charge> choices3Copy() {
-        return charges.chargesForCountry(this.getApplicationTenancy());
+        return chargeRepository.chargesForCountry(this.getApplicationTenancy());
     }
 
     public String validateCopy(
@@ -486,7 +486,7 @@ public class LeaseItem
     }
 
     public List<Charge> choicesCharge() {
-        return charges.allCharges();
+        return chargeRepository.allCharges();
     }
 
 
@@ -502,7 +502,7 @@ public class LeaseItem
     }
 
     public List<Charge> choices0ChangeCharge() {
-        return charges.chargesForCountry(getApplicationTenancyPath());
+        return chargeRepository.chargesForCountry(getApplicationTenancyPath());
     }
 
 
@@ -762,7 +762,7 @@ public class LeaseItem
     // //////////////////////////////////////
 
     @Inject
-    private Charges charges;
+    private ChargeRepository chargeRepository;
 
     @Inject
     LeaseTerms leaseTerms;

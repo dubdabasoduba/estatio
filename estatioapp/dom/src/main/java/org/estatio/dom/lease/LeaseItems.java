@@ -44,7 +44,7 @@ import org.estatio.dom.Dflt;
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.apptenancy.ApplicationTenancyRepository;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.invoice.PaymentMethod;
 
 @DomainService(menuOrder = "40", repositoryFor = LeaseItem.class)
@@ -83,7 +83,7 @@ public class LeaseItems extends UdoDomainRepositoryAndFactory<LeaseItem> {
     }
 
     public List<Charge> choices2NewLeaseItem(final Lease lease) {
-        return charges.chargesForCountry(lease.getApplicationTenancy());
+        return chargeRepository.chargesForCountry(lease.getApplicationTenancy());
     }
 
     public LocalDate default5NewLeaseItem(final Lease lease) {
@@ -173,7 +173,7 @@ public class LeaseItems extends UdoDomainRepositoryAndFactory<LeaseItem> {
     ApplicationTenancyRepository applicationTenancyRepository;
 
     @Inject
-    private Charges charges;
+    private ChargeRepository chargeRepository;
 
 
 }

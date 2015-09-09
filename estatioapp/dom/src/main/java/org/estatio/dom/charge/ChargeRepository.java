@@ -19,23 +19,20 @@
 package org.estatio.dom.charge;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.ActionSemantics;
-import org.apache.isis.applib.annotation.ActionSemantics.Of;
-import org.apache.isis.applib.annotation.Contributed;
+
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.SemanticsOf;
+
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
+
 import org.estatio.dom.RegexValidation;
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.apptenancy.ApplicationTenancyRepository;
@@ -43,22 +40,15 @@ import org.estatio.dom.geography.Country;
 import org.estatio.dom.tax.Tax;
 import org.estatio.dom.valuetypes.ApplicationTenancyLevel;
 
-@DomainService(repositoryFor = Charge.class)
-@DomainServiceLayout(
-        named = "Other",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "80.3")
-public class Charges extends UdoDomainRepositoryAndFactory<Charge> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Charge.class)
+public class ChargeRepository extends UdoDomainRepositoryAndFactory<Charge> {
 
-    public Charges() {
-        super(Charges.class, Charge.class);
+    public ChargeRepository() {
+        super(ChargeRepository.class, Charge.class);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @ActionLayout(contributed = Contributed.AS_NEITHER)
-    @MemberOrder(sequence = "1")
     public Charge newCharge(
             final ApplicationTenancy applicationTenancy,
             final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.REFERENCE) String reference,
@@ -80,35 +70,27 @@ public class Charges extends UdoDomainRepositoryAndFactory<Charge> {
         return charge;
     }
 
-    public List<ApplicationTenancy> choices0NewCharge() {
-        return applicationTenancyRepository.allCountryTenancies();
-    }
-
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @MemberOrder(sequence = "2")
     public List<Charge> allCharges() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @ActionSemantics(Of.SAFE)
-    @MemberOrder(sequence = "2.1")
     public List<Charge> findChargesForCountry(final Country country) {
         final String countryPath = "/" + country.getAlpha2Code();
         return chargesForCountry(countryPath);
     }
 
-    @Programmatic
+    // //////////////////////////////////////
+
     public List<Charge> chargesForCountry(final ApplicationTenancy countryOrLowerLevel) {
         final ApplicationTenancyLevel level = ApplicationTenancyLevel.of(countryOrLowerLevel);
         final String countryPath = level.getCountryPath();
         return chargesForCountry(countryPath);
     }
 
-    @Programmatic
     public List<Charge> chargesForCountry(final String applicationTenancyPath) {
 
         // assert the path (must not be root)
@@ -129,7 +111,6 @@ public class Charges extends UdoDomainRepositoryAndFactory<Charge> {
 
     // //////////////////////////////////////
 
-    @Programmatic
     public Charge findByReference(
             final String reference) {
         return firstMatch(
@@ -141,6 +122,5 @@ public class Charges extends UdoDomainRepositoryAndFactory<Charge> {
 
     @Inject
     private ApplicationTenancyRepository applicationTenancyRepository;
-
 
 }

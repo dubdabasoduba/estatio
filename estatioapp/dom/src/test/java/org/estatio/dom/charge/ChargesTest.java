@@ -40,11 +40,11 @@ public class ChargesTest {
 
     FinderInteraction finderInteraction;
 
-    Charges charges;
+    ChargeRepository chargeRepository;
 
     @Before
     public void setup() {
-        charges = new Charges() {
+        chargeRepository = new ChargeRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -73,7 +73,7 @@ public class ChargesTest {
         @Test
         public void happyCase() {
 
-            charges.findByReference("*REF?1*");
+            chargeRepository.findByReference("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(Charge.class));
@@ -90,7 +90,7 @@ public class ChargesTest {
         @Test
         public void happyCase() {
 
-            charges.allCharges();
+            chargeRepository.allCharges();
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_INSTANCES));
         }
@@ -116,13 +116,13 @@ public class ChargesTest {
             chargeGroup = new ChargeGroup();
             tax = new Tax();
 
-            charges = new Charges() {
+            chargeRepository = new ChargeRepository() {
                 @Override
                 public Charge findByReference(String reference) {
                     return existingCharge;
                 }
             };
-            charges.setContainer(mockContainer);
+            chargeRepository.setContainer(mockContainer);
         }
 
         @Test
@@ -140,7 +140,7 @@ public class ChargesTest {
                 }
             });
 
-            final Charge newCharge = charges.newCharge(newApplicationTenancy("/it"), "CG-REF", "CG-Name", "CG-Description", tax, chargeGroup);
+            final Charge newCharge = chargeRepository.newCharge(newApplicationTenancy("/it"), "CG-REF", "CG-Name", "CG-Description", tax, chargeGroup);
             assertThat(newCharge.getReference(), is("CG-REF"));
             assertThat(newCharge.getName(), is("CG-Name"));
             assertThat(newCharge.getDescription(), is("CG-Description"));
@@ -152,7 +152,7 @@ public class ChargesTest {
         public void newCharge_whenDoesExist() {
             existingCharge = new Charge();
 
-            final Charge newCharge = charges.newCharge(newApplicationTenancy("/it"), "CG-REF", "Some other description", "Some other code", null, null);
+            final Charge newCharge = chargeRepository.newCharge(newApplicationTenancy("/it"), "CG-REF", "Some other description", "Some other code", null, null);
             assertThat(newCharge, is(existingCharge));
         }
 

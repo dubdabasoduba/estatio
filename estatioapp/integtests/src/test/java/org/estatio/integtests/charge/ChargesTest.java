@@ -30,7 +30,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.charge.ChargeRefData;
 import org.estatio.fixture.geography.CountriesRefData;
@@ -46,12 +46,12 @@ public class ChargesTest extends EstatioIntegrationTest {
         }
 
         @Inject
-        private Charges charges;
+        private ChargeRepository chargeRepository;
 
         @Test
         public void whenExists() throws Exception {
             // when
-            final Charge charge = charges.findByReference(ChargeRefData.IT_RENT);
+            final Charge charge = chargeRepository.findByReference(ChargeRefData.IT_RENT);
             // then
             Assert.assertEquals(charge.getReference(), ChargeRefData.IT_RENT);
         }
@@ -67,19 +67,19 @@ public class ChargesTest extends EstatioIntegrationTest {
         }
 
         @Inject
-        private Charges charges;
+        private ChargeRepository chargeRepository;
 
         @Before
         public void setUp() throws Exception {
 
             gbCharges = Lists.newArrayList(
-                    charges.findByReference(ChargeRefData.GB_DISCOUNT),
-                    charges.findByReference(ChargeRefData.GB_SERVICE_CHARGE),
-                    charges.findByReference(ChargeRefData.GB_RENT),
-                    charges.findByReference(ChargeRefData.GB_ENTRY_FEE),
-                    charges.findByReference(ChargeRefData.GB_SERVICE_CHARGE_INDEXABLE),
-                    charges.findByReference(ChargeRefData.GB_TAX),
-                    charges.findByReference(ChargeRefData.GB_TURNOVER_RENT));
+                    chargeRepository.findByReference(ChargeRefData.GB_DISCOUNT),
+                    chargeRepository.findByReference(ChargeRefData.GB_SERVICE_CHARGE),
+                    chargeRepository.findByReference(ChargeRefData.GB_RENT),
+                    chargeRepository.findByReference(ChargeRefData.GB_ENTRY_FEE),
+                    chargeRepository.findByReference(ChargeRefData.GB_SERVICE_CHARGE_INDEXABLE),
+                    chargeRepository.findByReference(ChargeRefData.GB_TAX),
+                    chargeRepository.findByReference(ChargeRefData.GB_TURNOVER_RENT));
 
         }
 
@@ -90,13 +90,13 @@ public class ChargesTest extends EstatioIntegrationTest {
             expectedExceptions.expect(IllegalArgumentException.class);
 
             // when
-            charges.chargesForCountry("/");
+            chargeRepository.chargesForCountry("/");
         }
 
         @Test
         public void forCountry() throws Exception {
             // when
-            final List<Charge> chargeList = charges.chargesForCountry("/"+CountriesRefData.GBR);
+            final List<Charge> chargeList = chargeRepository.chargesForCountry("/"+CountriesRefData.GBR);
 
             // then
             Assertions.assertThat(chargeList).containsOnly(gbCharges.toArray(new Charge[gbCharges.size()]));
@@ -105,7 +105,7 @@ public class ChargesTest extends EstatioIntegrationTest {
         @Test
         public void forProperty() throws Exception {
             // when
-            final List<Charge> chargeList = charges.chargesForCountry("/"+CountriesRefData.GBR+"/OXF");
+            final List<Charge> chargeList = chargeRepository.chargesForCountry("/"+CountriesRefData.GBR+"/OXF");
 
             // then
             Assertions.assertThat(chargeList).containsOnly(gbCharges.toArray(new Charge[gbCharges.size()]));
@@ -114,7 +114,7 @@ public class ChargesTest extends EstatioIntegrationTest {
         @Test
         public void forLocal() throws Exception {
             // when
-            final List<Charge> chargeList = charges.chargesForCountry("/"+CountriesRefData.GBR+"/OXF/ta");
+            final List<Charge> chargeList = chargeRepository.chargesForCountry("/"+CountriesRefData.GBR+"/OXF/ta");
 
             // then
             Assertions.assertThat(chargeList).containsOnly(gbCharges.toArray(new Charge[gbCharges.size()]));

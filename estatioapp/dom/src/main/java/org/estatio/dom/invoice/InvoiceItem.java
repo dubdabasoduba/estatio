@@ -56,7 +56,7 @@ import org.estatio.dom.WithDescriptionGetter;
 import org.estatio.dom.WithInterval;
 import org.estatio.dom.apptenancy.WithApplicationTenancyPropertyLocal;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.lease.LeaseConstants;
 import org.estatio.dom.tax.Tax;
 import org.estatio.dom.valuetypes.LocalDateInterval;
@@ -158,7 +158,7 @@ public abstract class InvoiceItem
     }
 
     public List<Charge> choicesCharge() {
-        return charges.allCharges();
+        return chargeRepository.allCharges();
     }
 
     // //////////////////////////////////////
@@ -438,10 +438,10 @@ public abstract class InvoiceItem
 
     // //////////////////////////////////////
 
-    private Charges charges;
+    private ChargeRepository chargeRepository;
 
-    public final void injectCharges(final Charges charges) {
-        this.charges = charges;
+    public final void injectCharges(final ChargeRepository chargeRepository) {
+        this.chargeRepository = chargeRepository;
     }
 
     @Override public ApplicationTenancy getApplicationTenancy() {

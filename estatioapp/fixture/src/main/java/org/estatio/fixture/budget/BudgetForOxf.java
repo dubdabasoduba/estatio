@@ -29,7 +29,7 @@ import org.estatio.dom.budget.BudgetCostGroup;
 import org.estatio.dom.budget.BudgetKeyTable;
 import org.estatio.dom.budget.BudgetKeyTableRepository;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.currency.Currencies;
 import org.estatio.dom.currency.Currency;
 import org.estatio.fixture.asset.PropertyForOxfGb;
@@ -57,7 +57,7 @@ public class BudgetForOxf extends BudgetAbstact {
         BudgetKeyTable budgetKeyTable = budgetKeyTableRepository.findBudgetKeyTableByName(BudgetKeyTablesForOxf.NAME);
         final BigDecimal VALUE = new BigDecimal(30000);
         final Currency currency = currencies.findCurrency(CurrenciesRefData.EUR);
-        final Charge charge = charges.findByReference(ChargeRefData.IT_SERVICE_CHARGE);
+        final Charge charge = chargeRepository.findByReference(ChargeRefData.IT_SERVICE_CHARGE);
         final BudgetCostGroup budgetCostGroup = BudgetCostGroup.VIGILANZA;
 
         Budget newBudget = createBudget(
@@ -79,6 +79,6 @@ public class BudgetForOxf extends BudgetAbstact {
     Currencies currencies;
 
     @Inject
-    Charges charges;
+    ChargeRepository chargeRepository;
 
 }

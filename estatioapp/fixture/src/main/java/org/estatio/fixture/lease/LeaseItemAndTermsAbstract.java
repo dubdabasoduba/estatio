@@ -27,7 +27,7 @@ import org.joda.time.LocalDate;
 
 import org.estatio.dom.apptenancy.ApplicationTenancyRepository;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.index.Indices;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.InvoicingFrequency;
@@ -67,7 +67,7 @@ public abstract class LeaseItemAndTermsAbstract extends EstatioFixtureScript {
             throw new IllegalStateException("Lease '" + leaseRef + "' has an app tenancy '" + leaseApplicationTenancy.getName() + "' whose parent is not at the country level");
         }
 
-        final Charge charge = charges.findByReference(chargeReference);
+        final Charge charge = chargeRepository.findByReference(chargeReference);
         return findOrCreateLeaseItem(leaseRef, leaseItemAtPath, charge, leaseItemType, invoicingFrequency, executionContext);
     }
 
@@ -332,7 +332,7 @@ public abstract class LeaseItemAndTermsAbstract extends EstatioFixtureScript {
     protected LeaseTerms leaseTerms;
 
     @Inject
-    protected Charges charges;
+    protected ChargeRepository chargeRepository;
 
     @Inject
     protected ApplicationTenancies applicationTenancies;

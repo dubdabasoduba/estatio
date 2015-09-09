@@ -15,7 +15,7 @@ import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.budget.Budget;
 import org.estatio.dom.budget.BudgetRepository;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.charge.Charges;
+import org.estatio.dom.charge.ChargeRepository;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseItemType;
 import org.estatio.dom.lease.LeaseTermForServiceCharge;
@@ -59,7 +59,7 @@ public class BudgetTest extends EstatioIntegrationTest {
         Leases leases;
 
         @Inject
-        Charges charges;
+        ChargeRepository chargeRepository;
 
         @Inject
         PropertyRepository propertyRepository;
@@ -79,7 +79,7 @@ public class BudgetTest extends EstatioIntegrationTest {
             final Property property = propertyRepository.findPropertyByReference(PropertyForOxfGb.REF);
             final Budget budget = budgetRepository.findBudgetByProperty(property).get(0);
             leaseForMediax = leases.findLeaseByReference(LeaseForOxfMediaX002Gb.REF);
-            charge = charges.findByReference(ChargeRefData.IT_SERVICE_CHARGE);
+            charge = chargeRepository.findByReference(ChargeRefData.IT_SERVICE_CHARGE);
 
             // When no budget is allocated
             // Then
