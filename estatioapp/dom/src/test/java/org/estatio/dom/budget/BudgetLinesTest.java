@@ -43,11 +43,11 @@ public class BudgetLinesTest {
 
     FinderInteraction finderInteraction;
 
-    BudgetLines budgetLines;
+    BudgetLineRepository budgetLineRepository;
 
     @Before
     public void setup() {
-        budgetLines = new BudgetLines() {
+        budgetLineRepository = new BudgetLineRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -75,7 +75,7 @@ public class BudgetLinesTest {
         public void happyCase() {
 
             BudgetItem budgetItem = new BudgetItemForTesting();
-            budgetLines.findByBudgetItem(budgetItem);
+            budgetLineRepository.findByBudgetItem(budgetItem);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetLine.class));
@@ -94,12 +94,12 @@ public class BudgetLinesTest {
         @Mock
         private DomainObjectContainer mockContainer;
 
-        BudgetLines budgetLines1;
+        BudgetLineRepository budgetLineRepository1;
 
         @Before
         public void setup() {
-            budgetLines1 = new BudgetLines();
-            budgetLines1.setContainer(mockContainer);
+            budgetLineRepository1 = new BudgetLineRepository();
+            budgetLineRepository1.setContainer(mockContainer);
         }
 
         @Test
@@ -123,7 +123,7 @@ public class BudgetLinesTest {
             });
 
             //when
-            BudgetLine newBudgetLine = budgetLines1.newBudgetLine(value, budgetItem, budgetKeyItem);
+            BudgetLine newBudgetLine = budgetLineRepository1.newBudgetLine(value, budgetItem, budgetKeyItem);
 
             //then
             assertThat(newBudgetLine.getValue(), is(value));

@@ -21,27 +21,20 @@ package org.estatio.dom.budget;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.annotation.NatureOfService;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(repositoryFor = BudgetLine.class)
-@DomainServiceLayout(menuBar = DomainServiceLayout.MenuBar.PRIMARY, named = "Budgets")
-public class BudgetLines extends UdoDomainRepositoryAndFactory<BudgetLine> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = BudgetLine.class)
+public class BudgetLineRepository extends UdoDomainRepositoryAndFactory<BudgetLine> {
 
-    public BudgetLines() {
-        super(BudgetLines.class, BudgetLine.class);
+    public BudgetLineRepository() {
+        super(BudgetLineRepository.class, BudgetLine.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public BudgetLine newBudgetLine(
             final BigDecimal value,
             final BudgetItem budgetItem,
@@ -58,15 +51,12 @@ public class BudgetLines extends UdoDomainRepositoryAndFactory<BudgetLine> {
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @ActionLayout()
     public List<BudgetLine> allBudgetLines() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public List<BudgetLine> findByBudgetItem(final BudgetItem budgetItem) {
         return allMatches("findByBudgetItem", "budgetItem", budgetItem);
     }

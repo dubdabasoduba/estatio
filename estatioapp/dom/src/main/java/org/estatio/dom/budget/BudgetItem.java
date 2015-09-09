@@ -243,7 +243,7 @@ public class BudgetItem extends EstatioDomainObject<BudgetItem> implements WithA
 
     public BudgetItem generateBudgetLines(@ParameterLayout(named = "Are you sure? All existing lines will be deleted.") final boolean confirmDelete) {
 
-        for (BudgetLine budgetLine : budgetLines.findByBudgetItem(this)) {
+        for (BudgetLine budgetLine : budgetLineRepository.findByBudgetItem(this)) {
             budgetLine.deleteBudgetLine();
         }
 
@@ -294,7 +294,7 @@ public class BudgetItem extends EstatioDomainObject<BudgetItem> implements WithA
     private BudgetCalculationServices budgetCalculationServices;
 
     @Inject
-    BudgetLines budgetLines;
+    BudgetLineRepository budgetLineRepository;
 
     @Inject
     OccupancyContributions occupancies;

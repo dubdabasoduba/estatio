@@ -38,11 +38,11 @@ public class BudgetLineContributions {
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     @CollectionLayout(render = RenderType.EAGERLY)
     public List<BudgetLine> budgetLines(BudgetItem budgetItem) {
-        return budgetLines.findByBudgetItem(budgetItem);
+        return budgetLineRepository.findByBudgetItem(budgetItem);
     }
 
     @Inject
-    private BudgetLines budgetLines;
+    private BudgetLineRepository budgetLineRepository;
 
     // //////////////////////////////////////
 

@@ -241,7 +241,7 @@ public class Budget extends EstatioDomainObject<Budget> implements WithIntervalM
         //1st pass: generate leaseTerms (if needed) and set budgeted value = BigDecimal.ZERO
         for (BudgetItem budgetItem : getBudgetItems()) {
 
-            for (BudgetLine budgetLine : budgetLines.findByBudgetItem(budgetItem)) {
+            for (BudgetLine budgetLine : budgetLineRepository.findByBudgetItem(budgetItem)) {
 
                 if (occupancyContributionsForBudgets.occupancies(budgetLine.getBudgetKeyItem()).size() > 0) {
                     Occupancy occupancy = occupancyContributionsForBudgets.occupancies(budgetLine.getBudgetKeyItem()).get(0);
@@ -258,7 +258,7 @@ public class Budget extends EstatioDomainObject<Budget> implements WithIntervalM
         //2nd pass: allocate budgetedValue
         for (BudgetItem budgetItem : getBudgetItems()) {
 
-            for (BudgetLine budgetLine : budgetLines.findByBudgetItem(budgetItem)) {
+            for (BudgetLine budgetLine : budgetLineRepository.findByBudgetItem(budgetItem)) {
 
                 if (occupancyContributionsForBudgets.occupancies(budgetLine.getBudgetKeyItem()).size() > 0) {
                     Occupancy occupancy = occupancyContributionsForBudgets.occupancies(budgetLine.getBudgetKeyItem()).get(0);
@@ -283,7 +283,7 @@ public class Budget extends EstatioDomainObject<Budget> implements WithIntervalM
     }
 
     @Inject
-    private BudgetLines budgetLines;
+    private BudgetLineRepository budgetLineRepository;
 
     @Inject
     private LeaseItems leaseItems;
