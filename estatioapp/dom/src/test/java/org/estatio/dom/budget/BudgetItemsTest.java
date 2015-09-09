@@ -37,11 +37,11 @@ public class BudgetItemsTest {
 
     FinderInteraction finderInteraction;
 
-    BudgetItems budgetItems;
+    BudgetItemRepository budgetItemRepository;
 
     @Before
     public void setup() {
-        budgetItems = new BudgetItems() {
+        budgetItemRepository = new BudgetItemRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -69,7 +69,7 @@ public class BudgetItemsTest {
         public void happyCase() {
 
             Budget budget = new BudgetForTesting();
-            budgetItems.findBudgetItemByBudget(budget);
+            budgetItemRepository.findBudgetItemByBudget(budget);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetItem.class));

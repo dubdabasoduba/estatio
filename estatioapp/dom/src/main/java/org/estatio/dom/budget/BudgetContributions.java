@@ -51,7 +51,7 @@ public class BudgetContributions {
             final BigDecimal value,
             final Charge charge,
             final BudgetCostGroup budgetCostGroup) {
-        return budgetItems.newBudgetItem(budget, budgetKeyTable, value, charge, budgetCostGroup);
+        return budgetItemRepository.newBudgetItem(budget, budgetKeyTable, value, charge, budgetCostGroup);
     }
 
     public String validateNewBudgetItem(
@@ -121,7 +121,7 @@ public class BudgetContributions {
     private BudgetCalculationServices budgetCalculationServices;
 
     @Inject
-    private BudgetItems budgetItems;
+    private BudgetItemRepository budgetItemRepository;
 
     @Inject
     private BudgetKeyTables budgetKeyTables;

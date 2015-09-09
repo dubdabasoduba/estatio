@@ -23,29 +23,22 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.annotation.NatureOfService;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.currency.Currencies;
 
-@DomainService(repositoryFor = BudgetItem.class)
-@DomainServiceLayout(menuBar = DomainServiceLayout.MenuBar.PRIMARY, named = "Budgets")
-public class BudgetItems extends UdoDomainRepositoryAndFactory<BudgetItem> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = BudgetItem.class)
+public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetItem> {
 
-    public BudgetItems() {
-        super(BudgetItems.class, BudgetItem.class);
+    public BudgetItemRepository() {
+        super(BudgetItemRepository.class, BudgetItem.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public BudgetItem newBudgetItem(
             final Budget budget,
             final BudgetKeyTable budgetKeyTable,
@@ -92,15 +85,12 @@ public class BudgetItems extends UdoDomainRepositoryAndFactory<BudgetItem> {
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @ActionLayout()
     public List<BudgetItem> allBudgetItems() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public List<BudgetItem> findBudgetItemByBudget(final Budget budget) {
         return allMatches("findBudgetItemByBudget", "budget", budget);
     }

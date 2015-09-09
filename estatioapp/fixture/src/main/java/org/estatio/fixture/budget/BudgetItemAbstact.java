@@ -25,7 +25,7 @@ import org.estatio.dom.asset.PropertyMenu;
 import org.estatio.dom.budget.Budget;
 import org.estatio.dom.budget.BudgetCostGroup;
 import org.estatio.dom.budget.BudgetItem;
-import org.estatio.dom.budget.BudgetItems;
+import org.estatio.dom.budget.BudgetItemRepository;
 import org.estatio.dom.budget.BudgetKeyTable;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.currency.Currency;
@@ -46,7 +46,7 @@ public abstract class BudgetItemAbstact extends EstatioFixtureScript {
             final BudgetCostGroup budgetCostGroup,
             final ExecutionContext fixtureResults
     ){
-        BudgetItem budgetItem = budgetItems.newBudgetItem(
+        BudgetItem budgetItem = budgetItemRepository.newBudgetItem(
                 budget,
                 budgetKeyTable,
                 value,
@@ -57,7 +57,7 @@ public abstract class BudgetItemAbstact extends EstatioFixtureScript {
     }
 
     @Inject
-    protected BudgetItems budgetItems;
+    protected BudgetItemRepository budgetItemRepository;
 
     @Inject
     protected PropertyMenu propertyMenu;

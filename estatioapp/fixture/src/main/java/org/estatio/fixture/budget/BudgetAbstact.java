@@ -28,7 +28,7 @@ import org.estatio.dom.asset.Property;
 import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.budget.Budget;
 import org.estatio.dom.budget.BudgetCostGroup;
-import org.estatio.dom.budget.BudgetItems;
+import org.estatio.dom.budget.BudgetItemRepository;
 import org.estatio.dom.budget.BudgetKeyTable;
 import org.estatio.dom.budget.BudgetRepository;
 import org.estatio.dom.charge.Charge;
@@ -63,14 +63,14 @@ public abstract class BudgetAbstact extends EstatioFixtureScript {
             final Charge charge,
             final BudgetCostGroup budgetCostGroup
     ){
-        budgetItems.newBudgetItem(budget, budgetKeyTable, value, charge, budgetCostGroup);
+        budgetItemRepository.newBudgetItem(budget, budgetKeyTable, value, charge, budgetCostGroup);
     }
 
     @Inject
     protected BudgetRepository budgetRepository;
 
     @Inject
-    protected BudgetItems budgetItems;
+    protected BudgetItemRepository budgetItemRepository;
 
     @Inject
     PropertyRepository propertyRepository;
