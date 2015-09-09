@@ -26,7 +26,6 @@ import org.apache.isis.applib.query.Query;
 import org.apache.isis.core.commons.matchers.IsisMatchers;
 
 import org.estatio.dom.FinderInteraction;
-import org.estatio.dom.asset.Property;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -34,15 +33,15 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by jodo on 30/04/15.
  */
-public class BudgetKeytablesTest {
+public class BudgetItemRepositoryTest {
 
     FinderInteraction finderInteraction;
 
-    BudgetKeyTableRepository budgetKeyTableRepository;
+    BudgetItemRepository budgetItemRepository;
 
     @Before
     public void setup() {
-        budgetKeyTableRepository = new BudgetKeyTableRepository() {
+        budgetItemRepository = new BudgetItemRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -51,7 +50,7 @@ public class BudgetKeytablesTest {
             }
 
             @Override
-            protected List<BudgetKeyTable> allInstances() {
+            protected List<BudgetItem> allInstances() {
                 finderInteraction = new FinderInteraction(null, FinderInteraction.FinderMethod.ALL_INSTANCES);
                 return null;
             }
@@ -64,30 +63,18 @@ public class BudgetKeytablesTest {
         };
     }
 
-    public static class findBudgetKeyTableByName extends BudgetKeytablesTest {
+    public static class findBudgetItemByBudget extends BudgetItemRepositoryTest {
 
         @Test
         public void happyCase() {
 
-            budgetKeyTableRepository.findBudgetKeyTableByName("name");
-
-            assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.FIRST_MATCH));
-            assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetKeyTable.class));
-            assertThat(finderInteraction.getQueryName(), is("findBudgetKeyTableByName"));
-            assertThat(finderInteraction.getArgumentsByParameterName().get("name"), is((Object) "name"));
-            assertThat(finderInteraction.getArgumentsByParameterName().size(), is(1));
-        }
-
-        @Test
-         public void anotherHappyCase() {
-
-            Property property = new PropertyForTesting();
-            budgetKeyTableRepository.findBudgetKeyTableByProperty(property);
+            Budget budget = new BudgetForTesting();
+            budgetItemRepository.findBudgetItemByBudget(budget);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.ALL_MATCHES));
-            assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetKeyTable.class));
-            assertThat(finderInteraction.getQueryName(), is("findByProperty"));
-            assertThat(finderInteraction.getArgumentsByParameterName().get("property"), is((Object) property));
+            assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetItem.class));
+            assertThat(finderInteraction.getQueryName(), is("findBudgetItemByBudget"));
+            assertThat(finderInteraction.getArgumentsByParameterName().get("budget"), is((Object) budget));
             assertThat(finderInteraction.getArgumentsByParameterName().size(), is(1));
         }
 

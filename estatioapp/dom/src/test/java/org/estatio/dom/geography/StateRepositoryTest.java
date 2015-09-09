@@ -29,7 +29,7 @@ import org.estatio.dom.FinderInteraction.FinderMethod;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class StatesTest {
+public class StateRepositoryTest {
 
     FinderInteraction finderInteraction;
 
@@ -62,7 +62,7 @@ public class StatesTest {
         };
     }
 
-    public static class FindStateByReference extends StatesTest {
+    public static class FindStateByReference extends StateRepositoryTest {
 
         @Test
         public void happyCase() {
@@ -77,7 +77,7 @@ public class StatesTest {
         }
     }
 
-    public static class FindStatesByCountry extends StatesTest {
+    public static class FindStatesByCountry extends StateRepositoryTest {
 
         @Test
         public void happyCase() {
@@ -93,7 +93,7 @@ public class StatesTest {
 
     }
 
-    public static class AllStates extends StatesTest {
+    public static class AllStates extends StateRepositoryTest {
 
         @Test
         public void happyCase() {

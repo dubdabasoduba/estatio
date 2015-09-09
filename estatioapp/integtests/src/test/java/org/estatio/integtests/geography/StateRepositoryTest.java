@@ -34,7 +34,7 @@ import org.estatio.dom.geography.StateRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.integtests.EstatioIntegrationTest;
 
-public class StatesTest extends EstatioIntegrationTest {
+public class StateRepositoryTest extends EstatioIntegrationTest {
 
     @Before
     public void setupData() {
@@ -51,7 +51,7 @@ public class StatesTest extends EstatioIntegrationTest {
 
     StateRepository stateRepository;
 
-    public static class FindStatesByCountry extends StatesTest {
+    public static class FindStatesByCountry extends StateRepositoryTest {
 
         @Test
         public void whenCountryWithStates() throws Exception {
@@ -67,7 +67,7 @@ public class StatesTest extends EstatioIntegrationTest {
         }
     }
 
-    public static class FindState extends StatesTest {
+    public static class FindState extends StateRepositoryTest {
 
         @Test
         public void findState() throws Exception {

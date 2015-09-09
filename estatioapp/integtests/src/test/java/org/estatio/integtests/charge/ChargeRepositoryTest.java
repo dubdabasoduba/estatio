@@ -36,9 +36,9 @@ import org.estatio.fixture.charge.ChargeRefData;
 import org.estatio.fixture.geography.CountriesRefData;
 import org.estatio.integtests.EstatioIntegrationTest;
 
-public class ChargesTest extends EstatioIntegrationTest {
+public class ChargeRepositoryTest extends EstatioIntegrationTest {
 
-    public static class FindCharge extends ChargesTest {
+    public static class FindCharge extends ChargeRepositoryTest {
 
         @Before
         public void setupData() {
@@ -57,7 +57,7 @@ public class ChargesTest extends EstatioIntegrationTest {
         }
     }
 
-    public static class ChargesForCountry extends ChargesTest {
+    public static class ChargesForCountry extends ChargeRepositoryTest {
 
         private List<Charge> gbCharges;
 

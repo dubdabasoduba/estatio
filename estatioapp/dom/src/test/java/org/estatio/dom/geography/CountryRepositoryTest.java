@@ -16,46 +16,40 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.estatio.dom.charge;
+package org.estatio.dom.geography;
 
 import java.util.List;
-import org.jmock.Expectations;
-import org.jmock.auto.Mock;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.apache.isis.applib.DomainObjectContainer;
 import org.apache.isis.applib.query.Query;
-import org.apache.isis.core.commons.matchers.IsisMatchers;
-import org.apache.isis.core.unittestsupport.jmocking.JUnitRuleMockery2;
+import org.estatio.IsisMatchers;
 import org.estatio.dom.FinderInteraction;
 import org.estatio.dom.FinderInteraction.FinderMethod;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ChargeGroupsTest {
+public class CountryRepositoryTest {
 
     FinderInteraction finderInteraction;
 
-    ChargeGroupRepository chargeGroupRepository;
+    CountryRepository countryRepository;
 
     @Before
     public void setup() {
-        chargeGroupRepository = new ChargeGroupRepository() {
+        
+        countryRepository = new CountryRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
                 finderInteraction = new FinderInteraction(query, FinderMethod.FIRST_MATCH);
                 return null;
             }
-
             @Override
-            protected List<ChargeGroup> allInstances() {
+            protected List<Country> allInstances() {
                 finderInteraction = new FinderInteraction(null, FinderMethod.ALL_INSTANCES);
                 return null;
             }
-
             @Override
             protected <T> List<T> allMatches(Query<T> query) {
                 finderInteraction = new FinderInteraction(query, FinderMethod.ALL_MATCHES);
@@ -64,64 +58,29 @@ public class ChargeGroupsTest {
         };
     }
 
-    public static class FindByReference extends ChargeGroupsTest {
+    public static class FindCountryByReference extends CountryRepositoryTest {
 
         @Test
         public void happyCase() {
 
-            chargeGroupRepository.findChargeGroup("*REF?1*");
+            countryRepository.findCountry("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
-            assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(ChargeGroup.class));
+            assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(Country.class));
             assertThat(finderInteraction.getQueryName(), is("findByReference"));
             assertThat(finderInteraction.getArgumentsByParameterName().get("reference"), is((Object) "*REF?1*"));
             assertThat(finderInteraction.getArgumentsByParameterName().size(), is(1));
         }
-
     }
 
-    public static class AllChargeGroups extends ChargeGroupsTest {
+    public static class AllCountries extends CountryRepositoryTest {
 
         @Test
         public void happyCase() {
 
-            chargeGroupRepository.allChargeGroups();
+            countryRepository.allCountries();
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_INSTANCES));
-        }
-
-    }
-
-    public static class NewChargeGroup extends ChargeGroupsTest {
-
-        @Rule
-        public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(JUnitRuleMockery2.Mode.INTERFACES_AND_CLASSES);
-
-        @Mock
-        private DomainObjectContainer mockContainer;
-
-        @Before
-        public void setup() {
-            chargeGroupRepository = new ChargeGroupRepository();
-            chargeGroupRepository.setContainer(mockContainer);
-        }
-
-        @Test
-        public void newChargeGroup() {
-            final ChargeGroup chargeGroup = new ChargeGroup();
-
-            context.checking(new Expectations() {
-                {
-                    oneOf(mockContainer).newTransientInstance(ChargeGroup.class);
-                    will(returnValue(chargeGroup));
-
-                    oneOf(mockContainer).persist(chargeGroup);
-                }
-            });
-
-            final ChargeGroup newChargeGroup = chargeGroupRepository.createChargeGroup("REF-1", "desc-1");
-            assertThat(newChargeGroup.getReference(), is("REF-1"));
-            assertThat(newChargeGroup.getName(), is("desc-1"));
         }
 
     }

@@ -41,7 +41,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by jodo on 30/04/15.
  */
-public class BudgetsTest {
+public class BudgetRepositoryTest {
 
     FinderInteraction finderInteraction;
 
@@ -71,7 +71,7 @@ public class BudgetsTest {
         };
     }
 
-    public static class findByProperty extends BudgetsTest {
+    public static class findByProperty extends BudgetRepositoryTest {
 
         @Test
         public void happyCase() {
@@ -88,7 +88,7 @@ public class BudgetsTest {
 
     }
 
-    public static class NewBudget extends BudgetsTest {
+    public static class NewBudget extends BudgetRepositoryTest {
 
         @Rule
         public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(JUnitRuleMockery2.Mode.INTERFACES_AND_CLASSES);

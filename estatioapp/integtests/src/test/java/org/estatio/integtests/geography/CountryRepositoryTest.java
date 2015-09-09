@@ -30,8 +30,8 @@ import org.estatio.integtests.EstatioIntegrationTest;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class CountriesTest extends EstatioIntegrationTest {
-    public static class FindCountryByReference extends CountriesTest {
+public class CountryRepositoryTest extends EstatioIntegrationTest {
+    public static class FindCountryByReference extends CountryRepositoryTest {
 
         @Before
         public void setupData() {

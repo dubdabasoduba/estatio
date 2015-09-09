@@ -39,7 +39,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by jodo on 30/04/15.
  */
-public class BudgetLinesTest {
+public class BudgetLineRepositoryTest {
 
     FinderInteraction finderInteraction;
 
@@ -69,7 +69,7 @@ public class BudgetLinesTest {
         };
     }
 
-    public static class findByProperty extends BudgetLinesTest {
+    public static class findByProperty extends BudgetLineRepositoryTest {
 
         @Test
         public void happyCase() {
@@ -86,7 +86,7 @@ public class BudgetLinesTest {
 
     }
 
-    public static class NewBudgetLine extends BudgetLinesTest {
+    public static class NewBudgetLine extends BudgetLineRepositoryTest {
 
         @Rule
         public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(JUnitRuleMockery2.Mode.INTERFACES_AND_CLASSES);
@@ -112,7 +112,7 @@ public class BudgetLinesTest {
             final BudgetLine budgetLine = new BudgetLine();
 
             // expect
-            context.checking(new Expectations(){
+            context.checking(new Expectations() {
                 {
                     oneOf(mockContainer).newTransientInstance(BudgetLine.class);
                     will(returnValue(budgetLine));
@@ -130,7 +130,6 @@ public class BudgetLinesTest {
             assertThat(newBudgetLine.getBudgetItem(), is(budgetItem));
             assertThat(newBudgetLine.getBudgetKeyItem(), is(budgetKeyItem));
         }
-
 
     }
 

@@ -28,9 +28,9 @@ import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.charge.ChargeGroupRefData;
 import org.estatio.integtests.EstatioIntegrationTest;
 
-public class ChargeGroupsTest extends EstatioIntegrationTest {
+public class ChargeGroupRepositoryTest extends EstatioIntegrationTest {
 
-    public static class FindChargeGroup extends ChargeGroupsTest {
+    public static class FindChargeGroup extends ChargeGroupRepositoryTest {
 
         @Before
         public void setupData() {

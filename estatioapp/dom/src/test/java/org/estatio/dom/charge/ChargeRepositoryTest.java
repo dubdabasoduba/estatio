@@ -36,7 +36,7 @@ import org.estatio.dom.tax.Tax;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-public class ChargesTest {
+public class ChargeRepositoryTest {
 
     FinderInteraction finderInteraction;
 
@@ -67,7 +67,7 @@ public class ChargesTest {
     }
 
 
-    public static class FindByAtPathAndReference extends ChargesTest {
+    public static class FindByAtPathAndReference extends ChargeRepositoryTest {
 
 
         @Test
@@ -85,7 +85,7 @@ public class ChargesTest {
     }
 
 
-    public static class AllChargeGroups extends ChargesTest {
+    public static class AllChargeGroups extends ChargeRepositoryTest {
 
         @Test
         public void happyCase() {
@@ -97,7 +97,7 @@ public class ChargesTest {
 
     }
 
-    public static class NewCharge extends ChargesTest {
+    public static class NewCharge extends ChargeRepositoryTest {
 
         @Rule
         public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(JUnitRuleMockery2.Mode.INTERFACES_AND_CLASSES);
