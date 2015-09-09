@@ -45,11 +45,11 @@ public class BudgetsTest {
 
     FinderInteraction finderInteraction;
 
-    Budgets budgets;
+    BudgetRepository budgetRepository;
 
     @Before
     public void setup() {
-        budgets = new Budgets() {
+        budgetRepository = new BudgetRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -77,7 +77,7 @@ public class BudgetsTest {
         public void happyCase() {
 
             Property property = new PropertyForTesting();
-            budgets.findBudgetByProperty(property);
+            budgetRepository.findBudgetByProperty(property);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(Budget.class));
@@ -96,17 +96,17 @@ public class BudgetsTest {
         @Mock
         private DomainObjectContainer mockContainer;
 
-        Budgets budgets;
+        BudgetRepository budgetRepository;
 
         @Before
         public void setup() {
-            budgets = new Budgets(){
+            budgetRepository = new BudgetRepository(){
                 @Override
                 public List<Budget> findBudgetByProperty(final Property property) {
                     return Arrays.asList(new Budget(new LocalDate(2011, 1, 1), new LocalDate(2012, 1, 1)));
                 }
             };
-            budgets.setContainer(mockContainer);
+            budgetRepository.setContainer(mockContainer);
         }
 
         @Test
@@ -129,7 +129,7 @@ public class BudgetsTest {
             });
 
             //when
-            Budget newBudget = budgets.newBudget(property, startDate, endDate);
+            Budget newBudget = budgetRepository.newBudget(property, startDate, endDate);
 
             //then
             assertThat(newBudget.getProperty(), is(property));
@@ -141,7 +141,7 @@ public class BudgetsTest {
         @Test
         public void overlappingDates() {
 
-            assertThat(budgets.validateNewBudget(null, new LocalDate(2011,1,1), new LocalDate(2011,12,31)),
+            assertThat(budgetRepository.validateNewBudget(null, new LocalDate(2011,1,1), new LocalDate(2011,12,31)),
                     is("A new budget cannot overlap an existing budget."));
         }
 
@@ -154,7 +154,7 @@ public class BudgetsTest {
             LocalDate endDate = new LocalDate(2015,01,01);
 
             //when
-            String validateBudget = budgets.validateNewBudget(property, startDate, endDate);
+            String validateBudget = budgetRepository.validateNewBudget(property, startDate, endDate);
 
             //then
             assertThat(validateBudget, is("End date can not be before start date"));

@@ -30,7 +30,7 @@ import org.estatio.dom.budget.Budget;
 import org.estatio.dom.budget.BudgetCostGroup;
 import org.estatio.dom.budget.BudgetItems;
 import org.estatio.dom.budget.BudgetKeyTable;
-import org.estatio.dom.budget.Budgets;
+import org.estatio.dom.budget.BudgetRepository;
 import org.estatio.dom.charge.Charge;
 import org.estatio.fixture.EstatioFixtureScript;
 
@@ -50,7 +50,7 @@ public abstract class BudgetAbstact extends EstatioFixtureScript {
             final Charge charge,
             final BudgetCostGroup budgetCostGroup,
             final ExecutionContext fixtureResults){
-        Budget budget = budgets.newBudget(property, startDate, endDate);
+        Budget budget = budgetRepository.newBudget(property, startDate, endDate);
         createBudgetItem(budget, budgetKeyTable, value, charge, budgetCostGroup);
         return fixtureResults.addResult(this, budget);
     }
@@ -67,7 +67,7 @@ public abstract class BudgetAbstact extends EstatioFixtureScript {
     }
 
     @Inject
-    protected Budgets budgets;
+    protected BudgetRepository budgetRepository;
 
     @Inject
     protected BudgetItems budgetItems;

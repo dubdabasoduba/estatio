@@ -22,34 +22,26 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
+import org.apache.isis.applib.annotation.NatureOfService;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.asset.Property;
 import org.estatio.dom.valuetypes.LocalDateInterval;
 
-@DomainService(repositoryFor = Budget.class)
-@DomainServiceLayout(menuBar = DomainServiceLayout.MenuBar.PRIMARY, named = "Budgets")
-public class Budgets extends UdoDomainRepositoryAndFactory<Budget> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Budget.class)
+public class BudgetRepository extends UdoDomainRepositoryAndFactory<Budget> {
 
-    public Budgets() {
-        super(Budgets.class, Budget.class);
+    public BudgetRepository() {
+        super(BudgetRepository.class, Budget.class);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     public Budget newBudget(
-            final @ParameterLayout(named = "Property") Property property,
-            final @ParameterLayout(named = "Start Date") LocalDate startDate,
-            final @ParameterLayout(named = "End Date") LocalDate endDate) {
+            final Property property,
+            final LocalDate startDate,
+            final LocalDate endDate) {
         Budget budget = newTransientInstance();
         budget.setProperty(property);
         budget.setStartDate(startDate);
@@ -78,14 +70,14 @@ public class Budgets extends UdoDomainRepositoryAndFactory<Budget> {
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
     public List<Budget> allBudgets() {
         return allInstances();
     }
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(contributed = Contributed.AS_NEITHER)
-    public List<Budget> findBudgetByProperty(Property property){
+    // //////////////////////////////////////
+
+    public List<Budget> findBudgetByProperty(Property property) {
         return allMatches("findByProperty", "property", property);
-    };
+    }
+
 }

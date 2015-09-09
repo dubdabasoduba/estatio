@@ -74,7 +74,7 @@ import org.estatio.dom.valuetypes.LocalDateInterval;
                         "FROM org.estatio.dom.budget.Budget " +
                         "WHERE property == :property ")
 })
-@DomainObject(editing = Editing.DISABLED, autoCompleteRepository = Budgets.class)
+@DomainObject(editing = Editing.DISABLED, autoCompleteRepository = BudgetRepository.class)
 public class Budget extends EstatioDomainObject<Budget> implements WithIntervalMutable<Budget>, WithApplicationTenancyProperty {
 
     public Budget() {

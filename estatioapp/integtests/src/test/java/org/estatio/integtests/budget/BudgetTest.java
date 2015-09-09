@@ -3,7 +3,6 @@ package org.estatio.integtests.budget;
 import java.math.BigDecimal;
 
 import javax.inject.Inject;
-import javax.ws.rs.HEAD;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +13,7 @@ import org.estatio.dom.asset.Property;
 import org.estatio.dom.asset.PropertyMenu;
 import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.budget.Budget;
-import org.estatio.dom.budget.Budgets;
+import org.estatio.dom.budget.BudgetRepository;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.charge.Charges;
 import org.estatio.dom.lease.Lease;
@@ -68,7 +67,7 @@ public class BudgetTest extends EstatioIntegrationTest {
         PropertyMenu propertyMenu;
 
         @Inject
-        Budgets budgets;
+        BudgetRepository budgetRepository;
 
         Lease leaseForMediax = new Lease();
         Charge charge = new Charge();
@@ -78,7 +77,7 @@ public class BudgetTest extends EstatioIntegrationTest {
 
             // Given
             final Property property = propertyRepository.findPropertyByReference(PropertyForOxfGb.REF);
-            final Budget budget = budgets.findBudgetByProperty(property).get(0);
+            final Budget budget = budgetRepository.findBudgetByProperty(property).get(0);
             leaseForMediax = leases.findLeaseByReference(LeaseForOxfMediaX002Gb.REF);
             charge = charges.findByReference(ChargeRefData.IT_SERVICE_CHARGE);
 

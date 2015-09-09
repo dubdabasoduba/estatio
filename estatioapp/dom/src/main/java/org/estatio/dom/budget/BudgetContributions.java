@@ -82,7 +82,7 @@ public class BudgetContributions {
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     @CollectionLayout(render = RenderType.LAZILY)
     public List<Budget> budgets(Property property) {
-        return budgets.findBudgetByProperty(property);
+        return budgetRepository.findBudgetByProperty(property);
     }
 
 
@@ -112,7 +112,7 @@ public class BudgetContributions {
 //    }
 
     @Inject
-    private Budgets budgets;
+    private BudgetRepository budgetRepository;
 
     @Inject
     private Leases leases;
