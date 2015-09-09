@@ -38,10 +38,10 @@ public class BudgetKeyTableContributions {
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     @CollectionLayout(render = RenderType.LAZILY)
     public List<BudgetKeyTable> budgetKeyTables(Property property){
-        return budgetKeyTables.findBudgetKeyTableByProperty(property);
+        return budgetKeyTableRepository.findBudgetKeyTableByProperty(property);
     }
 
     @Inject
-    private BudgetKeyTables budgetKeyTables;
+    private BudgetKeyTableRepository budgetKeyTableRepository;
 
 }

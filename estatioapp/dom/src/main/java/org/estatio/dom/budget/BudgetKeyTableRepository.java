@@ -22,15 +22,10 @@ import com.google.inject.Inject;
 
 import org.joda.time.LocalDate;
 
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
 import org.apache.isis.applib.services.jdosupport.IsisJdoSupport;
 
@@ -38,15 +33,13 @@ import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.asset.Property;
 import org.estatio.dom.valuetypes.LocalDateInterval;
 
-@DomainService(repositoryFor = BudgetKeyTable.class)
-@DomainServiceLayout(menuBar = DomainServiceLayout.MenuBar.PRIMARY, named = "Budgets")
-public class BudgetKeyTables extends UdoDomainRepositoryAndFactory<BudgetKeyTable> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = BudgetKeyTable.class)
+public class BudgetKeyTableRepository extends UdoDomainRepositoryAndFactory<BudgetKeyTable> {
 
-    public BudgetKeyTables() {
-        super(BudgetKeyTables.class, BudgetKeyTable.class);
+    public BudgetKeyTableRepository() {
+        super(BudgetKeyTableRepository.class, BudgetKeyTable.class);
     }
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     public BudgetKeyTable newBudgetKeyTable(
             final @ParameterLayout(named = "Property") Property property,
             final @ParameterLayout(named = "Name") String name,
@@ -83,22 +76,18 @@ public class BudgetKeyTables extends UdoDomainRepositoryAndFactory<BudgetKeyTabl
         return null;
     }
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
     public List<BudgetKeyTable> allBudgetKeyTables() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @ActionLayout(contributed = Contributed.AS_NEITHER)
     public List<BudgetKeyTable> findBudgetKeyTableByProperty(Property property) {
         return allMatches("findByProperty", "property", property);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public BudgetKeyTable findBudgetKeyTableByName(final String name) {
         return firstMatch("findBudgetKeyTableByName", "name", name);
     }

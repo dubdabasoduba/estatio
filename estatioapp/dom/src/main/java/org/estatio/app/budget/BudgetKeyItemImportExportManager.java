@@ -41,7 +41,7 @@ import org.isisaddons.module.excel.dom.ExcelService;
 
 import org.estatio.app.EstatioViewModel;
 import org.estatio.dom.budget.BudgetKeyTable;
-import org.estatio.dom.budget.BudgetKeyTables;
+import org.estatio.dom.budget.BudgetKeyTableRepository;
 
 @DomainObject(
         nature = Nature.VIEW_MODEL
@@ -177,6 +177,6 @@ public class BudgetKeyItemImportExportManager extends EstatioViewModel {
     private BudgetKeyItemImportExportService budgetKeyItemImportExportService;
 
     @Inject
-    private BudgetKeyTables budgetKeyTables;
+    private BudgetKeyTableRepository budgetKeyTableRepository;
 
 }

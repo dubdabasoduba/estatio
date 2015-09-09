@@ -38,11 +38,11 @@ public class BudgetKeytablesTest {
 
     FinderInteraction finderInteraction;
 
-    BudgetKeyTables budgetKeyTables;
+    BudgetKeyTableRepository budgetKeyTableRepository;
 
     @Before
     public void setup() {
-        budgetKeyTables = new BudgetKeyTables() {
+        budgetKeyTableRepository = new BudgetKeyTableRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -69,7 +69,7 @@ public class BudgetKeytablesTest {
         @Test
         public void happyCase() {
 
-            budgetKeyTables.findBudgetKeyTableByName("name");
+            budgetKeyTableRepository.findBudgetKeyTableByName("name");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetKeyTable.class));
@@ -82,7 +82,7 @@ public class BudgetKeytablesTest {
          public void anotherHappyCase() {
 
             Property property = new PropertyForTesting();
-            budgetKeyTables.findBudgetKeyTableByProperty(property);
+            budgetKeyTableRepository.findBudgetKeyTableByProperty(property);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderInteraction.FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(BudgetKeyTable.class));

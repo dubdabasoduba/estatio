@@ -34,7 +34,7 @@ import org.estatio.dom.budget.BudgetFoundationValueType;
 import org.estatio.dom.budget.BudgetKeyItemContributions;
 import org.estatio.dom.budget.BudgetKeyItemRepository;
 import org.estatio.dom.budget.BudgetKeyTable;
-import org.estatio.dom.budget.BudgetKeyTables;
+import org.estatio.dom.budget.BudgetKeyTableRepository;
 import org.estatio.dom.budget.BudgetKeyValueMethod;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.budget.BudgetKeyTablesForOxf;
@@ -58,7 +58,7 @@ public class BudgetKeyTableTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    BudgetKeyTables tables;
+    BudgetKeyTableRepository tables;
 
     protected BudgetKeyTable budgetKeyTable =  new BudgetKeyTable();
 

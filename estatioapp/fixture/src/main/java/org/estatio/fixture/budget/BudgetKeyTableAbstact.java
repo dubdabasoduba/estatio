@@ -26,7 +26,7 @@ import org.estatio.dom.asset.Property;
 import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.budget.BudgetFoundationValueType;
 import org.estatio.dom.budget.BudgetKeyTable;
-import org.estatio.dom.budget.BudgetKeyTables;
+import org.estatio.dom.budget.BudgetKeyTableRepository;
 import org.estatio.dom.budget.BudgetKeyValueMethod;
 import org.estatio.fixture.EstatioFixtureScript;
 
@@ -44,13 +44,13 @@ public abstract class BudgetKeyTableAbstact extends EstatioFixtureScript {
             final BudgetKeyValueMethod budgetKeyValueMethod,
             final Integer numberOfDigits,
             final ExecutionContext fixtureResults){
-        BudgetKeyTable budgetKeyTable = budgetKeyTables.newBudgetKeyTable(property, name ,startDate, endDate, budgetFoundationValueType, budgetKeyValueMethod, numberOfDigits);
+        BudgetKeyTable budgetKeyTable = budgetKeyTableRepository.newBudgetKeyTable(property, name ,startDate, endDate, budgetFoundationValueType, budgetKeyValueMethod, numberOfDigits);
         budgetKeyTable.generateBudgetKeyItems(true);
         return fixtureResults.addResult(this, budgetKeyTable);
     }
 
     @Inject
-    protected BudgetKeyTables budgetKeyTables;
+    protected BudgetKeyTableRepository budgetKeyTableRepository;
 
     @Inject
     PropertyRepository propertyRepository;

@@ -73,7 +73,7 @@ public class BudgetContributions {
             final Charge charge,
             final BudgetCostGroup budgetCostGroup) {
 
-        return budgetKeyTables.findBudgetKeyTableByProperty(budget.getProperty());
+        return budgetKeyTableRepository.findBudgetKeyTableByProperty(budget.getProperty());
 
     }
 
@@ -124,6 +124,6 @@ public class BudgetContributions {
     private BudgetItemRepository budgetItemRepository;
 
     @Inject
-    private BudgetKeyTables budgetKeyTables;
+    private BudgetKeyTableRepository budgetKeyTableRepository;
 
 }

@@ -79,7 +79,7 @@ public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetIt
 //            final Charge charge,
 //            final BudgetCostGroup budgetCostGroup) {
 //
-//        return budgetKeyTables.findBudgetKeyTableByProperty(budget.getProperty());
+//        return budgetKeyTableRepository.findBudgetKeyTableByProperty(budget.getProperty());
 //
 //    }
 
@@ -96,7 +96,7 @@ public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetIt
     }
 
     @Inject
-    BudgetKeyTables budgetKeyTables;
+    BudgetKeyTableRepository budgetKeyTableRepository;
 
     @Inject
     Currencies currencies;

@@ -37,7 +37,7 @@ import org.estatio.dom.asset.UnitMenu;
 import org.estatio.dom.asset.UnitRepository;
 import org.estatio.dom.budget.BudgetKeyItem;
 import org.estatio.dom.budget.BudgetKeyItemRepository;
-import org.estatio.dom.budget.BudgetKeyTables;
+import org.estatio.dom.budget.BudgetKeyTableRepository;
 
 enum Status {
     NOT_FOUND,
@@ -158,15 +158,15 @@ public class BudgetKeyItemImportExportLineItem
     public BudgetKeyItem apply() {
         if (budgetKeyItem == null) {
             BudgetKeyItem budgetKeyItem = new BudgetKeyItem();
-            budgetKeyItem.setBudgetKeyTable(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()));
+            budgetKeyItem.setBudgetKeyTable(budgetKeyTableRepository.findBudgetKeyTableByName(getBudgetKeyTableName()));
             budgetKeyItem.setUnit(unitRepository.findUnitByReference(unitReference));
             budgetKeyItem.setValue(BigDecimal.ZERO);
             budgetKeyItem.setSourceValue(BigDecimal.ZERO);
             container.persistIfNotAlready(budgetKeyItem);
         }
-        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
-                .findUnitByReference(unitReference)).changeValue(this.getKeyValue().setScale(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()).getNumberOfDigits(), BigDecimal.ROUND_HALF_UP));
-        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
+        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTableRepository.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
+                .findUnitByReference(unitReference)).changeValue(this.getKeyValue().setScale(budgetKeyTableRepository.findBudgetKeyTableByName(getBudgetKeyTableName()).getNumberOfDigits(), BigDecimal.ROUND_HALF_UP));
+        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTableRepository.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
                 .findUnitByReference(unitReference)).setSourceValue(this.getSourceValue().setScale(2, BigDecimal.ROUND_HALF_UP));
         return budgetKeyItem;
     }
@@ -176,7 +176,7 @@ public class BudgetKeyItemImportExportLineItem
         Unit unit = unitRepository.findUnitByReference(unitReference);
         Status newStatus = Status.UNCHANGED;
         if (unit != null) {
-            BudgetKeyItem budgetKeyItem = budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unit);
+            BudgetKeyItem budgetKeyItem = budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTableRepository.findBudgetKeyTableByName(getBudgetKeyTableName()), unit);
             if (budgetKeyItem == null) {
                 newStatus = Status.ADDED;
             } else {
@@ -222,5 +222,5 @@ public class BudgetKeyItemImportExportLineItem
     private DomainObjectContainer container;
 
     @Inject
-    private BudgetKeyTables budgetKeyTables;
+    private BudgetKeyTableRepository budgetKeyTableRepository;
 }
