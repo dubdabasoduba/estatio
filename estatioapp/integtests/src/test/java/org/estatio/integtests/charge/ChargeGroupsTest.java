@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.estatio.dom.charge.ChargeGroup;
-import org.estatio.dom.charge.ChargeGroups;
+import org.estatio.dom.charge.ChargeGroupRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.charge.ChargeGroupRefData;
 import org.estatio.integtests.EstatioIntegrationTest;
@@ -38,11 +38,11 @@ public class ChargeGroupsTest extends EstatioIntegrationTest {
         }
 
         @Inject
-        private ChargeGroups chargeGroups;
+        private ChargeGroupRepository chargeGroupRepository;
 
         @Test
         public void whenExists() throws Exception {
-            ChargeGroup chargeGroup = chargeGroups.findChargeGroup(ChargeGroupRefData.REF_RENT);
+            ChargeGroup chargeGroup = chargeGroupRepository.findChargeGroup(ChargeGroupRefData.REF_RENT);
             assertNotNull(chargeGroup);
         }
 

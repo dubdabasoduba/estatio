@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright 2012-2014 Eurocommercial Properties NV
+ *  Copyright 2012-2015 Eurocommercial Properties NV
  *
  *
  *  Licensed under the Apache License, Version 2.0 (the
@@ -16,9 +16,12 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
+
 package org.estatio.dom.charge;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
@@ -26,22 +29,20 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
-import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.RegexValidation;
-import org.estatio.dom.utils.ValueUtils;
+import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
 @DomainService(repositoryFor = ChargeGroup.class)
 @DomainServiceLayout(
         named = "Other",
         menuBar = DomainServiceLayout.MenuBar.PRIMARY,
         menuOrder = "80.2")
-public class ChargeGroups extends UdoDomainRepositoryAndFactory<ChargeGroup> {
+public class ChargeGroupMenu extends UdoDomainRepositoryAndFactory<ChargeGroup> {
 
-    public ChargeGroups() {
-        super(ChargeGroups.class, ChargeGroup.class);
+    public ChargeGroupMenu() {
+        super(ChargeGroupMenu.class, ChargeGroup.class);
     }
 
     // //////////////////////////////////////
@@ -51,33 +52,18 @@ public class ChargeGroups extends UdoDomainRepositoryAndFactory<ChargeGroup> {
     public List<ChargeGroup> newChargeGroup(
             final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.REFERENCE) String reference,
             final @ParameterLayout(named = "Description") String description) {
-        createChargeGroup(reference, description);
-        return allChargeGroups();
+        return chargeGroupRepository.newChargeGroup(reference, description);
     }
-
-    // //////////////////////////////////////
 
     @Action(semantics = SemanticsOf.SAFE)
     @MemberOrder(sequence = "2")
     public List<ChargeGroup> allChargeGroups() {
-        return allInstances();
+        return chargeGroupRepository.allChargeGroups();
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
-    public ChargeGroup createChargeGroup(final String reference, final String description) {
-        final ChargeGroup chargeGroup = newTransientInstance();
-        chargeGroup.setReference(reference);
-        chargeGroup.setName(ValueUtils.coalesce(description, reference));
-        persist(chargeGroup);
-        return chargeGroup;
-    }
-
-    @Programmatic
-    public ChargeGroup findChargeGroup(
-            final String reference) {
-        return firstMatch("findByReference", "reference", reference);
-    }
+    @Inject
+    ChargeGroupRepository chargeGroupRepository;
 
 }

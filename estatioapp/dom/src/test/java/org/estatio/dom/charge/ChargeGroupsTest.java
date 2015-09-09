@@ -38,11 +38,11 @@ public class ChargeGroupsTest {
 
     FinderInteraction finderInteraction;
 
-    ChargeGroups chargeGroups;
+    ChargeGroupRepository chargeGroupRepository;
 
     @Before
     public void setup() {
-        chargeGroups = new ChargeGroups() {
+        chargeGroupRepository = new ChargeGroupRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -69,7 +69,7 @@ public class ChargeGroupsTest {
         @Test
         public void happyCase() {
 
-            chargeGroups.findChargeGroup("*REF?1*");
+            chargeGroupRepository.findChargeGroup("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(ChargeGroup.class));
@@ -85,7 +85,7 @@ public class ChargeGroupsTest {
         @Test
         public void happyCase() {
 
-            chargeGroups.allChargeGroups();
+            chargeGroupRepository.allChargeGroups();
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_INSTANCES));
         }
@@ -102,8 +102,8 @@ public class ChargeGroupsTest {
 
         @Before
         public void setup() {
-            chargeGroups = new ChargeGroups();
-            chargeGroups.setContainer(mockContainer);
+            chargeGroupRepository = new ChargeGroupRepository();
+            chargeGroupRepository.setContainer(mockContainer);
         }
 
         @Test
@@ -119,7 +119,7 @@ public class ChargeGroupsTest {
                 }
             });
 
-            final ChargeGroup newChargeGroup = chargeGroups.createChargeGroup("REF-1", "desc-1");
+            final ChargeGroup newChargeGroup = chargeGroupRepository.createChargeGroup("REF-1", "desc-1");
             assertThat(newChargeGroup.getReference(), is("REF-1"));
             assertThat(newChargeGroup.getName(), is("desc-1"));
         }
