@@ -46,7 +46,7 @@ public class Foo {
         message="SessionBean or MessageBean should be suffixed by Bean"
         externalInfoUrl="http://pmd.sourceforge.net/pmd-5.0.5/rules/java/j2ee.html#MDBAndSessionBeanNamingConvention">
         <description>
-The EJB Specification states that any MessageDrivenBean or SessionBean should be suffixed by 'Bean'.
+The EJB Specification stateRepository that any MessageDrivenBean or SessionBean should be suffixed by 'Bean'.
         </description>
         <priority>4</priority>
         <properties>

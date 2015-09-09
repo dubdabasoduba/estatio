@@ -39,7 +39,7 @@ public class EstatioRefDataSetupFixture extends DiscoverableFixtureScript {
 
         executionContext.executeChild(this, "currencies", new CurrenciesRefData());
         executionContext.executeChild(this, "countries", new CountriesRefData());
-        executionContext.executeChild(this, "states", new StatesRefData());
+        executionContext.executeChild(this, "stateRepository", new StatesRefData());
         executionContext.executeChild(this, "taxes", new TaxRefData());
         executionContext.executeChild(this, "chargegroups", new ChargeGroupRefData());
         executionContext.executeChild(this, "charges", new ChargeRefData());

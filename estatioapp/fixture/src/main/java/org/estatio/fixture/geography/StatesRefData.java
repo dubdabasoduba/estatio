@@ -19,10 +19,11 @@
 package org.estatio.fixture.geography;
 
 import javax.inject.Inject;
-import org.estatio.dom.geography.CountryRepository;
+
 import org.estatio.dom.geography.Country;
+import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.State;
-import org.estatio.dom.geography.States;
+import org.estatio.dom.geography.StateRepository;
 import org.estatio.fixture.EstatioFixtureScript;
 
 public class StatesRefData extends EstatioFixtureScript {
@@ -47,7 +48,7 @@ public class StatesRefData extends EstatioFixtureScript {
         Country countryITA = countryRepository.findCountry(ITA);
         Country countryFRA = countryRepository.findCountry(FRA);
         Country countrySWE = countryRepository.findCountry(SWE);
-        
+
         createState(countryNED, "-DRN", "Drenthe", executionContext);
         createState(countryNED, "-FLE", "Flevoland", executionContext);
         createState(countryNED, "-FRI", "Friesland", executionContext);
@@ -94,14 +95,14 @@ public class StatesRefData extends EstatioFixtureScript {
 
     private State createState(Country country, final String referenceSuffix, String name, ExecutionContext executionContext) {
         final String reference = country.getAlpha2Code() + referenceSuffix;
-        final State state = states.newState(reference, name, country);
+        final State state = stateRepository.createState(reference, name, country);
         return executionContext.addResult(this, state.getReference(), state);
     }
 
     // //////////////////////////////////////
 
     @Inject
-    private States states;
+    private StateRepository stateRepository;
 
     @Inject
     private CountryRepository countryRepository;

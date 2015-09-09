@@ -30,7 +30,7 @@ import org.junit.Test;
 import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
-import org.estatio.dom.geography.States;
+import org.estatio.dom.geography.StateRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.integtests.EstatioIntegrationTest;
 
@@ -44,12 +44,12 @@ public class StatesTest extends EstatioIntegrationTest {
     @Before
     public void setUp() throws Exception {
         countryRepository = service(CountryRepository.class);
-        states = service(States.class);
+        stateRepository = service(StateRepository.class);
     }
 
     CountryRepository countryRepository;
 
-    States states;
+    StateRepository stateRepository;
 
     public static class FindStatesByCountry extends StatesTest {
 
@@ -58,7 +58,7 @@ public class StatesTest extends EstatioIntegrationTest {
             // given
             final Country country = countryRepository.findCountry("NLD");
             // when
-            final List<State> statesInCountry = states.findStatesByCountry(country);
+            final List<State> statesInCountry = stateRepository.findStatesByCountry(country);
             // then
             assertThat(statesInCountry.size(), Matchers.greaterThanOrEqualTo(1));
             for (State state : statesInCountry) {
@@ -75,7 +75,7 @@ public class StatesTest extends EstatioIntegrationTest {
             final Country country = countryRepository.findCountry("NLD");
 
             // when
-            final State state = states.findState("NL-DRN");
+            final State state = stateRepository.findState("NL-DRN");
 
             // then
             assertThat(state.getCountry(), is(country));

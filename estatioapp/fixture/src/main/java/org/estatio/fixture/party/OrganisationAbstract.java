@@ -26,7 +26,7 @@ import org.estatio.dom.communicationchannel.CommunicationChannelType;
 import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
-import org.estatio.dom.geography.States;
+import org.estatio.dom.geography.StateRepository;
 import org.estatio.dom.party.Organisations;
 import org.estatio.dom.party.Party;
 import org.estatio.dom.party.Persons;
@@ -80,7 +80,7 @@ public abstract class OrganisationAbstract extends EstatioFixtureScript {
 
         if (address1 != null) {
             final Country country = countryRepository.findCountry(countryReference);
-            final State state = states.findState(stateReference);
+            final State state = stateRepository.findState(stateReference);
             communicationChannelContributedActions.newPostal(
                     party,
                     CommunicationChannelType.POSTAL_ADDRESS,
@@ -128,7 +128,7 @@ public abstract class OrganisationAbstract extends EstatioFixtureScript {
     protected CountryRepository countryRepository;
 
     @Inject
-    protected States states;
+    protected StateRepository stateRepository;
 
     @Inject
     protected Organisations organisations;

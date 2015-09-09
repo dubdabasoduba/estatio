@@ -37,7 +37,7 @@ import org.estatio.dom.UdoDomainService;
 import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
 import org.estatio.dom.geography.State;
-import org.estatio.dom.geography.States;
+import org.estatio.dom.geography.StateRepository;
 
 /**
  * Domain service that contributes actions to create a new
@@ -100,12 +100,12 @@ public abstract class CommunicationChannelContributions extends UdoDomainService
             final CommunicationChannelOwner owner,
             final CommunicationChannelType type,
             final Country country) {
-        return states.findStatesByCountry(country);
+        return stateRepository.findStatesByCountry(country);
     }
 
     public State default3NewPostal() {
         final Country country = default2NewPostal();
-        final List<State> statesInCountry = states.findStatesByCountry(country);
+        final List<State> statesInCountry = stateRepository.findStatesByCountry(country);
         return statesInCountry.size() > 0 ? statesInCountry.get(0) : null;
     }
 
@@ -198,10 +198,10 @@ public abstract class CommunicationChannelContributions extends UdoDomainService
         this.communicationChannels = communicationChannels;
     }
 
-    private States states;
+    private StateRepository stateRepository;
 
-    public void injectStates(final States states) {
-        this.states = states;
+    public void injectStates(final StateRepository stateRepository) {
+        this.stateRepository = stateRepository;
     }
 
     private CountryRepository countryRepository;

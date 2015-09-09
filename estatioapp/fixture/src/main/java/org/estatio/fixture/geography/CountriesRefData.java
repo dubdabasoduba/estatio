@@ -21,7 +21,7 @@ package org.estatio.fixture.geography;
 import javax.inject.Inject;
 import org.estatio.dom.geography.CountryRepository;
 import org.estatio.dom.geography.Country;
-import org.estatio.dom.geography.States;
+import org.estatio.dom.geography.StateRepository;
 import org.estatio.fixture.EstatioFixtureScript;
 
 public class CountriesRefData extends EstatioFixtureScript {
@@ -56,7 +56,7 @@ public class CountriesRefData extends EstatioFixtureScript {
     // //////////////////////////////////////
 
     @Inject
-    private States states;
+    private StateRepository stateRepository;
 
     @Inject
     private CountryRepository countryRepository;

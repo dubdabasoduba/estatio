@@ -90,7 +90,7 @@ public class Country
      * "http://www.commondatahub.com/live/geography/country/iso_3166_country_codes"
      * >countries</a> and <a href=
      * "http://www.commondatahub.com/live/geography/state_province_region/iso_3166_2_state_codes"
-     * >states</a>.
+     * >stateRepository</a>.
      */
     @javax.jdo.annotations.Column(allowsNull = "false", length = JdoColumnLength.REFERENCE)
     @Property(regexPattern = RegexValidation.REFERENCE)

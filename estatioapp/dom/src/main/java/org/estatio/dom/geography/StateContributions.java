@@ -44,15 +44,15 @@ public class StateContributions extends UdoDomainService<StateContributions> {
     @NotContributed(As.ACTION)
     @ActionSemantics(Of.SAFE)
     public List<State> states(final Country country) {
-        return states.findStatesByCountry(country);
+        return stateRepository.findStatesByCountry(country);
     }
     
 
     // //////////////////////////////////////
 
-    private States states;
-    public final void injectStates(final States states) {
-        this.states = states;
+    private StateRepository stateRepository;
+    public final void injectStates(final StateRepository stateRepository) {
+        this.stateRepository = stateRepository;
     }
 
 
