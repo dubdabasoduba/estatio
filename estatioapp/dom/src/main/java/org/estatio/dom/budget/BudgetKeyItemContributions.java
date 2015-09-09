@@ -45,7 +45,7 @@ public class BudgetKeyItemContributions {
             @ParameterLayout(named = "keyValue")
             final BigDecimal keyValue) {
 
-        return budgetKeyItems.newBudgetKeyItem(budgetKeyTable, unit, keyValue);
+        return budgetKeyItemRepository.newBudgetKeyItem(budgetKeyTable, unit, keyValue);
     }
 
     public String validateNewBudgetKeyItem(
@@ -61,7 +61,7 @@ public class BudgetKeyItemContributions {
     }
 
     @Inject
-    private BudgetKeyItems budgetKeyItems;
+    private BudgetKeyItemRepository budgetKeyItemRepository;
 
     // //////////////////////////////////////
 

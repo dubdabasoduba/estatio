@@ -19,28 +19,21 @@ package org.estatio.dom.budget;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.asset.Unit;
 
-@DomainService(repositoryFor = BudgetKeyItem.class, nature = NatureOfService.VIEW)
-@DomainServiceLayout(menuBar = DomainServiceLayout.MenuBar.PRIMARY, named = "Budgets")
-public class BudgetKeyItems extends UdoDomainRepositoryAndFactory<BudgetKeyItem> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = BudgetKeyItem.class)
+public class BudgetKeyItemRepository extends UdoDomainRepositoryAndFactory<BudgetKeyItem> {
 
-    public BudgetKeyItems() {
-        super(BudgetKeyItems.class, BudgetKeyItem.class);
+    public BudgetKeyItemRepository() {
+        super(BudgetKeyItemRepository.class, BudgetKeyItem.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public BudgetKeyItem newBudgetKeyItem(
             final BudgetKeyTable budgetKeyTable,
             final Unit unit,
@@ -54,7 +47,6 @@ public class BudgetKeyItems extends UdoDomainRepositoryAndFactory<BudgetKeyItem>
         return budgetKeyItem;
     }
 
-    @Programmatic
     public BudgetKeyItem newBudgetKeyItem(
             final BudgetKeyTable budgetKeyTable,
             final Unit unit,
@@ -72,15 +64,12 @@ public class BudgetKeyItems extends UdoDomainRepositoryAndFactory<BudgetKeyItem>
 
     // //////////////////////////////////////
 
-    @Programmatic
-    public BudgetKeyItem findByBudgetKeyTableAndUnit(BudgetKeyTable budgetKeyTable, Unit unit){
+    public BudgetKeyItem findByBudgetKeyTableAndUnit(BudgetKeyTable budgetKeyTable, Unit unit) {
         return uniqueMatch("findByBudgetKeyTableAndUnit", "budgetKeyTable", budgetKeyTable, "unit", unit);
     }
 
-
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
     public List<BudgetKeyItem> allBudgetKeyItems() {
         return allInstances();
     }

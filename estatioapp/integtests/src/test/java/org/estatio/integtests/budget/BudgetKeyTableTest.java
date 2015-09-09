@@ -32,7 +32,7 @@ import org.estatio.dom.asset.UnitMenu;
 import org.estatio.dom.asset.UnitRepository;
 import org.estatio.dom.budget.BudgetFoundationValueType;
 import org.estatio.dom.budget.BudgetKeyItemContributions;
-import org.estatio.dom.budget.BudgetKeyItems;
+import org.estatio.dom.budget.BudgetKeyItemRepository;
 import org.estatio.dom.budget.BudgetKeyTable;
 import org.estatio.dom.budget.BudgetKeyTables;
 import org.estatio.dom.budget.BudgetKeyValueMethod;
@@ -107,7 +107,7 @@ public class BudgetKeyTableTest extends EstatioIntegrationTest {
     public static class generateBudgetKeyItemsTest extends BudgetKeyTableTest {
 
         @Inject
-        BudgetKeyItems items;
+        BudgetKeyItemRepository items;
 
         @Inject
         UnitMenu unitMenu;

@@ -36,7 +36,7 @@ import org.estatio.dom.asset.Unit;
 import org.estatio.dom.asset.UnitMenu;
 import org.estatio.dom.asset.UnitRepository;
 import org.estatio.dom.budget.BudgetKeyItem;
-import org.estatio.dom.budget.BudgetKeyItems;
+import org.estatio.dom.budget.BudgetKeyItemRepository;
 import org.estatio.dom.budget.BudgetKeyTables;
 
 enum Status {
@@ -164,9 +164,9 @@ public class BudgetKeyItemImportExportLineItem
             budgetKeyItem.setSourceValue(BigDecimal.ZERO);
             container.persistIfNotAlready(budgetKeyItem);
         }
-        budgetKeyItems.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
+        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
                 .findUnitByReference(unitReference)).changeValue(this.getKeyValue().setScale(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()).getNumberOfDigits(), BigDecimal.ROUND_HALF_UP));
-        budgetKeyItems.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
+        budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unitRepository
                 .findUnitByReference(unitReference)).setSourceValue(this.getSourceValue().setScale(2, BigDecimal.ROUND_HALF_UP));
         return budgetKeyItem;
     }
@@ -176,7 +176,7 @@ public class BudgetKeyItemImportExportLineItem
         Unit unit = unitRepository.findUnitByReference(unitReference);
         Status newStatus = Status.UNCHANGED;
         if (unit != null) {
-            BudgetKeyItem budgetKeyItem = budgetKeyItems.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unit);
+            BudgetKeyItem budgetKeyItem = budgetKeyItemRepository.findByBudgetKeyTableAndUnit(budgetKeyTables.findBudgetKeyTableByName(getBudgetKeyTableName()), unit);
             if (budgetKeyItem == null) {
                 newStatus = Status.ADDED;
             } else {
@@ -208,7 +208,7 @@ public class BudgetKeyItemImportExportLineItem
     private BudgetKeyItemImportExportService budgetKeyItemImportExportService;
 
     @javax.inject.Inject
-    private BudgetKeyItems budgetKeyItems;
+    private BudgetKeyItemRepository budgetKeyItemRepository;
 
     @javax.inject.Inject
     private ActionInvocationContext actionInvocationContext;
