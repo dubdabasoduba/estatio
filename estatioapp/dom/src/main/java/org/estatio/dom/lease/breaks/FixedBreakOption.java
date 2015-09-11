@@ -117,7 +117,7 @@ public class FixedBreakOption
             @DescribedAs("Reminder to exercise (or leave blank to clear)") LocalDate reminderDate) {
         setReminderDate(reminderDate);
         final Event reminderEvent =
-                events.findBySourceAndCalendarName(this, CALENDAR_NAME_FIXED_BREAK_EXERCISE_REMINDER);
+                eventRepository.findBySourceAndCalendarName(this, CALENDAR_NAME_FIXED_BREAK_EXERCISE_REMINDER);
         if (reminderDate != null) {
             if (reminderEvent == null) {
                 // create...

@@ -19,40 +19,41 @@
 package org.estatio.dom.event;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+
 import org.joda.time.LocalDate;
+
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.Programmatic;
+
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
 @DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Event.class)
-public class Events extends UdoDomainRepositoryAndFactory<Event> {
+public class EventRepository extends UdoDomainRepositoryAndFactory<Event> {
 
-    public Events() {
-        super(Events.class, Event.class);
+    public EventRepository() {
+        super(EventRepository.class, Event.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public List<Event> findBySource(final EventSource eventSource) {
         final List<EventSourceLink> links = eventSourceLinks.findBySource(eventSource);
         return Lists.newArrayList(
                 Iterables.transform(links, EventSourceLink.Functions.event()));
     }
 
-    @Programmatic
     public Event findBySourceAndCalendarName(
             final EventSource eventSource,
             final String calendarName) {
         final EventSourceLink link = eventSourceLinks.findBySourceAndCalendarName(eventSource, calendarName);
-        return link != null? link.getEvent(): null;
+        return link != null ? link.getEvent() : null;
     }
 
-    @Programmatic
     public Event newEvent(final LocalDate date, final EventSource eventSource, final String calendarName) {
         final Event event = newTransientInstance(Event.class);
         event.setDate(date);
@@ -63,8 +64,6 @@ public class Events extends UdoDomainRepositoryAndFactory<Event> {
         return event;
     }
 
-
-    @Programmatic
     public void remove(Event event) {
         final EventSourceLink link = eventSourceLinks.findByEvent(event);
         removeIfNotAlready(link);
@@ -73,17 +72,13 @@ public class Events extends UdoDomainRepositoryAndFactory<Event> {
         getContainer().flush();
     }
 
-
-    @Programmatic
     public List<Event> findEventsInDateRange(final LocalDate rangeStartDate, final LocalDate rangeEndDate) {
         return allMatches("findInDateRange", "rangeStartDate", rangeStartDate, "rangeEndDate", rangeEndDate);
     }
 
-    @Programmatic
     public List<Event> allEvents() {
         return allInstances();
     }
-
 
     @Inject
     private EventSourceLinks eventSourceLinks;

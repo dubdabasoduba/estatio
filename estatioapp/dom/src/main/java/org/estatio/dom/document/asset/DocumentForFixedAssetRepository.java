@@ -23,21 +23,19 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.value.Blob;
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
-import org.estatio.dom.UdoDomainService;
 import org.estatio.dom.asset.FixedAsset;
 import org.estatio.dom.document.Document;
 import org.estatio.dom.document.DocumentType;
 
 @DomainService(nature = NatureOfService.DOMAIN)
 @DomainServiceLayout(named = "Other", menuBar = DomainServiceLayout.MenuBar.PRIMARY, menuOrder = "80.10")
-public class DocumentsForFixedAsset extends UdoDomainRepositoryAndFactory<DocumentForFixedAsset> {
+public class DocumentForFixedAssetRepository extends UdoDomainRepositoryAndFactory<DocumentForFixedAsset> {
 
-    public DocumentsForFixedAsset()
+    public DocumentForFixedAssetRepository()
     {
-        super(DocumentsForFixedAsset.class, DocumentForFixedAsset.class);
+        super(DocumentForFixedAssetRepository.class, DocumentForFixedAsset.class);
     }
 
     public String getId() {
@@ -53,17 +51,14 @@ public class DocumentsForFixedAsset extends UdoDomainRepositoryAndFactory<Docume
         return container.allInstances(Document.class);
     }
 
-    @Programmatic
     public List<DocumentForFixedAsset> findByFixedAsset(final FixedAsset fixedAsset) {
         return allMatches("findByFixedAsset", "fixedAsset", fixedAsset);
     }
 
-    @Programmatic
     public List<DocumentForFixedAsset> findByFixedAssetAndType(final FixedAsset fixedAsset, final DocumentType type) {
         return allMatches("findByFixedAssetAndType", "fixedAsset", fixedAsset, "type", type);
     }
 
-    @Programmatic
     public DocumentForFixedAsset findFirstByFixedAssetAndType(final FixedAsset fixedAsset, final DocumentType type) {
         return firstMatch("findByFixedAssetAndType", "fixedAsset", fixedAsset, "type", type);
     }

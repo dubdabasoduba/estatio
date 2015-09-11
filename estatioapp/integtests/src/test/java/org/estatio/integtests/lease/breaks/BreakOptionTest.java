@@ -27,7 +27,7 @@ import org.junit.Test;
 
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
-import org.estatio.dom.event.Events;
+import org.estatio.dom.event.EventRepository;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.Leases;
 import org.estatio.dom.lease.breaks.BreakExerciseType;
@@ -48,7 +48,7 @@ public class BreakOptionTest extends EstatioIntegrationTest {
     Leases leases;
 
     @Inject
-    Events events;
+    EventRepository eventRepository;
 
     @Inject
     BreakOptions breakOptions;
@@ -123,7 +123,7 @@ public class BreakOptionTest extends EstatioIntegrationTest {
             assertThat(breakOption.getExerciseType(), is(BreakExerciseType.MUTUAL));
             assertThat(breakOption.getBreakDate(), is(lease.getStartDate().plusYears(5)));
             assertThat(breakOption.getExerciseDate(), is(lease.getStartDate().plusYears(5).minusMonths(6)));
-            assertThat(events.allEvents().size(), is(3));
+            assertThat(eventRepository.allEvents().size(), is(3));
 
             // when
             breakOption.changeDates(lease.getStartDate().plusYears(2), lease.getStartDate().plusYears(2).minusMonths(6));
@@ -131,7 +131,7 @@ public class BreakOptionTest extends EstatioIntegrationTest {
             // then
             assertThat(breakOption.getBreakDate(), is(lease.getStartDate().plusYears(2)));
             assertThat(breakOption.getExerciseDate(), is(lease.getStartDate().plusYears(2).minusMonths(6)));
-            assertThat(events.allEvents().size(), is(3));
+            assertThat(eventRepository.allEvents().size(), is(3));
         }
     }
 

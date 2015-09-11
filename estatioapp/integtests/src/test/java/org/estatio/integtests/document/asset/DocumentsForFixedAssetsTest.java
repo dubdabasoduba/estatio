@@ -21,7 +21,6 @@ package org.estatio.integtests.document.asset;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.ws.rs.HEAD;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,7 @@ import org.estatio.dom.asset.PropertyRepository;
 import org.estatio.dom.document.Document;
 import org.estatio.dom.document.DocumentType;
 import org.estatio.dom.document.asset.DocumentForFixedAsset;
-import org.estatio.dom.document.asset.DocumentsForFixedAsset;
+import org.estatio.dom.document.asset.DocumentForFixedAssetRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.asset.PropertyForOxfGb;
 import org.estatio.fixture.interactivemap.InteractiveMapDocumentForOxf;
@@ -46,7 +45,7 @@ import static org.junit.Assert.assertThat;
 public class DocumentsForFixedAssetsTest extends EstatioIntegrationTest {
 
     @Inject
-    DocumentsForFixedAsset documents;
+    DocumentForFixedAssetRepository documents;
 
     @Before
     public void setupData() {

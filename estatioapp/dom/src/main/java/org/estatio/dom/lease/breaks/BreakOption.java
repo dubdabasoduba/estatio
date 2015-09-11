@@ -30,7 +30,7 @@ import com.google.common.collect.Maps;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Period;
-import org.apache.isis.applib.annotation.CollectionLayout;
+
 import org.apache.isis.applib.annotation.DomainObject;
 import org.apache.isis.applib.annotation.Editing;
 import org.apache.isis.applib.annotation.Optionality;
@@ -39,7 +39,6 @@ import org.apache.isis.applib.annotation.ParameterLayout;
 import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Property;
-import org.apache.isis.applib.annotation.RenderType;
 import org.apache.isis.applib.annotation.Title;
 import org.apache.isis.applib.annotation.Where;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
@@ -50,7 +49,7 @@ import org.estatio.dom.JdoColumnLength;
 import org.estatio.dom.apptenancy.WithApplicationTenancyProperty;
 import org.estatio.dom.event.Event;
 import org.estatio.dom.event.EventSource;
-import org.estatio.dom.event.Events;
+import org.estatio.dom.event.EventRepository;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.utils.JodaPeriodUtils;
 
@@ -248,7 +247,7 @@ public abstract class BreakOption
     private void removeExistingEvents() {
         // remove existing events
         for (final Event event : findEvents()) {
-            events.remove(event);
+            eventRepository.remove(event);
         }
     }
 
@@ -332,7 +331,7 @@ public abstract class BreakOption
     }
 
     private List<Event> findEvents() {
-        return events.findBySource(this);
+        return eventRepository.findBySource(this);
     }
 
     // //////////////////////////////////////
@@ -342,7 +341,7 @@ public abstract class BreakOption
      * methods.
      */
     protected Event createEvent(final LocalDate date, final EventSource subject, final String subjectEventType) {
-        return events.newEvent(date, subject, subjectEventType);
+        return eventRepository.newEvent(date, subject, subjectEventType);
     }
 
     // //////////////////////////////////////
@@ -388,10 +387,10 @@ public abstract class BreakOption
 
     // //////////////////////////////////////
 
-    protected Events events;
+    protected EventRepository eventRepository;
 
-    public final void injectEvents(final Events events) {
-        this.events = events;
+    public final void injectEvents(final EventRepository eventRepository) {
+        this.eventRepository = eventRepository;
     }
 
 }

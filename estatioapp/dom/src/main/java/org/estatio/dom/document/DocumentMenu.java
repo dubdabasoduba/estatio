@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package org.estatio.dom.document.asset;
+package org.estatio.dom.document;
 
 import java.util.List;
 
@@ -28,8 +28,6 @@ import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
-import org.estatio.dom.document.Document;
-import org.estatio.dom.document.DocumentRepository;
 
 @DomainService(repositoryFor = Document.class)
 @DomainServiceLayout(named = "Other", menuBar = DomainServiceLayout.MenuBar.PRIMARY, menuOrder = "80.10")
