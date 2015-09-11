@@ -1,5 +1,7 @@
 /*
- *  Copyright 2015 Eurocommercial Properties NV
+ *
+ *  Copyright 2012-2015 Eurocommercial Properties NV
+ *
  *
  *  Licensed under the Apache License, Version 2.0 (the
  *  "License"); you may not use this file except in compliance
@@ -14,39 +16,38 @@
  *  specific language governing permissions and limitations
  *  under the License.
  */
-package org.estatio.dom.document;
+
+package org.estatio.dom.document.asset;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
 import org.apache.isis.applib.annotation.DomainService;
 import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
+
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
-import org.estatio.dom.utils.StringUtils;
+import org.estatio.dom.document.Document;
+import org.estatio.dom.document.DocumentRepository;
 
-@DomainService()
+@DomainService(repositoryFor = Document.class)
 @DomainServiceLayout(named = "Other", menuBar = DomainServiceLayout.MenuBar.PRIMARY, menuOrder = "80.10")
-public class Documents extends UdoDomainRepositoryAndFactory<Document> {
+public class DocumentMenu extends UdoDomainRepositoryAndFactory<Document> {
 
-    public Documents()
-    {
-        super(Documents.class, Document.class);
-    }
-
-    public String getId() {
-        return "documents";
-    }
-
-    public String iconName() {
-        return "Document";
+    public DocumentMenu() {
+        super(DocumentMenu.class, Document.class);
     }
 
     @MemberOrder(sequence = "2")
     public List<Document> allDocuments() {
-        return allInstances(Document.class);
+        return documentRepository.allDocuments();
     }
 
     public List<Document> findByName(final String pattern) {
-        return allMatches("findByName", "pattern", StringUtils.wildcardToCaseInsensitiveRegex(pattern));
+        return documentRepository.findByName(pattern);
     }
 
+    @Inject
+    DocumentRepository documentRepository;
 }

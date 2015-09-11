@@ -31,7 +31,7 @@ import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 
 import org.estatio.dom.document.Document;
-import org.estatio.dom.document.Documents;
+import org.estatio.dom.document.DocumentRepository;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.interactivemap.InteractiveMapDocumentForOxf;
 import org.estatio.integtests.EstatioIntegrationTest;
@@ -39,7 +39,7 @@ import org.estatio.integtests.EstatioIntegrationTest;
 public class DocumentsTest extends EstatioIntegrationTest {
 
     @Inject
-    Documents documents;
+    DocumentRepository documentRepository;
 
     @Before
     public void setupData() {
@@ -59,7 +59,7 @@ public class DocumentsTest extends EstatioIntegrationTest {
         public void allDocuments() throws Exception {
             // given
             // when
-            final List<Document> result = documents.allDocuments();
+            final List<Document> result = documentRepository.allDocuments();
             // then
             assertThat(result.size(), is(1));
         }
@@ -71,7 +71,7 @@ public class DocumentsTest extends EstatioIntegrationTest {
         public void happyCase() throws Exception {
             // given
             // when
-            final List<Document> result = documents.findByName("*V*");
+            final List<Document> result = documentRepository.findByName("*V*");
             // then
             assertThat(result.size(), is(1));
         }
