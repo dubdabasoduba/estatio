@@ -30,7 +30,7 @@ import org.estatio.dom.communicationchannel.CommunicationChannel;
 import org.estatio.dom.communicationchannel.CommunicationChannelType;
 import org.estatio.dom.communicationchannel.CommunicationChannels;
 import org.estatio.dom.communicationchannel.PhoneOrFaxNumber;
-import org.estatio.dom.communicationchannel.PhoneOrFaxNumbers;
+import org.estatio.dom.communicationchannel.PhoneOrFaxNumberRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
 import org.estatio.fixture.EstatioBaseLineFixture;
@@ -51,7 +51,7 @@ public class PhoneOrFaxNumbersTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    PhoneOrFaxNumbers phoneOrFaxNumbers;
+    PhoneOrFaxNumberRepository phoneOrFaxNumberRepository;
 
     @Inject
     CommunicationChannels communicationChannels;
@@ -85,7 +85,7 @@ public class PhoneOrFaxNumbersTest extends EstatioIntegrationTest {
         @Test
         public void happyCase() throws Exception {
             // when
-            PhoneOrFaxNumber result = phoneOrFaxNumbers.findByPhoneOrFaxNumber(party, phoneOrFaxNumber.getPhoneNumber());
+            PhoneOrFaxNumber result = phoneOrFaxNumberRepository.findByPhoneOrFaxNumber(party, phoneOrFaxNumber.getPhoneNumber());
 
             // then
             assertThat(result, is(phoneOrFaxNumber));

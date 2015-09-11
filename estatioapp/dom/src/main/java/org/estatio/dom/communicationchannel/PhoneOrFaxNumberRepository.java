@@ -19,31 +19,32 @@
 package org.estatio.dom.communicationchannel;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
-import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.NatureOfService;
+
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(menuOrder = "70", repositoryFor = PhoneOrFaxNumber.class)
-@Hidden
-public class PhoneOrFaxNumbers extends UdoDomainRepositoryAndFactory<PhoneOrFaxNumber> {
+@DomainService(nature = NatureOfService.DOMAIN, menuOrder = "70", repositoryFor = PhoneOrFaxNumber.class)
+public class PhoneOrFaxNumberRepository extends UdoDomainRepositoryAndFactory<PhoneOrFaxNumber> {
 
-    public PhoneOrFaxNumbers() {
-        super(PhoneOrFaxNumbers.class, PhoneOrFaxNumber.class);
+    public PhoneOrFaxNumberRepository() {
+        super(PhoneOrFaxNumberRepository.class, PhoneOrFaxNumber.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public PhoneOrFaxNumber findByPhoneOrFaxNumber(
             final CommunicationChannelOwner owner,
             final String phoneNumber) {
 
         final Optional<PhoneOrFaxNumber> phoneNumberIfFound = findByPhoneOrFaxNumber(owner, phoneNumber, CommunicationChannelType.PHONE_NUMBER);
-        if(phoneNumberIfFound.isPresent()) {
+        if (phoneNumberIfFound.isPresent()) {
             return phoneNumberIfFound.get();
         }
 

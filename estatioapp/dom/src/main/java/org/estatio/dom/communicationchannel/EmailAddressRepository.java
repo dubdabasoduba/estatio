@@ -19,27 +19,28 @@
 package org.estatio.dom.communicationchannel;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
-import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.NatureOfService;
+
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(menuOrder = "70", repositoryFor = EmailAddress.class)
-@Hidden
-public class EmailAddresses extends UdoDomainRepositoryAndFactory<EmailAddress> {
+@DomainService(nature = NatureOfService.DOMAIN, menuOrder = "70", repositoryFor = EmailAddress.class)
+public class EmailAddressRepository extends UdoDomainRepositoryAndFactory<EmailAddress> {
 
-    public EmailAddresses() {
-        super(EmailAddresses.class, EmailAddress.class);
+    public EmailAddressRepository() {
+        super(EmailAddressRepository.class, EmailAddress.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public EmailAddress findByEmailAddress(
-            final CommunicationChannelOwner owner, 
+            final CommunicationChannelOwner owner,
             final String emailAddress) {
 
         final List<CommunicationChannelOwnerLink> links =

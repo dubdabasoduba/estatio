@@ -19,35 +19,36 @@
 package org.estatio.dom.communicationchannel;
 
 import java.util.List;
+
 import javax.inject.Inject;
+
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
+
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
-import org.apache.isis.applib.annotation.Programmatic;
+import org.apache.isis.applib.annotation.NatureOfService;
+
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.geography.Country;
 
 /**
  * Domain service acting as repository for finding existing {@link PostalAddress postal address}es.
  */
-@DomainService(menuOrder = "70", repositoryFor = PostalAddress.class)
-@Hidden
-public class PostalAddresses 
+@DomainService(nature = NatureOfService.DOMAIN, menuOrder = "70", repositoryFor = PostalAddress.class)
+public class PostalAddressRepository
         extends UdoDomainRepositoryAndFactory<PostalAddress> {
 
-    public PostalAddresses() {
-        super(PostalAddresses.class, PostalAddress.class);
+    public PostalAddressRepository() {
+        super(PostalAddressRepository.class, PostalAddress.class);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public PostalAddress findByAddress(
-            final CommunicationChannelOwner owner, 
-            final String address1, 
-            final String postalCode, 
-            final String city, 
+            final CommunicationChannelOwner owner,
+            final String address1,
+            final String postalCode,
+            final String city,
             final Country country) {
 
         final List<CommunicationChannelOwnerLink> links =

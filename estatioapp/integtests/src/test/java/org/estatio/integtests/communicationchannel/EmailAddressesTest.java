@@ -30,7 +30,7 @@ import org.estatio.dom.communicationchannel.CommunicationChannel;
 import org.estatio.dom.communicationchannel.CommunicationChannelType;
 import org.estatio.dom.communicationchannel.CommunicationChannels;
 import org.estatio.dom.communicationchannel.EmailAddress;
-import org.estatio.dom.communicationchannel.EmailAddresses;
+import org.estatio.dom.communicationchannel.EmailAddressRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
 import org.estatio.fixture.EstatioBaseLineFixture;
@@ -51,7 +51,7 @@ public class EmailAddressesTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    EmailAddresses emailAddresses;
+    EmailAddressRepository emailAddressRepository;
 
     @Inject
     CommunicationChannels communicationChannels;
@@ -85,7 +85,7 @@ public class EmailAddressesTest extends EstatioIntegrationTest {
         @Test
         public void happyCase() throws Exception {
             // when
-            EmailAddress email = emailAddresses.findByEmailAddress(party, emailAddress.getEmailAddress());
+            EmailAddress email = emailAddressRepository.findByEmailAddress(party, emailAddress.getEmailAddress());
 
             // then
             assertThat(email, is(emailAddress));

@@ -30,7 +30,7 @@ import org.estatio.dom.communicationchannel.CommunicationChannel;
 import org.estatio.dom.communicationchannel.CommunicationChannelType;
 import org.estatio.dom.communicationchannel.CommunicationChannels;
 import org.estatio.dom.communicationchannel.PostalAddress;
-import org.estatio.dom.communicationchannel.PostalAddresses;
+import org.estatio.dom.communicationchannel.PostalAddressRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
 import org.estatio.fixture.EstatioBaseLineFixture;
@@ -51,7 +51,7 @@ public class PostalAddressesTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    PostalAddresses postalAddresses;
+    PostalAddressRepository postalAddressRepository;
 
     @Inject
     CommunicationChannels communicationChannels;
@@ -86,7 +86,7 @@ public class PostalAddressesTest extends EstatioIntegrationTest {
         @Test
         public void happyCase() throws Exception {
             // when
-            PostalAddress result = postalAddresses.findByAddress(party,
+            PostalAddress result = postalAddressRepository.findByAddress(party,
                     postalAddress.getAddress1(),
                     postalAddress.getPostalCode(),
                     postalAddress.getCity(),
