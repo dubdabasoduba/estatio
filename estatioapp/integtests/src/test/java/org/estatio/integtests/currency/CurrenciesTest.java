@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import org.junit.Before;
 import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
-import org.estatio.dom.currency.Currencies;
+import org.estatio.dom.currency.CurrencyRepository;
 import org.estatio.dom.currency.Currency;
 import org.estatio.fixture.currency.CurrenciesRefData;
 import org.estatio.integtests.EstatioIntegrationTest;
@@ -42,13 +42,13 @@ public class CurrenciesTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    Currencies currencies;
+    CurrencyRepository currencyRepository;
 
     public static class FindCurrency extends CurrenciesTest {
 
         @Test
         public void happyCase() throws Exception {
-            Currency euro = currencies.findCurrency(CurrenciesRefData.EUR);
+            Currency euro = currencyRepository.findCurrency(CurrenciesRefData.EUR);
             assertThat(euro.getName(), is("Euro"));
         }
     }

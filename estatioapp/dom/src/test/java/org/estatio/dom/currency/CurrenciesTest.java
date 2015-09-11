@@ -33,12 +33,12 @@ public class CurrenciesTest {
 
     FinderInteraction finderInteraction;
 
-    Currencies currencies;
+    CurrencyRepository currencyRepository;
 
     @Before
     public void setup() {
         
-        currencies = new Currencies() {
+        currencyRepository = new CurrencyRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -68,7 +68,7 @@ public class CurrenciesTest {
         @Test
         public void happyCase() {
 
-            currencies.findCurrency("*REF?1*");
+            currencyRepository.findCurrency("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(Currency.class));

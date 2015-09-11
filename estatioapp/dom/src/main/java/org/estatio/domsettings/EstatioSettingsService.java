@@ -29,7 +29,7 @@ import org.apache.isis.applib.annotation.Programmatic;
 import org.isisaddons.module.settings.dom.ApplicationSetting;
 
 import org.estatio.dom.UdoDomainService;
-import org.estatio.dom.currency.Currencies;
+import org.estatio.dom.currency.CurrencyRepository;
 import org.estatio.dom.currency.Currency;
 
 /**
@@ -64,7 +64,7 @@ public class EstatioSettingsService extends UdoDomainService<EstatioSettingsServ
     @Programmatic
     public Currency systemCurrency() {
         //TODO: Make system default currency configurable
-        return currencies.findCurrency("EUR");
+        return currencyRepository.findCurrency("EUR");
     }
 
     // //////////////////////////////////////
@@ -152,10 +152,10 @@ public class EstatioSettingsService extends UdoDomainService<EstatioSettingsServ
         this.applicationSettingsService = applicationSettings;
     }
 
-    private Currencies currencies;
+    private CurrencyRepository currencyRepository;
 
-    public final void injectCurrencies(final Currencies currencies) {
-        this.currencies = currencies;
+    public final void injectCurrencies(final CurrencyRepository currencyRepository) {
+        this.currencyRepository = currencyRepository;
     }
 
 }

@@ -20,34 +20,24 @@ package org.estatio.dom.currency;
 
 import java.util.List;
 
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
-import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.RegexValidation;
+import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(repositoryFor = Currency.class)
-@DomainServiceLayout(
-        named = "Other",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "80.4")
-public class Currencies extends UdoDomainRepositoryAndFactory<Currency> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Currency.class)
+public class CurrencyRepository extends UdoDomainRepositoryAndFactory<Currency> {
 
-    public Currencies() {
-        super(Currencies.class, Currency.class);
+    public CurrencyRepository() {
+        super(CurrencyRepository.class, Currency.class);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "1")
     public List<Currency> newCurrency(
             final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.REFERENCE) String reference,
             final @ParameterLayout(named = "Name") @Parameter(optionality = Optionality.OPTIONAL) String name) {
@@ -57,15 +47,12 @@ public class Currencies extends UdoDomainRepositoryAndFactory<Currency> {
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @MemberOrder(sequence = "2")
     public List<Currency> allCurrencies() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public Currency findOrCreateCurrency(final String reference, final String name) {
         Currency currency = findCurrency(reference);
         if (currency == null) {
@@ -77,12 +64,10 @@ public class Currencies extends UdoDomainRepositoryAndFactory<Currency> {
         return currency;
     }
 
-    @Programmatic
     public Currency findCurrency(final String reference) {
         return uniqueMatch("findByReference", "reference", reference);
     }
 
-    @Programmatic
     public List<Currency> autoComplete(final String searchArg) {
         return allMatches("matchByReferenceOrDescription", "searchArg", searchArg);
     }

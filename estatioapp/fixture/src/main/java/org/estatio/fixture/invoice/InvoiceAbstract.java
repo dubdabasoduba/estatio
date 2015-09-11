@@ -23,7 +23,7 @@ import javax.inject.Inject;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancies;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.joda.time.LocalDate;
-import org.estatio.dom.currency.Currencies;
+import org.estatio.dom.currency.CurrencyRepository;
 import org.estatio.dom.currency.Currency;
 import org.estatio.dom.invoice.Invoice;
 import org.estatio.dom.invoice.Invoices;
@@ -60,7 +60,7 @@ public abstract class InvoiceAbstract extends EstatioFixtureScript {
             ExecutionContext executionContext) {
         final Party buyer = parties.findPartyByReference(buyerStr);
         final Party seller = parties.findPartyByReference(sellerStr);
-        final Currency currency = currencies.findCurrency(currencyStr);
+        final Currency currency = currencyRepository.findCurrency(currencyStr);
 
         final String interactionId = null;
 
@@ -94,7 +94,7 @@ public abstract class InvoiceAbstract extends EstatioFixtureScript {
     private Parties parties;
 
     @Inject
-    private Currencies currencies;
+    private CurrencyRepository currencyRepository;
 
     @Inject
     private Invoices invoices;

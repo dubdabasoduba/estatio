@@ -28,7 +28,7 @@ import org.apache.isis.applib.annotation.NatureOfService;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.charge.Charge;
-import org.estatio.dom.currency.Currencies;
+import org.estatio.dom.currency.CurrencyRepository;
 
 @DomainService(nature = NatureOfService.DOMAIN, repositoryFor = BudgetItem.class)
 public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetItem> {
@@ -49,7 +49,7 @@ public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetIt
         budgetItem.setBudget(budget);
         budgetItem.setBudgetKeyTable(budgetKeyTable);
         budgetItem.setValue(value);
-        budgetItem.setCurrency(currencies.findCurrency("EUR"));
+        budgetItem.setCurrency(currencyRepository.findCurrency("EUR"));
         budgetItem.setCharge(charge);
         budgetItem.setBudgetCostGroup(budgetCostGroup);
 
@@ -99,5 +99,5 @@ public class BudgetItemRepository extends UdoDomainRepositoryAndFactory<BudgetIt
     BudgetKeyTableRepository budgetKeyTableRepository;
 
     @Inject
-    Currencies currencies;
+    CurrencyRepository currencyRepository;
 }

@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.isis.applib.fixturescripts.DiscoverableFixtureScript;
 
-import org.estatio.dom.currency.Currencies;
+import org.estatio.dom.currency.CurrencyRepository;
 import org.estatio.dom.currency.Currency;
 import org.estatio.fixture.security.EstatioSecurityModuleDemoFixture;
 
@@ -58,11 +58,11 @@ public class EstatioBaseLineFixture extends DiscoverableFixtureScript {
      * any reference data has previously been {@link EstatioRefDataSetupFixture setup}.
      */
     private boolean isRefDataPresent() {
-        final List<Currency> currencyList = currencies.allCurrencies();
+        final List<Currency> currencyList = currencyRepository.allCurrencies();
         return !currencyList.isEmpty();
     }
 
     @javax.inject.Inject
-    private Currencies currencies;
+    private CurrencyRepository currencyRepository;
 
 }
