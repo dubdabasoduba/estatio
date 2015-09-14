@@ -28,8 +28,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.financial.FinancialAccount;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.financial.FinancialAccountType;
-import org.estatio.dom.financial.FinancialAccounts;
 import org.estatio.dom.financial.bankaccount.BankAccount;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
@@ -52,7 +52,7 @@ public class FinancialAccountsTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    FinancialAccounts financialAccounts;
+    FinancialAccountRepository financialAccountRepository;
 
     @Inject
     Parties parties;
@@ -69,7 +69,7 @@ public class FinancialAccountsTest extends EstatioIntegrationTest {
         @Test
         public void forAccount() {
             // when
-            FinancialAccount account = financialAccounts.findAccountByReference(BankAccountAndMandateForTopModelGb.REF);
+            FinancialAccount account = financialAccountRepository.findAccountByReference(BankAccountAndMandateForTopModelGb.REF);
             // then
             assertThat(account, is(notNullValue()));
             Assert.assertThat(account instanceof BankAccount, is(true));
@@ -83,7 +83,7 @@ public class FinancialAccountsTest extends EstatioIntegrationTest {
         @Test
         public void findAccountsByOwner() throws Exception {
             // when
-            List<FinancialAccount> accounts = financialAccounts.findAccountsByOwner(party);
+            List<FinancialAccount> accounts = financialAccountRepository.findAccountsByOwner(party);
             assertThat(accounts.size(), is(1));
 
             // then
@@ -97,7 +97,7 @@ public class FinancialAccountsTest extends EstatioIntegrationTest {
         @Test
         public void findAccountsByTypeOwner() throws Exception {
             // when
-            List<FinancialAccount> accounts = financialAccounts.findAccountsByTypeOwner(FinancialAccountType.BANK_ACCOUNT, party);
+            List<FinancialAccount> accounts = financialAccountRepository.findAccountsByTypeOwner(FinancialAccountType.BANK_ACCOUNT, party);
             assertThat(accounts.size(), is(1));
 
             // then

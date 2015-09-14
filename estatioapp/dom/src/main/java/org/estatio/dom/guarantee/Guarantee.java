@@ -37,13 +37,12 @@ import org.apache.isis.applib.annotation.PropertyLayout;
 import org.apache.isis.applib.annotation.Where;
 import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 
-import org.estatio.dom.JdoColumnLength;
 import org.estatio.dom.JdoColumnScale;
 import org.estatio.dom.agreement.Agreement;
 import org.estatio.dom.apptenancy.WithApplicationTenancyProperty;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountType;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.lease.Lease;
 
 @javax.jdo.annotations.PersistenceCapable(
@@ -137,7 +136,7 @@ public class Guarantee
     public void changeGuaranteeType(GuaranteeType guaranteeType) {
         FinancialAccountType financialAccountType = guaranteeType.getFinancialAccountType();
         if (financialAccountType != null) {
-            FinancialAccount financialAccount = financialAccounts.newFinancialAccount(
+            FinancialAccount financialAccount = financialAccountRepository.newFinancialAccount(
                     financialAccountType,
                     this.getReference(),
                     this.getName(),
@@ -258,5 +257,5 @@ public class Guarantee
     }
 
     @Inject
-    FinancialAccounts financialAccounts;
+    FinancialAccountRepository financialAccountRepository;
 }

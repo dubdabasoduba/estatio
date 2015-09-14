@@ -35,7 +35,7 @@ public class FinancialAccountsTest {
 
     FinderInteraction finderInteraction;
 
-    FinancialAccounts financialAccounts;
+    FinancialAccountRepository financialAccountRepository;
 
     Party party;
 
@@ -44,7 +44,7 @@ public class FinancialAccountsTest {
 
         party = new PartyForTesting();
 
-        financialAccounts = new FinancialAccounts() {
+        financialAccountRepository = new FinancialAccountRepository() {
 
             @Override
             protected <T> T firstMatch(Query<T> query) {
@@ -69,7 +69,7 @@ public class FinancialAccountsTest {
         @Test
         public void findAccountByReference() {
 
-            financialAccounts.findAccountByReference("*REF?1*");
+            financialAccountRepository.findAccountByReference("*REF?1*");
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.FIRST_MATCH));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(FinancialAccount.class));
@@ -85,7 +85,7 @@ public class FinancialAccountsTest {
         @Test
         public void findAccountsByTypeAndOwner() {
 
-            financialAccounts.findAccountsByOwner(party);
+            financialAccountRepository.findAccountsByOwner(party);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(FinancialAccount.class));
@@ -101,7 +101,7 @@ public class FinancialAccountsTest {
         @Test
         public void findAccountsByOwner() {
 
-            financialAccounts.findAccountsByOwner(party);
+            financialAccountRepository.findAccountsByOwner(party);
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_MATCHES));
             assertThat(finderInteraction.getResultType(), IsisMatchers.classEqualTo(FinancialAccount.class));
@@ -117,7 +117,7 @@ public class FinancialAccountsTest {
         @Test
         public void allAccounts() {
 
-            financialAccounts.allAccounts();
+            financialAccountRepository.allAccounts();
 
             assertThat(finderInteraction.getFinderMethod(), is(FinderMethod.ALL_INSTANCES));
         }

@@ -32,7 +32,7 @@ import org.estatio.dom.bankmandate.BankMandate;
 import org.estatio.dom.bankmandate.BankMandateMenu;
 import org.estatio.dom.bankmandate.BankMandateRepository;
 import org.estatio.dom.financial.FinancialAccount;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.financial.bankaccount.BankAccount;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.financial.BankAccountAndMandateForPoisonNl;
@@ -62,7 +62,7 @@ public class BankMandateMenuTest extends EstatioIntegrationTest {
 
 
         @Inject
-        private FinancialAccounts financialAccounts;
+        private FinancialAccountRepository financialAccountRepository;
         @Inject
         private BankMandateMenu bankMandateMenu;
         @Inject
@@ -72,7 +72,7 @@ public class BankMandateMenuTest extends EstatioIntegrationTest {
         public void forAccountWithMandate() {
 
             // given
-            FinancialAccount account = financialAccounts.findAccountByReference(BankAccountForPoisonNl.REF);
+            FinancialAccount account = financialAccountRepository.findAccountByReference(BankAccountForPoisonNl.REF);
             Assert.assertThat(account instanceof BankAccount, is(true));
             final BankAccount bankAccount = (BankAccount) account;
 

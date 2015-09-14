@@ -42,7 +42,7 @@ import org.estatio.dom.RegexValidation;
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountType;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.financial.utils.IBANValidator;
 import org.estatio.dom.party.Party;
 
@@ -105,13 +105,13 @@ public class BankAccounts extends UdoDomainRepositoryAndFactory<BankAccount> {
     @Programmatic
     public List<BankAccount> findBankAccountsByOwner(final Party party) {
         return Lists.newArrayList(
-                Iterables.filter(financialAccounts.findAccountsByTypeOwner(FinancialAccountType.BANK_ACCOUNT, party),
+                Iterables.filter(financialAccountRepository.findAccountsByTypeOwner(FinancialAccountType.BANK_ACCOUNT, party),
                         BankAccount.class));
     }
 
     @Programmatic
     public BankAccount findBankAccountByReference(final String reference) {
-        return (BankAccount) financialAccounts.findAccountByReference(reference);
+        return (BankAccount) financialAccountRepository.findAccountByReference(reference);
     }
 
     // //////////////////////////////////////
@@ -125,6 +125,6 @@ public class BankAccounts extends UdoDomainRepositoryAndFactory<BankAccount> {
     // //////////////////////////////////////
 
     @Inject
-    private FinancialAccounts financialAccounts;
+    private FinancialAccountRepository financialAccountRepository;
 
 }

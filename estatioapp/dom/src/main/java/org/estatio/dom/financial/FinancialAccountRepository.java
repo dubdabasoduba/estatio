@@ -20,27 +20,18 @@ package org.estatio.dom.financial;
 
 import java.util.List;
 
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 import org.estatio.dom.party.Party;
 
-@DomainService(repositoryFor = FinancialAccount.class)
-@DomainServiceLayout(
-        named = "Accounts",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "30.1")
-public class FinancialAccounts extends UdoDomainRepositoryAndFactory<FinancialAccount> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = FinancialAccount.class)
+public class FinancialAccountRepository extends UdoDomainRepositoryAndFactory<FinancialAccount> {
 
-    public FinancialAccounts() {
-        super(FinancialAccounts.class, FinancialAccount.class);
+    public FinancialAccountRepository() {
+        super(FinancialAccountRepository.class, FinancialAccount.class);
     }
 
     @Override
@@ -50,7 +41,6 @@ public class FinancialAccounts extends UdoDomainRepositoryAndFactory<FinancialAc
 
     // //////////////////////////////////////
 
-    @Programmatic
     public FinancialAccount newFinancialAccount(
             final FinancialAccountType financialAccountType,
             final String reference,
@@ -65,22 +55,18 @@ public class FinancialAccounts extends UdoDomainRepositoryAndFactory<FinancialAc
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @MemberOrder(sequence = "2")
     public FinancialAccount findAccountByReference(final @ParameterLayout(named = "Reference") String reference) {
         return firstMatch("findByReference", "reference", reference);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public List<FinancialAccount> findAccountsByOwner(final Party party) {
         return allMatches("findByOwner", "owner", party);
     }
 
     // //////////////////////////////////////
 
-    @Programmatic
     public List<FinancialAccount> findAccountsByTypeOwner(final FinancialAccountType accountType, final Party party) {
         return allMatches("findByTypeAndOwner",
                 "type", accountType,
@@ -89,8 +75,6 @@ public class FinancialAccounts extends UdoDomainRepositoryAndFactory<FinancialAc
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "3")
     public List<FinancialAccount> allAccounts() {
         return allInstances();
     }

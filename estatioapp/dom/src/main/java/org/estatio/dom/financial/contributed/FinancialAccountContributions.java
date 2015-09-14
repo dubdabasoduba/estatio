@@ -28,7 +28,7 @@ import org.estatio.dom.UdoDomainService;
 import org.estatio.dom.RegexValidation;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountType;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.party.Party;
 
 @DomainService(menuOrder = "30")
@@ -62,15 +62,15 @@ public class FinancialAccountContributions extends UdoDomainService<FinancialAcc
     @NotContributed(As.ACTION)
     @MemberOrder(name = "Financial Accounts", sequence = "13.5")
     public List<FinancialAccount> financialAccounts(final Party owner) {
-        return financialAccounts.findAccountsByOwner(owner);
+        return financialAccountRepository.findAccountsByOwner(owner);
     }
 
     // //////////////////////////////////////
 
-    private FinancialAccounts financialAccounts;
+    private FinancialAccountRepository financialAccountRepository;
 
-    public void injectFinancialAccounts(final FinancialAccounts financialAccounts) {
-        this.financialAccounts = financialAccounts;
+    public void injectFinancialAccounts(final FinancialAccountRepository financialAccountRepository) {
+        this.financialAccountRepository = financialAccountRepository;
     }
 
 }

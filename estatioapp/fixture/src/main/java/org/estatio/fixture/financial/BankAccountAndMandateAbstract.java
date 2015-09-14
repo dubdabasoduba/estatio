@@ -31,7 +31,7 @@ import org.estatio.dom.asset.financial.FixedAssetFinancialAccountRepository;
 import org.estatio.dom.bankmandate.BankMandate;
 import org.estatio.dom.bankmandate.BankMandateMenu;
 import org.estatio.dom.bankmandate.BankMandateRepository;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.financial.bankaccount.BankAccount;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.LeaseConstants;
@@ -49,7 +49,7 @@ public abstract class BankAccountAndMandateAbstract extends EstatioFixtureScript
 
     protected void createBankMandate(String bankAccountRef, Integer sequence, ExecutionContext executionContext) {
 
-        final BankAccount bankAccount = (BankAccount) financialAccounts.findAccountByReference(bankAccountRef);
+        final BankAccount bankAccount = (BankAccount) financialAccountRepository.findAccountByReference(bankAccountRef);
 
         final AgreementRoleType agreementRoleType = agreementRoleTypeRepository.findByTitle(LeaseConstants.ART_TENANT);
 
@@ -74,7 +74,7 @@ public abstract class BankAccountAndMandateAbstract extends EstatioFixtureScript
     // //////////////////////////////////////
 
     @Inject
-    FinancialAccounts financialAccounts;
+    FinancialAccountRepository financialAccountRepository;
 
     @Inject
     private Parties parties;

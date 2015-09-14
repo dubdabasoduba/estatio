@@ -28,7 +28,7 @@ import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountTransaction;
 import org.estatio.dom.financial.FinancialAccountTransactions;
-import org.estatio.dom.financial.FinancialAccounts;
+import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
 import org.estatio.fixture.EstatioBaseLineFixture;
@@ -56,7 +56,7 @@ public class FinancialAccountTransactionsTest extends EstatioIntegrationTest {
     }
 
     @Inject
-    FinancialAccounts financialAccounts;
+    FinancialAccountRepository financialAccountRepository;
 
     @Inject
     FinancialAccountTransactions financialAccountTransactions;
@@ -71,7 +71,7 @@ public class FinancialAccountTransactionsTest extends EstatioIntegrationTest {
     @Before
     public void setup() throws Exception {
         party = parties.findPartyByReference(OrganisationForTopModelGb.REF);
-        List<FinancialAccount> accounts = financialAccounts.findAccountsByOwner(party);
+        List<FinancialAccount> accounts = financialAccountRepository.findAccountsByOwner(party);
         assertThat(accounts.size(), is(1));
         financialAccount = accounts.get(0);
     }
