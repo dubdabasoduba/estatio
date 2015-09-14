@@ -34,7 +34,7 @@ import org.estatio.dom.asset.FixedAssetRepository;
 import org.estatio.dom.asset.financial.FixedAssetFinancialAccount;
 import org.estatio.dom.asset.financial.FixedAssetFinancialAccountRepository;
 import org.estatio.dom.financial.bankaccount.BankAccount;
-import org.estatio.dom.financial.bankaccount.BankAccounts;
+import org.estatio.dom.financial.bankaccount.BankAccountRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.asset.PropertyForOxfGb;
@@ -67,7 +67,7 @@ public class FixedAssetFinancialAccountRepositoryTest extends EstatioIntegration
     FixedAssetFinancialAccountRepository fixedAssetFinancialAccountRepository;
 
     @Inject
-    BankAccounts bankAccounts;
+    BankAccountRepository bankAccountRepository;
 
     @Inject
     Parties parties;
@@ -97,7 +97,7 @@ public class FixedAssetFinancialAccountRepositoryTest extends EstatioIntegration
             assertThat(fixedAsset.size(), is(1));
 
             // when
-            final List<FixedAssetFinancialAccount> results = fixedAssetFinancialAccountRepository.findByFinancialAccount(bankAccounts.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF));
+            final List<FixedAssetFinancialAccount> results = fixedAssetFinancialAccountRepository.findByFinancialAccount(bankAccountRepository.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF));
 
             // then
             assertThat(results.size(), is(1));
@@ -113,7 +113,7 @@ public class FixedAssetFinancialAccountRepositoryTest extends EstatioIntegration
             assertThat(fixedAsset.size(), is(1));
 
             // when
-            final FixedAssetFinancialAccount result = fixedAssetFinancialAccountRepository.find(fixedAsset.get(0), bankAccounts.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF));
+            final FixedAssetFinancialAccount result = fixedAssetFinancialAccountRepository.find(fixedAsset.get(0), bankAccountRepository.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF));
 
             // then
             assertNotNull(result);
@@ -130,8 +130,8 @@ public class FixedAssetFinancialAccountRepositoryTest extends EstatioIntegration
 
         @Before
         public void setUp() throws Exception {
-            oldBankAccount = bankAccounts.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF);
-            newBankAccount = bankAccounts.newBankAccount(parties.findPartyByReference(OrganisationForHelloWorldGb.REF), "NEWBANKACCOUNT", "New Bank Account");
+            oldBankAccount = bankAccountRepository.findBankAccountByReference(BankAccountForOxford.BANK_ACCOUNT_REF);
+            newBankAccount = bankAccountRepository.newBankAccount(parties.findPartyByReference(OrganisationForHelloWorldGb.REF), "NEWBANKACCOUNT", "New Bank Account");
         }
 
         @Test

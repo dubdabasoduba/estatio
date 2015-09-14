@@ -63,7 +63,7 @@ import org.estatio.dom.bankmandate.BankMandateRepository;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.bankaccount.BankAccount;
-import org.estatio.dom.financial.bankaccount.BankAccounts;
+import org.estatio.dom.financial.bankaccount.BankAccountRepository;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.party.Party;
 import org.estatio.dom.party.PartyForTesting;
@@ -287,7 +287,7 @@ public class LeaseTest {
         @Mock
         private AgreementTypeRepository mockAgreementTypeRepository;
         @Mock
-        private BankAccounts mockFinancialAccounts;
+        private BankAccountRepository mockFinancialAccounts;
         @Mock
         private ClockService mockClockService;
 

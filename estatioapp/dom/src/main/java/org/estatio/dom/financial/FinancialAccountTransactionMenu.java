@@ -17,7 +17,7 @@
  *  under the License.
  */
 
-package org.estatio.dom.financial.utils;
+package org.estatio.dom.financial;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -33,9 +33,6 @@ import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
-import org.estatio.dom.financial.FinancialAccount;
-import org.estatio.dom.financial.FinancialAccountTransaction;
-import org.estatio.dom.financial.FinancialAccountTransactionRepository;
 
 @DomainService(menuOrder = "30", repositoryFor = FinancialAccountTransaction.class)
 public class FinancialAccountTransactionMenu extends UdoDomainRepositoryAndFactory<FinancialAccountTransaction> {
