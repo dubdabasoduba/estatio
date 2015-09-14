@@ -168,7 +168,7 @@ public class FinancialAccount
 
     @Programmatic
     public BigDecimal getBalance() {
-        return financialAccountTransactions.balance(this);
+        return financialAccountTransactionRepository.balance(this);
     }
 
     // //////////////////////////////////////
@@ -178,11 +178,11 @@ public class FinancialAccount
             final LocalDate transactionDate,
             final String description,
             final BigDecimal amount) {
-        financialAccountTransactions.newTransaction(this, transactionDate, description, amount);
+        financialAccountTransactionRepository.newTransaction(this, transactionDate, description, amount);
     }
 
     // //////////////////////////////////////
 
     @Inject
-    private FinancialAccountTransactions financialAccountTransactions;
+    private FinancialAccountTransactionRepository financialAccountTransactionRepository;
 }

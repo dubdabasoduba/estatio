@@ -28,20 +28,18 @@ import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.Hidden;
 import org.apache.isis.applib.annotation.MemberOrder;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(menuOrder = "30", repositoryFor = FinancialAccountTransaction.class)
-@Hidden
-public class FinancialAccountTransactions extends UdoDomainRepositoryAndFactory<FinancialAccountTransaction> {
+@DomainService(nature = NatureOfService.DOMAIN, menuOrder = "30", repositoryFor = FinancialAccountTransaction.class)
+public class FinancialAccountTransactionRepository extends UdoDomainRepositoryAndFactory<FinancialAccountTransaction> {
 
-    public FinancialAccountTransactions() {
-        super(FinancialAccountTransactions.class, FinancialAccountTransaction.class);
+    public FinancialAccountTransactionRepository() {
+        super(FinancialAccountTransactionRepository.class, FinancialAccountTransaction.class);
     }
 
     @Override
@@ -57,7 +55,7 @@ public class FinancialAccountTransactions extends UdoDomainRepositoryAndFactory<
             final LocalDate transactionDate,
             final String description,
             final BigDecimal amount
-            ) {
+    ) {
 
         final FinancialAccountTransaction transaction = newTransientInstance(FinancialAccountTransaction.class);
         transaction.setFinancialAccount(financialAccount);
@@ -70,16 +68,12 @@ public class FinancialAccountTransactions extends UdoDomainRepositoryAndFactory<
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "99")
     public List<FinancialAccountTransaction> allTransactions() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "99")
     public FinancialAccountTransaction findTransaction(
             final FinancialAccount financialAccount,
             final LocalDate transactionDate,
@@ -90,8 +84,8 @@ public class FinancialAccountTransactions extends UdoDomainRepositoryAndFactory<
                 "sequence", sequence);
     }
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "99")
+    // //////////////////////////////////////
+
     public FinancialAccountTransaction findTransaction(
             final FinancialAccount financialAccount,
             final LocalDate transactionDate) {

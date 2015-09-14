@@ -56,7 +56,7 @@ import org.estatio.dom.agreement.AgreementTypeRepository;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.financial.FinancialAccountTransaction;
-import org.estatio.dom.financial.FinancialAccountTransactions;
+import org.estatio.dom.financial.FinancialAccountTransactionRepository;
 import org.estatio.dom.financial.FinancialAccountType;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.party.Party;
@@ -168,7 +168,7 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     @CollectionLayout(render = RenderType.EAGERLY)
     public List<FinancialAccountTransaction> transactions(Guarantee guarantee) {
-        return financialAccountTransactions.transactions(guarantee.getFinancialAccount());
+        return financialAccountTransactionRepository.transactions(guarantee.getFinancialAccount());
     }
 
     // //////////////////////////////////////
@@ -180,7 +180,7 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
             final @ParameterLayout(named = "Description") String description,
             final @ParameterLayout(named = "Amount") BigDecimal amount) {
 
-        financialAccountTransactions.newTransaction(guarantee.getFinancialAccount(), transactionDate, description, amount);
+        financialAccountTransactionRepository.newTransaction(guarantee.getFinancialAccount(), transactionDate, description, amount);
         return guarantee;
     }
 
@@ -237,6 +237,6 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
     private FinancialAccountRepository financialAccountRepository;
 
     @Inject
-    private FinancialAccountTransactions financialAccountTransactions;
+    private FinancialAccountTransactionRepository financialAccountTransactionRepository;
 
 }

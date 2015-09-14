@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 import javax.inject.Inject;
 
 import org.estatio.dom.financial.FinancialAccount;
-import org.estatio.dom.financial.FinancialAccountTransactions;
+import org.estatio.dom.financial.FinancialAccountTransactionRepository;
 import org.estatio.dom.guarantee.Guarantees;
 
 import org.joda.time.LocalDate;
@@ -41,7 +41,7 @@ public class GuaranteedFinancialAccountContributions {
             final @Named("Description") String description,
             final @Named("Amount") BigDecimal amount
             ) {
-        financialAccountTransactions.newTransaction(
+        financialAccountTransactionRepository.newTransaction(
                 financialAccount,
                 transactionDate,
                 description,
@@ -57,7 +57,7 @@ public class GuaranteedFinancialAccountContributions {
     }
 
     @Inject
-    FinancialAccountTransactions financialAccountTransactions;
+    FinancialAccountTransactionRepository financialAccountTransactionRepository;
 
     @Inject
     Guarantees guarantees;

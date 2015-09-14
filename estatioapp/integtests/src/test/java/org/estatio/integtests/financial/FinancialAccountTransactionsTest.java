@@ -27,7 +27,7 @@ import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountTransaction;
-import org.estatio.dom.financial.FinancialAccountTransactions;
+import org.estatio.dom.financial.FinancialAccountTransactionRepository;
 import org.estatio.dom.financial.FinancialAccountRepository;
 import org.estatio.dom.party.Parties;
 import org.estatio.dom.party.Party;
@@ -59,7 +59,7 @@ public class FinancialAccountTransactionsTest extends EstatioIntegrationTest {
     FinancialAccountRepository financialAccountRepository;
 
     @Inject
-    FinancialAccountTransactions financialAccountTransactions;
+    FinancialAccountTransactionRepository financialAccountTransactionRepository;
 
     @Inject
     Parties parties;
@@ -81,7 +81,7 @@ public class FinancialAccountTransactionsTest extends EstatioIntegrationTest {
         @Test
         public void findTransaction() throws Exception {
             // when
-            FinancialAccountTransaction financialAccountTransaction = financialAccountTransactions.findTransaction(
+            FinancialAccountTransaction financialAccountTransaction = financialAccountTransactionRepository.findTransaction(
                     financialAccount,
                     new LocalDate(2014, 7, 1));
 
@@ -96,7 +96,7 @@ public class FinancialAccountTransactionsTest extends EstatioIntegrationTest {
         @Test
         public void transactions() throws Exception {
             // when
-            List<FinancialAccountTransaction> transactions = financialAccountTransactions.transactions(financialAccount);
+            List<FinancialAccountTransaction> transactions = financialAccountTransactionRepository.transactions(financialAccount);
 
             // then
             assertThat(transactions.size(), is(2));
