@@ -35,15 +35,11 @@ import org.apache.isis.applib.annotation.ActionLayout;
 import org.apache.isis.applib.annotation.CollectionLayout;
 import org.apache.isis.applib.annotation.Contributed;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.NotInServiceMenu;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.Optionality;
 import org.apache.isis.applib.annotation.Parameter;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
 import org.apache.isis.applib.annotation.RenderType;
-import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 import org.apache.isis.applib.annotation.Where;
 
@@ -62,26 +58,20 @@ import org.estatio.dom.lease.Lease;
 import org.estatio.dom.party.Party;
 import org.estatio.dom.utils.StringUtils;
 
-@DomainService(repositoryFor = Guarantee.class)
-@DomainServiceLayout(
-        named = "Accounts",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "30.3")
-public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = Guarantee.class)
+public class GuaranteeRepository extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     @Override
     public String iconName() {
         return "Guarantee";
     }
 
-    public Guarantees() {
-        super(Guarantees.class, Guarantee.class);
+    public GuaranteeRepository() {
+        super(GuaranteeRepository.class, Guarantee.class);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
-    @MemberOrder(sequence = "1")
     public Guarantee newGuarantee(
             final Lease lease,
             final @ParameterLayout(named = "Reference") @Parameter(regexPattern = RegexValidation.REFERENCE) String reference,
@@ -92,7 +82,7 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
             final @ParameterLayout(named = "Description") String description,
             final @ParameterLayout(named = "Contractual amount") @Parameter(optionality = Optionality.OPTIONAL) BigDecimal contractualAmount,
             final @ParameterLayout(named = "Start amount") BigDecimal startAmount
-            ) {
+    ) {
 
         AgreementRoleType artGuarantee = agreementRoleTypeRepository.findByTitle(GuaranteeConstants.ART_GUARANTEE);
         Party leasePrimaryParty = lease.getPrimaryParty();
@@ -138,8 +128,6 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE)
-    @MemberOrder(sequence = "2")
     public List<Guarantee> findGuarantees(
             final @ParameterLayout(named = "Reference or Name", describedAs = "May include wildcards '*' and '?'") String refOrName) {
         String pattern = StringUtils.wildcardToCaseInsensitiveRegex(refOrName);
@@ -148,22 +136,24 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     // //////////////////////////////////////
 
-    @Programmatic
     public Guarantee findByReference(final String reference) {
         return firstMatch("findByReference", "reference", reference);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "99")
+    public Guarantee findFor(FinancialAccount financialAccount) {
+        return firstMatch("findByFinancialAccount", "financialAccount", financialAccount);
+    }
+
+    // //////////////////////////////////////
+
     public List<Guarantee> allGuarantees() {
         return allInstances();
     }
 
     // //////////////////////////////////////
 
-    @NotInServiceMenu
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     @CollectionLayout(render = RenderType.EAGERLY)
@@ -173,7 +163,6 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     // //////////////////////////////////////
 
-    @NotInServiceMenu
     public Guarantee newTransaction(
             final Guarantee guarantee,
             final @ParameterLayout(named = "Transaction date") LocalDate transactionDate,
@@ -190,7 +179,6 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     // //////////////////////////////////////
 
-    @NotInServiceMenu
     @Action(semantics = SemanticsOf.SAFE)
     @ActionLayout(contributed = Contributed.AS_ASSOCIATION)
     public List<Guarantee> guarantees(Lease lease) {
@@ -199,24 +187,16 @@ public class Guarantees extends UdoDomainRepositoryAndFactory<Guarantee> {
 
     // //////////////////////////////////////
 
-    @Programmatic
-    public Guarantee findFor(FinancialAccount financialAccount) {
-        return firstMatch("findByFinancialAccount", "financialAccount", financialAccount);
-    }
-
-    // //////////////////////////////////////
-
     @CollectionLayout(hidden = Where.EVERYWHERE)
     public List<Guarantee> autoComplete(final String searchPhrase) {
         return searchPhrase.length() > 2
                 ? findGuarantees("*" + searchPhrase + "*")
-                : Lists.<Guarantee> newArrayList();
+                : Lists.<Guarantee>newArrayList();
     }
 
     // //////////////////////////////////////
 
     @PostConstruct
-    @Programmatic
     public void init(Map<String, String> properties) {
         super.init(properties);
         AgreementType agreementType = agreementTypeRepository.findOrCreate(GuaranteeConstants.AT_GUARANTEE);

@@ -24,7 +24,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.guarantee.Guarantee;
-import org.estatio.dom.guarantee.Guarantees;
+import org.estatio.dom.guarantee.GuaranteeRepository;
 import org.estatio.dom.lease.Lease;
 import org.estatio.dom.lease.Leases;
 import org.estatio.fixture.EstatioBaseLineFixture;
@@ -50,7 +50,7 @@ public class GuaranteeTest_TODO extends EstatioIntegrationTest {
             }.withTracing());
 
             lease = leases.findLeaseByReference(LeaseForOxfTopModel001Gb.REF);
-            guarantee = guarantees.findByReference(LeaseForOxfTopModel001Gb.REF + "-D");
+            guarantee = guaranteeRepository.findByReference(LeaseForOxfTopModel001Gb.REF + "-D");
         }
 
         @Test
@@ -83,7 +83,7 @@ public class GuaranteeTest_TODO extends EstatioIntegrationTest {
         private Leases leases;
 
         @Inject
-        private Guarantees guarantees;
+        private GuaranteeRepository guaranteeRepository;
 
     }
 }

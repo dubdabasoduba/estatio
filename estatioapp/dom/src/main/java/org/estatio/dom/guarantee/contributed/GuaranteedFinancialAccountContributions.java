@@ -24,7 +24,7 @@ import javax.inject.Inject;
 
 import org.estatio.dom.financial.FinancialAccount;
 import org.estatio.dom.financial.FinancialAccountTransactionRepository;
-import org.estatio.dom.guarantee.Guarantees;
+import org.estatio.dom.guarantee.GuaranteeRepository;
 
 import org.joda.time.LocalDate;
 
@@ -53,13 +53,13 @@ public class GuaranteedFinancialAccountContributions {
             final FinancialAccount financialAccount // contributee
     ) {
         // don't show if there is no guarantee pointing back to financialAccount
-        return guarantees.findFor(financialAccount) == null;
+        return guaranteeRepository.findFor(financialAccount) == null;
     }
 
     @Inject
     FinancialAccountTransactionRepository financialAccountTransactionRepository;
 
     @Inject
-    Guarantees guarantees;
+    GuaranteeRepository guaranteeRepository;
 
 }

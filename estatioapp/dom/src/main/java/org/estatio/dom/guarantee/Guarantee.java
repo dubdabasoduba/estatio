@@ -72,7 +72,7 @@ import org.estatio.dom.lease.Lease;
                         + "WHERE reference.matches(:referenceOrName)"
                         + "|| name.matches(:referenceOrName)")
 })
-@DomainObject(editing = Editing.DISABLED, autoCompleteRepository = Guarantees.class, autoCompleteAction = "autoComplete")
+@DomainObject(editing = Editing.DISABLED, autoCompleteRepository = GuaranteeRepository.class, autoCompleteAction = "autoComplete")
 @DomainObjectLayout(bookmarking = BookmarkPolicy.AS_ROOT)
 public class Guarantee
         extends Agreement
