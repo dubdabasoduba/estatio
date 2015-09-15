@@ -159,7 +159,7 @@ public class Index
     @Programmatic
     public BigDecimal getIndexValueForDate(final LocalDate date) {
         if (date != null) {
-            IndexValue indexValue = indexValues.findIndexValueByIndexAndStartDate(this, date);
+            IndexValue indexValue = indexValueRepository.findIndexValueByIndexAndStartDate(this, date);
             return indexValue == null ? null : indexValue.getValue();
         }
         return null;
@@ -170,7 +170,7 @@ public class Index
         if (baseIndexStartDate == null || nextIndexStartDate == null) {
             return null;
         }
-        IndexValue nextIndexValue = indexValues.findIndexValueByIndexAndStartDate(this, nextIndexStartDate);
+        IndexValue nextIndexValue = indexValueRepository.findIndexValueByIndexAndStartDate(this, nextIndexStartDate);
         // TODO: check efficiency.. seems to retrieve every single index value
         // for the last 15 years...
         if (nextIndexValue != null) {
@@ -189,10 +189,10 @@ public class Index
 
     // //////////////////////////////////////
 
-    private IndexValues indexValues;
+    private IndexValueRepository indexValueRepository;
 
-    public final void injectIndexValues(final IndexValues indexValues) {
-        this.indexValues = indexValues;
+    public final void injectIndexValues(final IndexValueRepository indexValueRepository) {
+        this.indexValueRepository = indexValueRepository;
     }
 
 }

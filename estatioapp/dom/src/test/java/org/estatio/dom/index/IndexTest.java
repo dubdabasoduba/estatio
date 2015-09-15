@@ -48,7 +48,7 @@ public class IndexTest {
     IndexValue iv2;
 
     @Mock
-    IndexValues mockIndexValues;
+    IndexValueRepository mockIndexValueRepository;
 
     @Rule
     public JUnitRuleMockery2 context = JUnitRuleMockery2.createFor(Mode.INTERFACES_AND_CLASSES);
@@ -58,7 +58,7 @@ public class IndexTest {
         baseDate = new LocalDate(2001, 1, 1);
         nextDate = new LocalDate(2011, 1, 1);
         index = new Index();
-        index.injectIndexValues(mockIndexValues);
+        index.injectIndexValues(mockIndexValueRepository);
 
         ib1990 = new IndexBase();
         ib1990.setStartDate(new LocalDate(1990, 1, 1));
@@ -102,9 +102,9 @@ public class IndexTest {
         public void happyCase() {
             context.checking(new Expectations() {
                 {
-                    oneOf(mockIndexValues).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2001, 1, 1))));
+                    oneOf(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2001, 1, 1))));
                     will(returnValue(iv1));
-                    oneOf(mockIndexValues).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
+                    oneOf(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
                     will(returnValue(iv2));
                 }
             });
@@ -125,7 +125,7 @@ public class IndexTest {
         public void happyCase() {
             context.checking(new Expectations() {
                 {
-                    oneOf(mockIndexValues).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
+                    oneOf(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
                     will(returnValue(iv2));
                 }
             });
@@ -136,7 +136,7 @@ public class IndexTest {
         public void withNull() {
             context.checking(new Expectations() {
                 {
-                    oneOf(mockIndexValues).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
+                    oneOf(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(equal(index)), with(equal(new LocalDate(2011, 1, 1))));
                     will(returnValue(null));
                 }
             });

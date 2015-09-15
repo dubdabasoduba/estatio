@@ -23,35 +23,22 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.DomainServiceLayout;
-import org.apache.isis.applib.annotation.MemberOrder;
-import org.apache.isis.applib.annotation.NotInServiceMenu;
+import org.apache.isis.applib.annotation.NatureOfService;
 import org.apache.isis.applib.annotation.ParameterLayout;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.RestrictTo;
-import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(repositoryFor = IndexBase.class)
-@DomainServiceLayout(
-        named = "Indices",
-        menuBar = DomainServiceLayout.MenuBar.PRIMARY,
-        menuOrder = "60.3")
-public class IndexBases
+@DomainService(nature = NatureOfService.DOMAIN, repositoryFor = IndexBase.class)
+public class IndexBaseRepository
         extends UdoDomainRepositoryAndFactory<IndexBase> {
 
-    public IndexBases() {
-        super(IndexBases.class, IndexBase.class);
+    public IndexBaseRepository() {
+        super(IndexBaseRepository.class, IndexBase.class);
     }
 
     // //////////////////////////////////////
 
-    @MemberOrder(sequence = "1")
-    @NotInServiceMenu
-    @Action(semantics = SemanticsOf.NON_IDEMPOTENT)
     public IndexBase newIndexBase(
             final @ParameterLayout(named = "Index") Index index,
             final @ParameterLayout(named = "Previous Base") IndexBase previousBase,
@@ -68,15 +55,12 @@ public class IndexBases
 
     // //////////////////////////////////////
 
-    @Programmatic
     public IndexBase findByIndexAndDate(final Index index, final LocalDate date) {
         return firstMatch("findByIndexAndDate", "index", index, "date", date);
     }
 
     // //////////////////////////////////////
 
-    @Action(semantics = SemanticsOf.SAFE, restrictTo = RestrictTo.PROTOTYPING)
-    @MemberOrder(sequence = "99")
     public List<IndexBase> allIndexBases() {
         return allInstances();
     }

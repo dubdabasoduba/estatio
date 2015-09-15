@@ -27,8 +27,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.apache.isis.applib.fixturescripts.FixtureScript;
 import org.estatio.dom.index.Index;
-import org.estatio.dom.index.IndexValues;
-import org.estatio.dom.index.Indices;
+import org.estatio.dom.index.IndexRepository;
+import org.estatio.dom.index.IndexValueRepository;
 import org.estatio.dom.invoice.CollectionNumerators;
 import org.estatio.dom.invoice.Invoice;
 import org.estatio.dom.invoice.InvoiceStatus;
@@ -46,7 +46,6 @@ import org.estatio.dom.lease.invoicing.InvoiceService;
 import org.estatio.fixture.EstatioBaseLineFixture;
 import org.estatio.fixture.asset.PropertyForKalNl;
 import org.estatio.fixture.asset.PropertyForOxfGb;
-import org.estatio.fixture.index.IndexRefData;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForKalPoison001;
 import org.estatio.fixture.invoice.InvoiceForLeaseItemTypeOfRentOneQuarterForOxfPoison003;
 import org.estatio.fixture.lease.LeaseBreakOptionsForOxfMediax002Gb;
@@ -81,9 +80,9 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
     @Inject
     CollectionNumerators collectionNumerators;
     @Inject
-    Indices indices;
+    IndexRepository indexRepository;
     @Inject
-    IndexValues indexValues;
+    IndexValueRepository indexValueRepository;
     @Inject
     InvoiceItemsForLease invoiceItemsForLease;
 
@@ -173,9 +172,9 @@ public class InvoiceServiceTest extends EstatioIntegrationTest {
         }
 
         public void step4_indexation() throws Exception {
-            Index index = indices.findIndex("ISTAT-FOI");
-            indexValues.newIndexValue(index, VT.ld(2013, 11, 1), VT.bd(110));
-            indexValues.newIndexValue(index, VT.ld(2014, 12, 1), VT.bd(115));
+            Index index = indexRepository.findIndex("ISTAT-FOI");
+            indexValueRepository.newIndexValue(index, VT.ld(2013, 11, 1), VT.bd(110));
+            indexValueRepository.newIndexValue(index, VT.ld(2014, 12, 1), VT.bd(115));
 
             nextTransaction();
 

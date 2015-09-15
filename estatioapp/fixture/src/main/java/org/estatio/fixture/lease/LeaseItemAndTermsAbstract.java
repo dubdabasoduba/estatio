@@ -28,7 +28,7 @@ import org.joda.time.LocalDate;
 import org.estatio.dom.apptenancy.ApplicationTenancyRepository;
 import org.estatio.dom.charge.Charge;
 import org.estatio.dom.charge.ChargeRepository;
-import org.estatio.dom.index.Indices;
+import org.estatio.dom.index.IndexRepository;
 import org.estatio.dom.invoice.PaymentMethod;
 import org.estatio.dom.lease.InvoicingFrequency;
 import org.estatio.dom.lease.Lease;
@@ -174,7 +174,7 @@ public abstract class LeaseItemAndTermsAbstract extends EstatioFixtureScript {
         leaseTerm.setBaseIndexStartDate(baseIndexStartDate);
         leaseTerm.setNextIndexStartDate(nextIndexStartDate);
         leaseTerm.setEffectiveDate(effectiveDate);
-        leaseTerm.setIndex(indices.findIndex(indexReference));
+        leaseTerm.setIndex(indexRepository.findIndex(indexReference));
 
         leaseTerm.setFrequency(LeaseTermFrequency.YEARLY);
 
@@ -323,7 +323,7 @@ public abstract class LeaseItemAndTermsAbstract extends EstatioFixtureScript {
     // //////////////////////////////////////
 
     @Inject
-    protected Indices indices;
+    protected IndexRepository indexRepository;
 
     @Inject
     protected Leases leases;

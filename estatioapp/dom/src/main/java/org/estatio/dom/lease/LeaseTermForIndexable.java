@@ -21,7 +21,6 @@ package org.estatio.dom.lease;
 import java.math.BigDecimal;
 import java.util.List;
 
-import javax.jdo.annotations.Column;
 import javax.jdo.annotations.InheritanceStrategy;
 
 import org.joda.time.LocalDate;
@@ -33,9 +32,9 @@ import org.apache.isis.applib.annotation.Programmatic;
 
 import org.estatio.dom.JdoColumnScale;
 import org.estatio.dom.index.Index;
+import org.estatio.dom.index.IndexRepository;
 import org.estatio.dom.index.Indexable;
 import org.estatio.dom.index.IndexationService;
-import org.estatio.dom.index.Indices;
 import org.estatio.dom.utils.MathUtils;
 
 @javax.jdo.annotations.PersistenceCapable
@@ -71,7 +70,7 @@ public class LeaseTermForIndexable extends LeaseTerm implements Indexable {
     }
 
     public List<Index> choicesIndex() {
-        return indices.allIndices();
+        return indexRepository.allIndices();
     }
 
     // ///////////////////////////////////////////
@@ -383,10 +382,10 @@ public class LeaseTermForIndexable extends LeaseTerm implements Indexable {
 
     // ///////////////////////////////////////////
 
-    private Indices indices;
+    private IndexRepository indexRepository;
 
-    public final void injectIndices(final Indices indexes) {
-        this.indices = indexes;
+    public final void injectIndices(final IndexRepository indexes) {
+        this.indexRepository = indexes;
     }
 
     private IndexationService indexationService;

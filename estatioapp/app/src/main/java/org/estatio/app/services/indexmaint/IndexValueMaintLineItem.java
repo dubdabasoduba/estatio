@@ -37,10 +37,10 @@ import org.isisaddons.module.security.dom.tenancy.ApplicationTenancy;
 import org.estatio.dom.JdoColumnLength;
 import org.estatio.dom.index.Index;
 import org.estatio.dom.index.IndexBase;
-import org.estatio.dom.index.IndexBases;
+import org.estatio.dom.index.IndexBaseRepository;
+import org.estatio.dom.index.IndexRepository;
 import org.estatio.dom.index.IndexValue;
-import org.estatio.dom.index.IndexValues;
-import org.estatio.dom.index.Indices;
+import org.estatio.dom.index.IndexValueRepository;
 
 @Paged(Integer.MAX_VALUE)
 @MemberGroupLayout(
@@ -220,7 +220,7 @@ public class IndexValueMaintLineItem {
         Index index = (Index) scratchpad.get("index");
         if (index == null) {
             final String reference = getReference();
-            index = indices.newIndex(reference, reference, applicationTenancy);
+            index = indexRepository.newIndex(reference, reference, applicationTenancy);
             scratchpad.put("index", index);
             setIndex(index);
         }
@@ -231,9 +231,9 @@ public class IndexValueMaintLineItem {
         final LocalDate baseStartDate = getBaseStartDate();
         final BigDecimal baseFactor = getBaseFactor();
 
-        IndexBase indexBase = indexBases.findByIndexAndDate(index, baseStartDate);
+        IndexBase indexBase = indexBaseRepository.findByIndexAndDate(index, baseStartDate);
         if (indexBase == null) {
-            indexBase = indexBases.newIndexBase(index, previousBase, baseStartDate, baseFactor);
+            indexBase = indexBaseRepository.newIndexBase(index, previousBase, baseStartDate, baseFactor);
         }
         setIndexBase(indexBase);
         scratchpad.put("previousBase", indexBase); // for next time need to create
@@ -241,9 +241,9 @@ public class IndexValueMaintLineItem {
         final LocalDate valueStartDate = getValueStartDate();
         final BigDecimal value = getValue();
 
-        IndexValue indexValue = indexValues.findIndexValueByIndexAndStartDate(index, valueStartDate);
+        IndexValue indexValue = indexValueRepository.findIndexValueByIndexAndStartDate(index, valueStartDate);
         if (indexValue == null) {
-            indexValue = indexValues.newIndexValue(index, valueStartDate, value);
+            indexValue = indexValueRepository.newIndexValue(index, valueStartDate, value);
         } else {
             indexValue.setValue(value);
         }
@@ -297,7 +297,7 @@ public class IndexValueMaintLineItem {
         // if existing index, ensure valueStartDate is:
         // * either for an existing month,
         // * or follows on from previous by no more than 1 month
-        Index index = indices.findIndex(reference);
+        Index index = indexRepository.findIndex(reference);
         boolean existingIndex = index != null;
         scratchpad.put("index", index);
         if (existingIndex) {
@@ -308,12 +308,12 @@ public class IndexValueMaintLineItem {
                 break;
             }
 
-            IndexValue existingValue = indexValues.findIndexValueByIndexAndStartDate(index, firstValueStartDate);
+            IndexValue existingValue = indexValueRepository.findIndexValueByIndexAndStartDate(index, firstValueStartDate);
             if (existingValue == null) {
                 LocalDate previousMonthValueStartDate = firstValueStartDate.minusMonths(1);
-                IndexValue previousValue = indexValues.findIndexValueByIndexAndStartDate(index, previousMonthValueStartDate);
+                IndexValue previousValue = indexValueRepository.findIndexValueByIndexAndStartDate(index, previousMonthValueStartDate);
                 if (previousValue == null) {
-                    IndexValue last = indexValues.findLastByIndex(index);
+                    IndexValue last = indexValueRepository.findLastByIndex(index);
                     if (last != null) {
                         return "First row ("
                                 + firstValueStartDate.toString("yyyy/MM/dd") + ") must be an existing month or "
@@ -356,13 +356,13 @@ public class IndexValueMaintLineItem {
     private ApplicationTenancies applicationTenancies;
 
     @javax.inject.Inject
-    private Indices indices;
+    private IndexRepository indexRepository;
 
     @javax.inject.Inject
-    private IndexBases indexBases;
+    private IndexBaseRepository indexBaseRepository;
 
     @javax.inject.Inject
-    private IndexValues indexValues;
+    private IndexValueRepository indexValueRepository;
 
     @javax.inject.Inject
     private Bulk.InteractionContext bulkInteractionContext;

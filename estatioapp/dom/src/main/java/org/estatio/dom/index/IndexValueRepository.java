@@ -45,11 +45,11 @@ import org.estatio.dom.UdoDomainRepositoryAndFactory;
         named = "Indices",
         menuBar = DomainServiceLayout.MenuBar.PRIMARY,
         menuOrder = "60.4")
-public class IndexValues
+public class IndexValueRepository
         extends UdoDomainRepositoryAndFactory<IndexValue> {
 
-    public IndexValues() {
-        super(IndexValues.class, IndexValue.class);
+    public IndexValueRepository() {
+        super(IndexValueRepository.class, IndexValue.class);
     }
 
     // //////////////////////////////////////
@@ -77,14 +77,14 @@ public class IndexValues
             final @ParameterLayout(named = "Index") Index index,
             final @ParameterLayout(named = "Start Date") LocalDate startDate,
             final @ParameterLayout(named = "Value") BigDecimal value) {
-        IndexBase indexBase = indexBases.findByIndexAndDate(index, startDate);
+        IndexBase indexBase = indexBaseRepository.findByIndexAndDate(index, startDate);
         return newIndexValue(indexBase, startDate, value);
     }
 
     public LocalDate default1NewIndexValue() {
         // TODO: this action is contributed on an Index and it should fetch the
         // Index it's contributed on
-        Index index = indices.allIndices().get(0);
+        Index index = indexRepository.allIndices().get(0);
         IndexValue last = findLastByIndex(index);
         return last == null ? null : last.getStartDate().plusMonths(1);
     }
@@ -102,7 +102,7 @@ public class IndexValues
                                 "startDate", startDate);
                     }
                 },
-                IndexValues.class, "findIndexValueByIndexAndStartDate", index, startDate);
+                IndexValueRepository.class, "findIndexValueByIndexAndStartDate", index, startDate);
     }
 
     @Programmatic
@@ -115,10 +115,10 @@ public class IndexValues
     // //////////////////////////////////////
 
     @Inject
-    IndexBases indexBases;
+    IndexBaseRepository indexBaseRepository;
 
     @Inject
-    Indices indices;
+    IndexRepository indexRepository;
 
     @Inject
     QueryResultsCache queryResultsCache;

@@ -28,13 +28,15 @@ import org.joda.time.LocalDate;
 
 import org.apache.isis.applib.annotation.Action;
 import org.apache.isis.applib.annotation.DomainService;
+import org.apache.isis.applib.annotation.DomainServiceLayout;
 import org.apache.isis.applib.annotation.MemberOrder;
 import org.apache.isis.applib.annotation.RestrictTo;
 import org.apache.isis.applib.annotation.SemanticsOf;
 
 import org.estatio.dom.UdoDomainRepositoryAndFactory;
 
-@DomainService(menuOrder = "30", repositoryFor = FinancialAccountTransaction.class)
+@DomainService(repositoryFor = FinancialAccountTransaction.class)
+@DomainServiceLayout(named = "Financial Account Transactions", menuOrder = "30")
 public class FinancialAccountTransactionMenu extends UdoDomainRepositoryAndFactory<FinancialAccountTransaction> {
 
     public FinancialAccountTransactionMenu() {

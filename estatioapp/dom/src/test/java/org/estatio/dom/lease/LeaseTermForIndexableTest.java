@@ -41,7 +41,7 @@ import org.estatio.dom.PojoTester;
 import org.estatio.dom.index.Index;
 import org.estatio.dom.index.IndexBase;
 import org.estatio.dom.index.IndexValue;
-import org.estatio.dom.index.IndexValues;
+import org.estatio.dom.index.IndexValueRepository;
 import org.estatio.dom.index.IndexationService;
 import org.estatio.services.clock.ClockService;
 
@@ -72,14 +72,14 @@ public class LeaseTermForIndexableTest {
     LeaseTerms mockLeaseTerms;
 
     @Mock
-    IndexValues mockIndexValues;
+    IndexValueRepository mockIndexValueRepository;
 
     @Before
     public void setup() {
 
         i = new Index();
 
-        i.injectIndexValues(mockIndexValues);
+        i.injectIndexValues(mockIndexValueRepository);
 
         ib1 = new IndexBase();
         ib1.setStartDate(new LocalDate(2000, 1, 1));
@@ -146,9 +146,9 @@ public class LeaseTermForIndexableTest {
         public void happyCase() {
             context.checking(new Expectations() {
                 {
-                    allowing(mockIndexValues).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2010, 1, 1)));
+                    allowing(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2010, 1, 1)));
                     will(returnValue(iv1));
-                    allowing(mockIndexValues).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2011, 1, 1)));
+                    allowing(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2011, 1, 1)));
                     will(returnValue(iv2));
                 }
             });
@@ -160,9 +160,9 @@ public class LeaseTermForIndexableTest {
         public void whenEmptyIndex() {
             context.checking(new Expectations() {
                 {
-                    allowing(mockIndexValues).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2010, 1, 1)));
+                    allowing(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2010, 1, 1)));
                     will(returnValue(iv1));
-                    allowing(mockIndexValues).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2011, 1, 1)));
+                    allowing(mockIndexValueRepository).findIndexValueByIndexAndStartDate(with(i), with(new LocalDate(2011, 1, 1)));
                     will(returnValue(iv2));
                 }
             });
