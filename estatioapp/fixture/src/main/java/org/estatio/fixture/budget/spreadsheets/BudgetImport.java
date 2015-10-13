@@ -219,6 +219,13 @@ public class BudgetImport implements Importable {
             Budget budget = budgets.findOrCreateBudget(property, startDate, endDate);
             numberOfBudgetsCreated ++;
 
+            //create charge group
+//            ChargeGroup chargegroup = chargeGroups.findChargeGroup(chargeGroupName);
+//            if (chargegroup == null) {
+//                String chargeGroupReference = chargeGroupName.toUpperCase();
+//                chargeGroups.createChargeGroup(chargeGroupName, chargeGroupName);
+//            }
+
             // create charge
             String chargeName;
             if (getChargeDescription().length()>10) {

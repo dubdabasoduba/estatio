@@ -199,7 +199,7 @@ public class BudgetCalculationContributionServicesTest {
         // setup keyTable
         KeyTable keyTable = setupKeyTable(keytableName,keyItems);
         keyTable.setKeyValueMethod(KeyValueMethod.PERCENT);
-        keyTable.setNumberOfDigits(6);
+        keyTable.setPrecision(6);
 
         // setup budgetItem
         BudgetItem budgetItem = new BudgetItem();
@@ -228,7 +228,7 @@ public class BudgetCalculationContributionServicesTest {
         // setup keyTable
         KeyTable keyTable = setupKeyTable("keytable1",keyItems);
         keyTable.setKeyValueMethod(KeyValueMethod.PERCENT);
-        keyTable.setNumberOfDigits(6);
+        keyTable.setPrecision(6);
 
         // setup budgetItem
         BudgetItem budgetItem = new BudgetItem();
